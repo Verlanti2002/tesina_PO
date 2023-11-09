@@ -1,5 +1,10 @@
 package Classes;
 
+/**
+ * Classe principale che definisce l'entità Esame
+ * @author Alessandro Verlanti
+ * @version 17.0.8.1 - July 18, 2023
+ */
 public abstract class Esame {
 
     private Studente studente;
@@ -8,18 +13,16 @@ public abstract class Esame {
     private boolean lode;
     private int cfu;
 
-    public Esame(){
-        this.studente = null;
-        this.nome = "";
-        this.voto = 0;
-        this.lode = false;
-        this.cfu = 0;
-    }
-
+    /**
+     * Costruttore che inizializza gli attributi con i valori passati dall'utente
+     * @param studente oggetto che descrive lo studente da esaminare
+     * @param nome nome del corso di cui si è sostenuto l'esame
+     * @param lode campo boolean per l'assegnamento della lode
+     * @param cfu numero di cfu totali dell'esame
+     */
     public Esame(Studente studente, String nome, boolean lode, int cfu){
         this.studente = studente;
         this.nome = nome;
-        this.voto = voto();
         this.lode = lode;
         this.cfu = cfu;
     }
@@ -61,8 +64,6 @@ public abstract class Esame {
     public void setCfu(int cfu) {
         this.cfu = cfu;
     }
-
-    public abstract int voto();
 
     public abstract boolean isSemplice();
 

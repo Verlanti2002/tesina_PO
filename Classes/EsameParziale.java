@@ -1,18 +1,18 @@
 package Classes;
 
-public class Tipologia {
+    public class EsameParziale {
 
     private String nome;
     private int peso;
     private int voto;
 
-    public Tipologia(){
+    public EsameParziale(){
         this.nome = "";
         this.peso = 0;
         this.voto = 0;
     }
 
-    public Tipologia(String nome, int peso, int voto){
+    public EsameParziale(String nome, int peso, int voto){
         this.nome = nome;
         this.peso = peso;
         this.voto = voto;
