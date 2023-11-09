@@ -1,16 +1,21 @@
-package Classes;
+package Classi;
 
 /**
  * Classe principale che definisce l'entità Esame
  * @author Alessandro Verlanti
  * @version 17.0.8.1 - July 18, 2023
  */
-public abstract class Esame {
+public class Esame {
 
+    /** Attributo privato di classe Studente che rappresenta l'oggetto studente */
     private Studente studente;
+    /** Attributo privato di tipo String che rappresenta il nome dell'esame */
     private String nome;
+    /** Attributo privato di tipo intero che rappresenta il voto finale dell'esame */
     private int voto;
+    /** Attributo privato di tipo boolean che indica se il voto è con lode (true) o meno (false) */
     private boolean lode;
+    /** Attributo privato di tipo int che indica il numero di cfu totali dell'esame */
     private int cfu;
 
     /**
@@ -27,16 +32,25 @@ public abstract class Esame {
         this.cfu = cfu;
     }
 
+    /** Metodo che permette di visualizzare le informazioni principali relative ad un esame di uno studente */
     public void visualizza(){
 
         System.out.println(studente.getMatricola() + " " + studente.getNome() + " " + studente.getCognome());
         System.out.println(nome + " " + voto);
     }
 
+    /** Getter Methods **/
+
+    /** Getter che restituisce il nome dell'esame
+     * @return nome dell'esame
+     */
     public String getNome() {
         return nome;
     }
 
+    /** Getter che restituisce il voto totale dell'esame
+     * @return voto finale
+     */
     public int getVoto() {
         return voto;
     }
@@ -48,6 +62,8 @@ public abstract class Esame {
     public int getCfu() {
         return cfu;
     }
+
+    /** Setter Methods **/
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -64,7 +80,4 @@ public abstract class Esame {
     public void setCfu(int cfu) {
         this.cfu = cfu;
     }
-
-    public abstract boolean isSemplice();
-
 }

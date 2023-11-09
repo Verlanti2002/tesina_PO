@@ -1,4 +1,4 @@
-package Classes;
+package Classi;
 
 public class EsameComposto extends Esame{
     private EsameParziale[] esami_parziali;
@@ -31,10 +31,5 @@ public class EsameComposto extends Esame{
         esami_parziali = tmp;
 
         voto();
-    }
-
-    @Override
-    public boolean isSemplice() {
-        return false;
     }
 }
