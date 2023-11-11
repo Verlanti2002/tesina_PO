@@ -1,9 +1,10 @@
 package Classi;
 
 /**
+ * Esame
  * Classe principale che definisce l'entità Esame
  * @author Alessandro Verlanti
- * @version 17.0.8.1 - July 18, 2023
+ * @version java 21.0.1 2023-10-17 LTS
  */
 public class Esame {
 
@@ -20,9 +21,9 @@ public class Esame {
 
     /**
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
-     * @param studente oggetto che descrive lo studente da esaminare
+     * @param studente studente che ha conseguito l'esame
      * @param nome nome del corso di cui si è sostenuto l'esame
-     * @param lode campo boolean per l'assegnamento della lode
+     * @param lode assegnazione o meno della lode
      * @param cfu numero di cfu totali dell'esame
      */
     public Esame(Studente studente, String nome, boolean lode, int cfu){
@@ -32,51 +33,87 @@ public class Esame {
         this.cfu = cfu;
     }
 
-    /** Metodo che permette di visualizzare le informazioni principali relative ad un esame di uno studente */
+    /** 
+     * Metodo che permette di visualizzare le informazioni principali relative ad un esame di uno studente
+     */
     public void visualizza(){
 
         System.out.println(studente.getMatricola() + " " + studente.getNome() + " " + studente.getCognome());
         System.out.println(nome + " " + voto);
     }
 
-    /** Getter Methods **/
+    /** Getter Methods */
 
-    /** Getter che restituisce il nome dell'esame
+    /** Metodi necessari per accedere agli attributi dell'oggetto Studente in quanto privati
+     * in modo da garantirne l'incapsulamento
+    */
+
+    /** 
+     * Metodo getter che restituisce il nome dell'esame
      * @return nome dell'esame
      */
     public String getNome() {
         return nome;
     }
 
-    /** Getter che restituisce il voto totale dell'esame
+    /**
+     * Metodo getter che restituisce il voto totale dell'esame
      * @return voto finale
      */
     public int getVoto() {
         return voto;
     }
 
+    /**
+     * Metodo getter che restituisce un valore booleano
+     * @return true (se il voto finale è con lode) false (altrimenti)
+     */
     public boolean isLode() {
         return lode;
     }
 
+    /**
+     * Metodo getter che restituisce il numero di cfu dell'esame
+     * @return cfu totali
+     */
     public int getCfu() {
         return cfu;
     }
 
-    /** Setter Methods **/
+    /** Setter Methods */
 
+    /** Metodi necessari per poter accedere e modificare gli attributi dell'oggetto Studente in quanto privati
+     * in modo da garantirne l'incapsulamento
+    */
+
+    /**
+     * Metodo setter che modifica il nome dell'esame
+     * @param nome nuovo nome dell'esame
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Metodo setter che modifica il voto finale dell'esame
+     * @param voto nuovo voto dell'esame
+     */
     public void setVoto(int voto) {
         this.voto = voto;
     }
 
+    /**
+     * Metodo setter che modifica l'assegnazione della lode
+     * @param lode nuova assegnazione della lode
+     */
     public void setLode(boolean lode) {
         this.lode = lode;
     }
 
+    /**
+     * Metodo setter che modifica il numero di cfu dell'esame
+     * @param cfu nuovo valore dei cfu dell'esame
+     */
     public void setCfu(int cfu) {
         this.cfu = cfu;
     }
