@@ -4,7 +4,7 @@ package Classi;
  * EsameSemplice
  * Sottoclasse derivata della superclasse Esame
  * Definisce gli esami semplici (ossia composti da una singola prova) 
- * @see Esame.java
+ * @see Esame
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
  */

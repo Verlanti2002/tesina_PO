@@ -1,5 +1,7 @@
 package Classi;
 
+import GUI.MyFrame;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -27,5 +29,7 @@ public class Main {
             esami[i].visualizza();
             System.out.println("\n");
         }
+
+        MyFrame myFrame = new MyFrame();
     }
 }

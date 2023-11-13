@@ -4,7 +4,7 @@ package Classi;
  * EsameComposto
  * Sottoclasse derivata della superclasse Esame
  * Definisce gli esami composti da più prove 
- * @see Esame.java
+ * @see Esame
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
  */
