@@ -1,4 +1,4 @@
-package Classi;
+package classi;
 
 /**
  * Esame
@@ -38,8 +38,8 @@ public class Esame {
      */
     public void visualizza(){
 
-        System.out.println(studente.getMatricola() + " " + studente.getNome() + " " + studente.getCognome());
-        System.out.println(nome + " " + voto);
+        System.out.println(this.studente.getMatricola() + " " + this.studente.getNome() + " " + this.studente.getCognome());
+        System.out.println(this.nome + " " + this.voto);
     }
 
     /** Getter Methods */
@@ -53,7 +53,7 @@ public class Esame {
      * @return nome dell'esame
      */
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     /**
@@ -61,7 +61,7 @@ public class Esame {
      * @return voto finale
      */
     public int getVoto() {
-        return voto;
+        return this.voto;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Esame {
      * @return true (se il voto finale è con lode) false (altrimenti)
      */
     public boolean isLode() {
-        return lode;
+        return this.lode;
     }
 
     /**
@@ -77,7 +77,7 @@ public class Esame {
      * @return cfu totali
      */
     public int getCfu() {
-        return cfu;
+        return this.cfu;
     }
 
     /** Setter Methods */

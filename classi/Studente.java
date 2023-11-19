@@ -1,4 +1,4 @@
-package Classi;
+package classi;
 
 /**
  * Studente
@@ -39,7 +39,7 @@ public class Studente {
      * @return matricola dello studente
      */
     public int getMatricola() {
-        return matricola;
+        return this.matricola;
     }
 
     /**
@@ -47,7 +47,7 @@ public class Studente {
      * @return nome dello studente
      */
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     /**
@@ -55,7 +55,7 @@ public class Studente {
      * @return cognome dello studente
      */
     public String getCognome() {
-        return cognome;
+        return this.cognome;
     }
 
     /** Setter Methods */

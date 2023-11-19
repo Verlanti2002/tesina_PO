@@ -1,4 +1,4 @@
-package Classi;
+package classi;
 
 /**
 * TipologiaProva
@@ -42,7 +42,7 @@ public class TipologiaProva {
      * @return nome dell'esame parziale
      */
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     /** 
@@ -50,7 +50,7 @@ public class TipologiaProva {
      * @return peso dell'esame parziale
      */
     public int getPeso() {
-        return peso;
+        return this.peso;
     }
 
     /** 
@@ -58,6 +58,6 @@ public class TipologiaProva {
      * @return voto dell'esame parziale
      */
     public int getVoto() {
-        return voto;
+        return this.voto;
     }
 }
