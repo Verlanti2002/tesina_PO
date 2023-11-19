@@ -1,6 +1,6 @@
 package Classi;
 
-import GUI.MyFrame;
+import gui.Applicazione;
 
 public class Main {
 
@@ -10,8 +10,8 @@ public class Main {
         Studente studente2 = new Studente(175436, "Matteo", "Cappa");
         Studente studente3 = new Studente(157923, "Giacomo", "Paltrinieri");
 
-        EsameParziale esameParziale1 = new EsameParziale("Scritto", 70, 26);
-        EsameParziale esameParziale2 = new EsameParziale("Orale", 30,30);
+        TipologiaProva esameParziale1 = new TipologiaProva("Scritto", 70, 26);
+        TipologiaProva esameParziale2 = new TipologiaProva("Orale", 30,30);
 
         Esame[] esami = new Esame[3];
 
@@ -19,10 +19,10 @@ public class Main {
         esameComposto1.aggiungiTipologia(esameParziale1);
         esameComposto1.aggiungiTipologia(esameParziale2);
 
-        esami[0] = new EsameSemplice(studente1, 26, "Fisica", false, 9);
+        esami[0] = new EsameSemplice(studente1, "Fisica", 26, false, 9);
         // esami[1] = new EsameSemplice(studente3, 25,"Sistemi operativi", false, 9);
         esami[1] = esameComposto1;
-        esami[2] = new EsameSemplice(studente2, 26, "Architettura dei calcolatori", false, 9);
+        esami[2] = new EsameSemplice(studente2, "Architettura dei calcolatori",26,false, 9);
 
         for(int i=0; i< esami.length; i++){
 
@@ -30,6 +30,6 @@ public class Main {
             System.out.println("\n");
         }
 
-        MyFrame myFrame = new MyFrame();
+        Applicazione applicazione = new Applicazione();
     }
 }

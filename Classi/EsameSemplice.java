@@ -20,7 +20,7 @@ public class EsameSemplice extends Esame{
      * @param lode assegnazione o meno della lode
      * @param cfu numero di cfu totali dell'esame
      */
-    public EsameSemplice(Studente studente, int voto, String nome, boolean lode, int cfu) {
+    public EsameSemplice(Studente studente, String nome, int voto, boolean lode, int cfu) {
         super(studente, nome, lode, cfu);
         super.setVoto(voto);
     }

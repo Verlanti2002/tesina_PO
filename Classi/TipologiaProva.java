@@ -1,13 +1,13 @@
 package Classi;
 
 /**
-* EsameParziale
-* Classe che definisce le singole prove di un esame
+* TipologiaProva
+* Classe che definisce la tipologia di prova di un esame
 * (prova scritta, prova orale, prova pratica) 
 * @author Alessandro Verlanti
 * @version java 21.0.1 2023-10-17 LTS
 */
-public class EsameParziale {
+public class TipologiaProva {
 
     /** Attributo privato di tipo String che rappresenta il nome dell'esame parziale 
      * Campo dell'attributo: scritto, orale, pratico
@@ -25,7 +25,7 @@ public class EsameParziale {
      * @param peso peso dell'esame parziale
      * @param voto voto dell'esame parziale
      */
-    public EsameParziale(String nome, int peso, int voto){
+    public TipologiaProva(String nome, int peso, int voto){
         this.nome = nome;
         this.peso = peso;
         this.voto = voto;

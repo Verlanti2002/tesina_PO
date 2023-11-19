@@ -15,7 +15,7 @@ public class EsameComposto extends Esame{
      * Necessario per memorizzare in ogni oggetto voto e peso
      * di un determinato esame parziale (scritto, orale o pratico) di un esame composto
      */
-    private EsameParziale[] esami_parziali;
+    private TipologiaProva[] esami_parziali;
 
     /**
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
@@ -51,14 +51,14 @@ public class EsameComposto extends Esame{
      * e aggiorna il voto finale dell'esame a seconda degli esami parziali registrati in quel momento
      * @param esameParziale esame parziale
      */
-    public void aggiungiTipologia(EsameParziale esameParziale){
+    public void aggiungiTipologia(TipologiaProva esameParziale){
 
         if(esami_parziali == null){
-            esami_parziali = new EsameParziale[1];
+            esami_parziali = new TipologiaProva[1];
             esami_parziali[0] = esameParziale;
             return;
         }
-        EsameParziale[] tmp = new EsameParziale[esami_parziali.length+1];
+        TipologiaProva[] tmp = new TipologiaProva[esami_parziali.length+1];
         System.arraycopy(esami_parziali,0,tmp,0, esami_parziali.length);
         tmp[tmp.length-1] = esameParziale;
         esami_parziali = tmp;
