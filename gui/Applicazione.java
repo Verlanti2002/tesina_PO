@@ -1,20 +1,27 @@
 package gui;
 
-import Classi.*;
+import classi.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Applicazione{
 
-    private MyFrame mainFrame;
-    private MyFrame dataFrame;
-    private JPanel mainPanel;
+    private MyFrame main_frame;
+    private MyFrame data_frame;
+    private MyPanel main_panel;
+    private MyLabel matricola_l,nome_esame_l, voto_l, cfu_l;
+    private JTextField matricola_tf,nome_esame_tf, voto_tf, cfu_tf;
+
+    private JButton registra_b;
+
+    private Controllore controllore;
+
     private ArrayList<Studente> studenti;
     private ArrayList<Esame> esami;
-    TipologiaProva esameParziale;
 
     public Applicazione(){
         studenti = new ArrayList<>();
@@ -23,67 +30,82 @@ public class Applicazione{
     }
 
     public void disposeMainFrame(String titolo){
-        mainFrame.dispose();
-        dataFrame = new MyFrame(titolo);
-        mainPanel = new JPanel();
+        main_frame.dispose();
+        data_frame = new MyFrame(titolo);
+        main_panel = new MyPanel();
     }
 
     public void disposeDataFrame(String titolo){
-        dataFrame.dispose();
-        dataFrame = new MyFrame(titolo);
-        mainPanel = new JPanel();
+        data_frame.dispose();
+        data_frame = new MyFrame(titolo);
+        main_panel = new MyPanel();
     }
 
     public void registraStudentePanel(){
         disposeMainFrame("Registrazione studente");
-        JLabel matricola_l = new JLabel("Matricola");
-        JTextField matricola_tf = new JTextField(6);
-        JLabel nome_l = new JLabel("Nome");
-        JTextField nome_tf = new JTextField(20);
-        JLabel cognome_l = new JLabel("Cognome");
+
+        matricola_l = new MyLabel("Matricola");
+        matricola_tf = new JTextField(6);
+
+        JLabel nome_studente_l = new MyLabel("Nome studente");
+        JTextField nome_studente_tf = new JTextField(20);
+
+        JLabel cognome_l = new MyLabel("Cognome");
         JTextField cognome_tf = new JTextField(20);
-        MyButton registra_b = new MyButton("Registra");
+
+        registra_b = new MyButton("Registra Studente");
         registra_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int matricola = Integer.parseInt(matricola_tf.getText());
-                String nome = nome_tf.getText();
+                String nome = nome_studente_tf.getText();
                 String cognome = cognome_tf.getText();
                 studenti.add(new Studente(matricola, nome,cognome));
                 MainWindow();
             }
         });
-        mainPanel.add(matricola_l);
-        mainPanel.add(matricola_tf);
-        mainPanel.add(nome_l);
-        mainPanel.add(nome_tf);
-        mainPanel.add(cognome_l);
-        mainPanel.add(cognome_tf);
-        mainPanel.add(registra_b);
-        dataFrame.add(mainPanel);
-        dataFrame.pack();
+        main_panel.add(matricola_l);
+        main_panel.add(matricola_tf);
+        main_panel.add(nome_studente_l);
+        main_panel.add(nome_studente_tf);
+        main_panel.add(cognome_l);
+        main_panel.add(cognome_tf);
+        main_panel.add(registra_b);
+        data_frame.add(main_panel);
+        data_frame.pack();
     }
 
     public void registraEsameSemplice(){
         disposeDataFrame("Registrazione Esame Semplice");
-        JLabel matricola_l = new JLabel("Matricola");
-        JTextField matricola_tf = new JTextField(6);
-        JLabel nome_l = new JLabel("Nome");
-        JTextField nome_tf = new JTextField(20);
+
+        matricola_l = new MyLabel("Matricola");
+        matricola_tf = new JTextField(6);
+
+        /** Controllo sull'esistenza della matricola inserita **/
+        /*if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
+            JOptionPane.showMessageDialog(main_frame, "Errore, matricola non esistente!", "Swing Tester", JOptionPane.ERROR_MESSAGE);
+        */
+
+        nome_esame_l = new MyLabel("Nome esame");
+        nome_esame_tf = new JTextField(20);
+
         /** Mancano i controlli sull'inserimento **/
-        JLabel voto_l = new JLabel("Voto");
-        JTextField voto_tf = new JTextField(2);
-        JLabel lode_l = new JLabel("Lode");
+        voto_l = new MyLabel("Voto");
+        voto_tf = new JTextField(2);
+
+        JLabel lode_l = new MyLabel("Lode");
         JTextField lode_tf = new JTextField(5);
-        JLabel cfu_l = new JLabel("CFU");
-        JTextField cfu_tf = new JTextField(2);
-        MyButton registra_b = new MyButton("Registra");
+
+        cfu_l = new MyLabel("CFU");
+        cfu_tf = new JTextField(2);
+
+        registra_b = new MyButton("Registra Esame");
         registra_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int matricola = Integer.parseInt(matricola_tf.getText());
                 Studente studente = ricercaStudente(matricola);
-                String nome = nome_tf.getText();
+                String nome = nome_esame_tf.getText();
                 int voto = Integer.parseInt(voto_tf.getText());
                 Boolean lode = Boolean.parseBoolean(lode_tf.getText());
                 int cfu = Integer.parseInt(cfu_tf.getText());
@@ -91,76 +113,90 @@ public class Applicazione{
                 MainWindow();
             }
         });
-        mainPanel.add(matricola_l);
-        mainPanel.add(matricola_tf);
-        mainPanel.add(nome_l);
-        mainPanel.add(nome_tf);
-        mainPanel.add(voto_l);
-        mainPanel.add(voto_tf);
-        mainPanel.add(lode_l);
-        mainPanel.add(lode_tf);
-        mainPanel.add(cfu_l);
-        mainPanel.add(cfu_tf);
-        mainPanel.add(registra_b);
-        dataFrame.add(mainPanel);
-        dataFrame.pack();
+        main_panel.add(matricola_l);
+        main_panel.add(matricola_tf);
+        main_panel.add(nome_esame_l);
+        main_panel.add(nome_esame_tf);
+        main_panel.add(voto_l);
+        main_panel.add(voto_tf);
+        main_panel.add(lode_l);
+        main_panel.add(lode_tf);
+        main_panel.add(cfu_l);
+        main_panel.add(cfu_tf);
+        main_panel.add(registra_b);
+        data_frame.add(main_panel);
+        data_frame.pack();
     }
 
     public void registraEsameComposto(){
         disposeDataFrame("Registrazione Esame Composto");
-        JLabel matricola_l = new JLabel("Matricola");
-        JTextField matricola_tf = new JTextField(6);
-        JLabel nome_l = new JLabel("Nome");
-        JTextField nome_tf = new JTextField(20);
+        main_panel.setLayout(new GridLayout(2,1));
+
+        JMenuBar jMenuBar = new JMenuBar();
+
+        matricola_l = new MyLabel("Matricola");
+        matricola_tf = new JTextField(6);
+
+        /** Controllo sull'esistenza della matricola inserita **/
+        /*if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
+            JOptionPane.showMessageDialog(main_frame, "Errore, matricola non esistente!", "Swing Tester", JOptionPane.ERROR_MESSAGE);
+        */
+        nome_esame_l = new MyLabel("Nome Esame");
+        nome_esame_tf = new JTextField(20);
+
         /** Mancano i controlli sull'inserimento **/
-        JLabel cfu_l = new JLabel("CFU");
-        JTextField cfu_tf = new JTextField(2);
+        cfu_l = new MyLabel("CFU");
+        cfu_tf = new JTextField(2);
+
         String[] tipologia_prova = {"Scritta", "Orale", "Pratica"};
         JComboBox jComboBox = new JComboBox(tipologia_prova);
         jComboBox.setEditable(false);
-        JLabel peso_l = new JLabel("Peso");
+
+        JLabel peso_l = new MyLabel("Peso");
         JTextField peso_tf = new JTextField(2);
-        JLabel voto_singolo_l = new JLabel("Voto prova");
-        JTextField voto_singolo_tf = new JTextField(2);
-        jComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nome = (String) jComboBox.getSelectedItem();
-                int peso = Integer.parseInt(peso_tf.getText());
-                int voto = Integer.parseInt(voto_singolo_tf.getText());
-                esameParziale = new TipologiaProva(nome,peso,voto);
-            }
-        });
-        MyButton registra_b = new MyButton("Registra");
-        mainPanel.add(registra_b);
+
+        voto_l = new MyLabel("Voto");
+        voto_tf = new JTextField(2);
+
+        registra_b = new MyButton("Registra Esame");
+
         registra_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int matricola = Integer.parseInt(matricola_tf.getText());
                 Studente studente = ricercaStudente(matricola);
-                String nome = nome_tf.getText();
+                String nome = nome_esame_tf.getText();
                 int cfu = Integer.parseInt(cfu_tf.getText());
-                EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
-                esameComposto.aggiungiTipologia(esameParziale);
-                esami.add(esameComposto);
+                jComboBox.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String tipologia = (String) jComboBox.getSelectedItem();
+                        int peso = Integer.parseInt(peso_tf.getText());
+                        int voto = Integer.parseInt(voto_tf.getText());
+                        EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
+                        esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
+                        esami.add(esameComposto);
+                    }
+                });
                 MainWindow();
             }
         });
 
-        mainPanel.add(matricola_l);
-        mainPanel.add(matricola_tf);
-        mainPanel.add(nome_l);
-        mainPanel.add(nome_tf);
-        mainPanel.add(cfu_l);
-        mainPanel.add(cfu_tf);
-        mainPanel.add(jComboBox);
-        mainPanel.add(peso_l);
-        mainPanel.add(peso_tf);
-        mainPanel.add(voto_singolo_l);
-        mainPanel.add(voto_singolo_tf);
-        mainPanel.add(registra_b);
-        dataFrame.add(mainPanel);
-        dataFrame.pack();
+        main_panel.add(jMenuBar);
+        main_panel.add(matricola_l);
+        main_panel.add(matricola_tf);
+        main_panel.add(nome_esame_l);
+        main_panel.add(nome_esame_tf);
+        main_panel.add(cfu_l);
+        main_panel.add(cfu_tf);
+        main_panel.add(jComboBox);
+        main_panel.add(peso_l);
+        main_panel.add(peso_tf);
+        main_panel.add(voto_l);
+        main_panel.add(voto_tf);
+        main_panel.add(registra_b);
+        data_frame.add(main_panel);
+        data_frame.pack();
     }
 
     public void registraEsamePanel(){
@@ -180,17 +216,30 @@ public class Applicazione{
                 }
             }
         });
-        mainPanel.add(jLabel);
-        mainPanel.add(jComboBox);
-        dataFrame.add(mainPanel);
-        dataFrame.pack();
+        main_panel.add(jLabel);
+        main_panel.add(jComboBox);
+        data_frame.add(main_panel);
+        data_frame.pack();
     }
 
+    /** Da mettere a posto
+    public void caricaEsamiPanel(){
+        disposeMainFrame("Caricamento Esame");
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.showOpenDialog(main_frame);
+        Caricamento caricamento = new Caricamento(jFileChooser.getName());
+        main_panel.add(jFileChooser);
+        data_frame.add(main_panel);
+        data_frame.pack();
+        //Caricamento carica = new Caricamento(jFileChooser.getF);
+    }**/
+
     public void MainWindow(){
-        if(dataFrame !=  null)
-            dataFrame.dispose();
-        mainFrame = new MyFrame("Gestione Esami");
-        mainPanel = new JPanel();
+        if(data_frame !=  null)
+            data_frame.dispose();
+        main_frame = new MyFrame("Gestione Esami");
+        main_panel = new MyPanel();
+        main_panel.setLayout(new GridLayout(4,4));
         MyButton registra_studente_b = new MyButton("Registra Studente");
         registra_studente_b.addActionListener(new ActionListener() {
             @Override
@@ -205,29 +254,30 @@ public class Applicazione{
                 registraEsamePanel();
             }
         });
-        MyButton carica_esame_b = new MyButton("Carica Esame");
+        MyButton carica_esame_b = new MyButton("Carica Esami");
         carica_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // caricaEsamePanel();
+                // caricaEsamiPanel();
             }
         });
-        MyButton salva_esame_b = new MyButton("Salva Esame");
+        MyButton salva_esame_b = new MyButton("Salva Esami");
         salva_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // salvaEsamePanel();
+                // salvaEsamiPanel();
             }
         });
         /** Servirà per visualizzare in tempo reale la lista di esami registrati **/
-        JTable esami = new JTable();
-        mainPanel.add(registra_studente_b);
-        mainPanel.add(registra_esame_b);
-        mainPanel.add(carica_esame_b);
-        mainPanel.add(salva_esame_b);
-        mainPanel.add(esami);
-        mainFrame.add(mainPanel);
-        mainFrame.pack();
+        JTable esami_t = new JTable();
+
+        main_panel.add(registra_studente_b);
+        main_panel.add(registra_esame_b);
+        main_panel.add(carica_esame_b);
+        main_panel.add(salva_esame_b);
+        main_panel.add(esami_t);
+        main_frame.add(main_panel);
+        main_frame.pack();
     }
 
     public Studente ricercaStudente(int matricola){
@@ -236,5 +286,13 @@ public class Applicazione{
                 return  studenti.get(i);
         }
         return null;
+    }
+
+    public ArrayList<Esame> getEsami(){
+        return esami;
+    }
+
+    public ArrayList<Studente> getStudenti(){
+        return studenti;
     }
 }

@@ -12,8 +12,8 @@ public class MyButton extends JButton {
         /*ImageIcon = new ImageIcon("img.png");
         this.setIcon(imageIcon);
         this.setIconTextGap(5);*/
-        this.setContentAreaFilled(false);
-        this.setFont(new Font("Arial", Font.PLAIN, 12));
-        this.setMnemonic(KeyEvent.VK_P);
+        setSize(new Dimension(10,10));
+        setContentAreaFilled(false);
+        setFont(new Font("Arial", Font.PLAIN, 12));
     }
 }

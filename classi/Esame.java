@@ -38,8 +38,8 @@ public class Esame {
      */
     public void visualizza(){
 
-        System.out.println(this.studente.getMatricola() + " " + this.studente.getNome() + " " + this.studente.getCognome());
-        System.out.println(this.nome + " " + this.voto);
+        System.out.println(studente.getMatricola() + " " + studente.getNome() + " " + studente.getCognome());
+        System.out.println(nome + " " + voto + " " + lode + " " + cfu + " " );
     }
 
     /** Getter Methods */
@@ -47,6 +47,14 @@ public class Esame {
     /** Metodi necessari per accedere agli attributi dell'oggetto Studente in quanto privati
      * in modo da garantirne l'incapsulamento
     */
+
+    /**
+     * Metodo getter che restituisce lo studente che ha conseguito l'esame
+     * @return oggetto Studente
+     */
+    public Studente getStudente(){
+        return this.studente;
+    }
 
     /** 
      * Metodo getter che restituisce il nome dell'esame

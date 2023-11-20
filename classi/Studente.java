@@ -50,6 +50,10 @@ public class Studente {
         return this.nome;
     }
 
+    public void visualizza(){
+        System.out.println(getMatricola() + " " + getNome() + " " + getCognome());
+    }
+
     /**
      * Metodo getter che restituisce il cognome dello studente
      * @return cognome dello studente
