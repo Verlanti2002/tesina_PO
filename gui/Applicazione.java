@@ -41,7 +41,8 @@ public class Applicazione{
         main_panel = new MyPanel();
     }
 
-    public void registraStudentePanel(){
+    /*public void registraStudentePanel(){
+
         disposeMainFrame("Registrazione studente");
 
         matricola_l = new MyLabel("Matricola");
@@ -73,7 +74,7 @@ public class Applicazione{
         main_panel.add(registra_b);
         data_frame.add(main_panel);
         data_frame.pack();
-    }
+    }*/
 
     public void registraEsameSemplice(){
         disposeDataFrame("Registrazione Esame Semplice");
@@ -239,12 +240,12 @@ public class Applicazione{
             data_frame.dispose();
         main_frame = new MyFrame("Gestione Esami");
         main_panel = new MyPanel();
-        main_panel.setLayout(new GridLayout(4,4));
+        main_panel.setLayout(new GridLayout(4,2));
         MyButton registra_studente_b = new MyButton("Registra Studente");
         registra_studente_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registraStudentePanel();
+                RegistraStudente registraStudente = new RegistraStudente();
             }
         });
         MyButton registra_esame_b = new MyButton("Registra Esame");
@@ -262,12 +263,25 @@ public class Applicazione{
             }
         });
         MyButton salva_esame_b = new MyButton("Salva Esami");
+
+        if(esami.isEmpty())
+            salva_esame_b.setEnabled(false);
         salva_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // salvaEsamiPanel();
             }
         });
+
+        MyButton visualizza_studenti_b = new MyButton("Visualizza Studenti Registrati");
+
+        if(studenti.isEmpty())
+            visualizza_studenti_b.setEnabled(false);
+
+        MyButton visualizza_esami_b = new MyButton("Visualizza Esami Registrati");
+        if(esami.isEmpty())
+            visualizza_esami_b.setEnabled(false);
+
         /** Servirà per visualizzare in tempo reale la lista di esami registrati **/
         JTable esami_t = new JTable();
 
@@ -275,6 +289,8 @@ public class Applicazione{
         main_panel.add(registra_esame_b);
         main_panel.add(carica_esame_b);
         main_panel.add(salva_esame_b);
+        main_panel.add(visualizza_studenti_b);
+        main_panel.add(visualizza_esami_b);
         main_panel.add(esami_t);
         main_frame.add(main_panel);
         main_frame.pack();
@@ -286,6 +302,18 @@ public class Applicazione{
                 return  studenti.get(i);
         }
         return null;
+    }
+
+    public MyFrame getMain_frame() {
+        return main_frame;
+    }
+
+    public MyFrame getData_frame() {
+        return data_frame;
+    }
+
+    public MyPanel getMain_panel() {
+        return main_panel;
     }
 
     public ArrayList<Esame> getEsami(){
