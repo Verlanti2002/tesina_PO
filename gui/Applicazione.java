@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class Applicazione{
 
-    private MyFrame main_frame;
-    private MyFrame data_frame;
-    private MyPanel main_panel;
+    private MyFrame main_frame = null;
+    private MyFrame data_frame = null;
+    private MyPanel main_panel = null;
     private MyLabel matricola_l,nome_esame_l, voto_l, cfu_l;
     private JTextField matricola_tf,nome_esame_tf, voto_tf, cfu_tf;
 
@@ -76,21 +76,21 @@ public class Applicazione{
         data_frame.pack();
     }*/
 
-    public void registraEsameSemplice(){
+    /*public void registraEsameSemplice(){
         disposeDataFrame("Registrazione Esame Semplice");
 
         matricola_l = new MyLabel("Matricola");
         matricola_tf = new JTextField(6);
 
-        /** Controllo sull'esistenza della matricola inserita **/
-        /*if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
+        // Controllo sull'esistenza della matricola inserita
+        if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
             JOptionPane.showMessageDialog(main_frame, "Errore, matricola non esistente!", "Swing Tester", JOptionPane.ERROR_MESSAGE);
-        */
+
 
         nome_esame_l = new MyLabel("Nome esame");
         nome_esame_tf = new JTextField(20);
 
-        /** Mancano i controlli sull'inserimento **/
+        // Mancano i controlli sull'inserimento
         voto_l = new MyLabel("Voto");
         voto_tf = new JTextField(2);
 
@@ -127,25 +127,22 @@ public class Applicazione{
         main_panel.add(registra_b);
         data_frame.add(main_panel);
         data_frame.pack();
-    }
+    }*/
 
-    public void registraEsameComposto(){
+    /*public void registraEsameComposto(){
         disposeDataFrame("Registrazione Esame Composto");
-        main_panel.setLayout(new GridLayout(2,1));
-
-        JMenuBar jMenuBar = new JMenuBar();
 
         matricola_l = new MyLabel("Matricola");
         matricola_tf = new JTextField(6);
 
-        /** Controllo sull'esistenza della matricola inserita **/
-        /*if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
+        // Controllo sull'esistenza della matricola inserita
+        if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
             JOptionPane.showMessageDialog(main_frame, "Errore, matricola non esistente!", "Swing Tester", JOptionPane.ERROR_MESSAGE);
-        */
+
         nome_esame_l = new MyLabel("Nome Esame");
         nome_esame_tf = new JTextField(20);
 
-        /** Mancano i controlli sull'inserimento **/
+        // Mancano i controlli sull'inserimento
         cfu_l = new MyLabel("CFU");
         cfu_tf = new JTextField(2);
 
@@ -183,7 +180,6 @@ public class Applicazione{
             }
         });
 
-        main_panel.add(jMenuBar);
         main_panel.add(matricola_l);
         main_panel.add(matricola_tf);
         main_panel.add(nome_esame_l);
@@ -198,9 +194,9 @@ public class Applicazione{
         main_panel.add(registra_b);
         data_frame.add(main_panel);
         data_frame.pack();
-    }
+    }*/
 
-    public void registraEsamePanel(){
+    /*public void registraEsamePanel(){
         disposeMainFrame("Registrazione Esame");
         String[] tipologia_esami = {"Esame Semplice", "Esame Composto"};
         JLabel jLabel = new JLabel("Seleziona la tipologia d'esame");
@@ -221,7 +217,7 @@ public class Applicazione{
         main_panel.add(jComboBox);
         data_frame.add(main_panel);
         data_frame.pack();
-    }
+    }*/
 
     /** Da mettere a posto
     public void caricaEsamiPanel(){
@@ -252,7 +248,7 @@ public class Applicazione{
         registra_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registraEsamePanel();
+                RegistraEsame registraEsame = new RegistraEsame();
             }
         });
         MyButton carica_esame_b = new MyButton("Carica Esami");
@@ -303,7 +299,6 @@ public class Applicazione{
         }
         return null;
     }
-
     public MyFrame getMain_frame() {
         return main_frame;
     }
