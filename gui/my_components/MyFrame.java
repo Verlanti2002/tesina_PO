@@ -1,4 +1,6 @@
-package gui;
+package gui.my_components;
+
+import gui.Terminator;
 
 import javax.swing.*;
 

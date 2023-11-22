@@ -4,24 +4,28 @@ import classi.EsameComposto;
 import classi.EsameSemplice;
 import classi.Studente;
 import classi.TipologiaProva;
+import gui.my_components.MyButton;
+import gui.my_components.MyLabel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RegistraEsame extends Applicazione{
 
-    MyLabel matricola_l, nome_l, voto_l, cfu_l;
-    JTextField matricola_tf, nome_tf, voto_tf, cfu_tf;
+    String tipologia;
+    int peso, voto;
+    MyLabel matricola_l, nome_l, voto_l, cfu_l, peso_l;
+    JTextField matricola_tf, nome_tf, voto_tf, cfu_tf, peso_tf;
     MyButton registra_b;
 
     public RegistraEsame(){
         disposeMainFrame("Registrazione Esame");
-        String[] tipologia_esami = {"Esame Semplice", "Esame Composto"};
+
         JLabel jLabel = new JLabel("Seleziona la tipologia d'esame");
+
+        String[] tipologia_esami = {"Esame Semplice", "Esame Composto"};
         JComboBox jComboBox = new JComboBox(tipologia_esami);
-        jComboBox.setEditable(false);
         jComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,6 +80,7 @@ public class RegistraEsame extends Applicazione{
                 Boolean lode = Boolean.parseBoolean(lode_tf.getText());
                 int cfu = Integer.parseInt(cfu_tf.getText());
                 getEsami().add(new EsameSemplice(studente,nome,voto,lode,cfu));
+                getData_frame().dispose();
                 MainWindow();
             }
         });
@@ -99,8 +104,6 @@ public class RegistraEsame extends Applicazione{
 
         disposeDataFrame("Registrazione Esame Composto");
 
-        getMain_panel().setLayout(new GridLayout(2,1));
-
         matricola_l = new MyLabel("Matricola");
         matricola_tf = new JTextField(6);
 
@@ -117,16 +120,23 @@ public class RegistraEsame extends Applicazione{
 
         String[] tipologia_prova = {"Scritta", "Orale", "Pratica"};
         JComboBox jComboBox = new JComboBox(tipologia_prova);
-        jComboBox.setEditable(false);
+        //jComboBox.addItem("Scritta"); jComboBox.addItem("Orale"); jComboBox.addItem("Pratica");
 
-        JLabel peso_l = new MyLabel("Peso");
-        JTextField peso_tf = new JTextField(2);
+        peso_l = new MyLabel("Peso");
+        peso_tf = new JTextField(2);
 
         voto_l = new MyLabel("Voto");
         voto_tf = new JTextField(2);
 
+        jComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tipologia = (String) jComboBox.getSelectedItem();
+                peso = Integer.parseInt(peso_tf.getText());
+                voto = Integer.parseInt(voto_tf.getText());
+            }
+        });
         registra_b = new MyButton("Registra Esame");
-
         registra_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,18 +144,11 @@ public class RegistraEsame extends Applicazione{
                 Studente studente = ricercaStudente(matricola);
                 String nome = nome_tf.getText();
                 int cfu = Integer.parseInt(cfu_tf.getText());
-                jComboBox.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String tipologia = (String) jComboBox.getSelectedItem();
-                        int peso = Integer.parseInt(peso_tf.getText());
-                        int voto = Integer.parseInt(voto_tf.getText());
-                        EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
-                        esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
-                        getEsami().add(esameComposto);
-                    }
-                });
-                getData_frame().addWindowListener(new Terminator());
+                EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
+                esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
+                getEsami().add(esameComposto);
+                getData_frame().dispose();
+                MainWindow();
             }
         });
 

@@ -1,6 +1,7 @@
 package gui;
 
 import classi.*;
+import gui.my_components.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,13 +11,13 @@ import java.util.ArrayList;
 
 public class Applicazione{
 
-    private MyFrame main_frame = null;
-    private MyFrame data_frame = null;
-    private MyPanel main_panel = null;
-    private MyLabel matricola_l,nome_esame_l, voto_l, cfu_l;
-    private JTextField matricola_tf,nome_esame_tf, voto_tf, cfu_tf;
+    private MyFrame main_frame;
+    private MyFrame data_frame;
+    private MyPanel main_panel;
 
-    private JButton registra_b;
+    // private MyLabel matricola_l,nome_esame_l, voto_l, cfu_l;
+    // private JTextField matricola_tf,nome_esame_tf, voto_tf, cfu_tf;
+    // private JButton registra_b;
 
     private Controllore controllore;
 
@@ -30,13 +31,11 @@ public class Applicazione{
     }
 
     public void disposeMainFrame(String titolo){
-        main_frame.dispose();
         data_frame = new MyFrame(titolo);
         main_panel = new MyPanel();
     }
 
     public void disposeDataFrame(String titolo){
-        data_frame.dispose();
         data_frame = new MyFrame(titolo);
         main_panel = new MyPanel();
     }
@@ -232,8 +231,7 @@ public class Applicazione{
     }**/
 
     public void MainWindow(){
-        if(data_frame !=  null)
-            data_frame.dispose();
+
         main_frame = new MyFrame("Gestione Esami");
         main_panel = new MyPanel();
         main_panel.setLayout(new GridLayout(4,2));
@@ -255,7 +253,8 @@ public class Applicazione{
         carica_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // caricaEsamiPanel();
+                JFileChooser jFileChooser = new JFileChooser();
+                // Caricamento caricamento = new Caricamento();
             }
         });
         MyButton salva_esame_b = new MyButton("Salva Esami");
@@ -265,7 +264,7 @@ public class Applicazione{
         salva_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // salvaEsamiPanel();
+                Salvataggio salvataggio = new Salvataggio(esami);
             }
         });
 
@@ -279,7 +278,7 @@ public class Applicazione{
             visualizza_esami_b.setEnabled(false);
 
         /** Servirà per visualizzare in tempo reale la lista di esami registrati **/
-        JTable esami_t = new JTable();
+        MyTable esami_t = new MyTable();
 
         main_panel.add(registra_studente_b);
         main_panel.add(registra_esame_b);

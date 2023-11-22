@@ -1,17 +1,20 @@
 package classi;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Salvataggio {
 
-    public Salvataggio(Esame esame){
+    public Salvataggio(ArrayList<Esame> esami){
 
         File file = new File("esami.txt");
         ObjectOutputStream objectOutputStream = null;
 
         try{
             objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
-            objectOutputStream.writeObject(esame);
+            for(int i=0; i< esami.size(); i++){
+                objectOutputStream.writeObject(esami.get(i));
+            }
             objectOutputStream.close();
         }catch (IOException e){
             System.err.println("Errore in fase di apertura o scrittura su file");

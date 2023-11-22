@@ -1,6 +1,8 @@
 package gui;
 
 import classi.Studente;
+import gui.my_components.MyButton;
+import gui.my_components.MyLabel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,10 +12,10 @@ public class RegistraStudente extends Applicazione implements ActionListener{
 
     private MyLabel matricola_l, nome_l, cognome_l;
     private JTextField matricola_tf, nome_tf, cognome_tf;
-
     private MyButton registra_b;
 
     public RegistraStudente(){
+
         disposeMainFrame("Registrazione Studente");
 
         matricola_l = new MyLabel("Matricola");
@@ -45,6 +47,7 @@ public class RegistraStudente extends Applicazione implements ActionListener{
         String nome = nome_tf.getText();
         String cognome = cognome_tf.getText();
         getStudenti().add(new Studente(matricola, nome,cognome));
-        getData_frame().addWindowListener(new Terminator());
+        getData_frame().dispose();
+        MainWindow();
     }
 }
