@@ -46,7 +46,7 @@ public class RegistraStudente extends Applicazione implements ActionListener{
         int matricola = Integer.parseInt(matricola_tf.getText());
         String nome = nome_tf.getText();
         String cognome = cognome_tf.getText();
-        getStudenti().add(new Studente(matricola, nome,cognome));
+        getArchivioStudenti().add(new Studente(matricola, nome,cognome));
         getData_frame().dispose();
         MainWindow();
     }

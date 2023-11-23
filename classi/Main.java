@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Studente studente1 = new Studente(186245, "Alessandro", "Verlanti");
+        /*Studente studente1 = new Studente(186245, "Alessandro", "Verlanti");
         Studente studente2 = new Studente(175436, "Matteo", "Cappa");
         Studente studente3 = new Studente(157923, "Giacomo", "Paltrinieri");
 
@@ -28,7 +28,7 @@ public class Main {
 
             esami[i].visualizza();
             System.out.println("\n");
-        }
+        }*/
 
         Applicazione applicazione = new Applicazione();
     }

@@ -15,8 +15,8 @@ public class Caricamento extends Applicazione {
         try{
             objectInputStream = new ObjectInputStream(new FileInputStream(file));
             Esame esame = (Esame) objectInputStream.readObject();
-            getStudenti().add(esame.getStudente());
-            getEsami().add(esame);
+            getArchivioStudenti().add(esame.getStudente());
+            getArchivioEsami().add(esame);
             objectInputStream.close();
         }catch (Exception e){
             System.err.println("Errore in fase di apertura o lettura del file ");

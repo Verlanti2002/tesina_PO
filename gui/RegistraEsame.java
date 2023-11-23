@@ -8,16 +8,18 @@ import gui.my_components.MyButton;
 import gui.my_components.MyLabel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegistraEsame extends Applicazione{
+public class RegistraEsame extends Applicazione implements ActionListener{
 
     String tipologia;
     int peso, voto;
     MyLabel matricola_l, nome_l, voto_l, cfu_l, peso_l;
     JTextField matricola_tf, nome_tf, voto_tf, cfu_tf, peso_tf;
     MyButton registra_b;
+    JComboBox jComboBox;
 
     public RegistraEsame(){
         disposeMainFrame("Registrazione Esame");
@@ -70,6 +72,10 @@ public class RegistraEsame extends Applicazione{
 
         registra_b = new MyButton("Registra Esame");
 
+        /*if(!studentExist(Integer.parseInt(matricola_tf.getText())))
+            registra_b.setEnabled(false);
+         */
+
         registra_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,7 +85,7 @@ public class RegistraEsame extends Applicazione{
                 int voto = Integer.parseInt(voto_tf.getText());
                 Boolean lode = Boolean.parseBoolean(lode_tf.getText());
                 int cfu = Integer.parseInt(cfu_tf.getText());
-                getEsami().add(new EsameSemplice(studente,nome,voto,lode,cfu));
+                getArchivioEsami().add(new EsameSemplice(studente,nome,voto,lode,cfu));
                 getData_frame().dispose();
                 MainWindow();
             }
@@ -119,8 +125,7 @@ public class RegistraEsame extends Applicazione{
         cfu_tf = new JTextField(2);
 
         String[] tipologia_prova = {"Scritta", "Orale", "Pratica"};
-        JComboBox jComboBox = new JComboBox(tipologia_prova);
-        //jComboBox.addItem("Scritta"); jComboBox.addItem("Orale"); jComboBox.addItem("Pratica");
+        jComboBox = new JComboBox(tipologia_prova);
 
         peso_l = new MyLabel("Peso");
         peso_tf = new JTextField(2);
@@ -128,29 +133,12 @@ public class RegistraEsame extends Applicazione{
         voto_l = new MyLabel("Voto");
         voto_tf = new JTextField(2);
 
-        jComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tipologia = (String) jComboBox.getSelectedItem();
-                peso = Integer.parseInt(peso_tf.getText());
-                voto = Integer.parseInt(voto_tf.getText());
-            }
-        });
         registra_b = new MyButton("Registra Esame");
-        registra_b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int matricola = Integer.parseInt(matricola_tf.getText());
-                Studente studente = ricercaStudente(matricola);
-                String nome = nome_tf.getText();
-                int cfu = Integer.parseInt(cfu_tf.getText());
-                EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
-                esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
-                getEsami().add(esameComposto);
-                getData_frame().dispose();
-                MainWindow();
-            }
-        });
+
+        /*if(!studentExist(Integer.parseInt(matricola_tf.getText())))
+            registra_b.setEnabled(false);
+         */
+        registra_b.addActionListener(this);
 
         getMain_panel().add(matricola_l);
         getMain_panel().add(matricola_tf);
@@ -166,5 +154,30 @@ public class RegistraEsame extends Applicazione{
         getMain_panel().add(registra_b);
         getData_frame().add(getMain_panel());
         getData_frame().pack();
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        tipologia = (String) jComboBox.getSelectedItem();
+        peso = Integer.parseInt(peso_tf.getText());
+        voto = Integer.parseInt(voto_tf.getText());
+
+        int matricola = Integer.parseInt(matricola_tf.getText());
+        Studente studente = ricercaStudente(matricola);
+        String nome = nome_tf.getText();
+        int cfu = Integer.parseInt(cfu_tf.getText());
+        EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
+        esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
+        getArchivioEsami().add(esameComposto);
+        getData_frame().dispose();
+        MainWindow();
+    }
+
+    public boolean studentExist(int matricola){
+        for(int i=0; i< getArchivioStudenti().size(); i++){
+            if(getArchivioStudenti().get(i).getMatricola() == matricola)
+                return true;
+        }
+        return false;
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Salvataggio {
 
-    public Salvataggio(ArrayList<Esame> esami){
+    public Salvataggio(ArchivioEsami<Esame> esami){
 
         File file = new File("esami.txt");
         ObjectOutputStream objectOutputStream = null;
