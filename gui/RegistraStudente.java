@@ -1,22 +1,23 @@
 package gui;
 
+import classi.ArchivioStudenti;
+import classi.Main;
 import classi.Studente;
-import gui.my_components.MyButton;
-import gui.my_components.MyLabel;
+import gui.my_components.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegistraStudente extends Applicazione implements ActionListener{
+public class RegistraStudente{
 
     private MyLabel matricola_l, nome_l, cognome_l;
     private JTextField matricola_tf, nome_tf, cognome_tf;
     private MyButton registra_b;
 
-    public RegistraStudente(){
+    public RegistraStudente(MyFrame mainFrame, Applicazione applicazione){
 
-        disposeMainFrame("Registrazione Studente");
+        MyPanel mainPanel = new MyPanel();
 
         matricola_l = new MyLabel("Matricola");
         matricola_tf = new JTextField(6);
@@ -29,25 +30,26 @@ public class RegistraStudente extends Applicazione implements ActionListener{
 
         registra_b = new MyButton("Registra Studente");
 
-        registra_b.addActionListener(this);
+        registra_b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int matricola = Integer.parseInt(matricola_tf.getText());
+                String nome = nome_tf.getText();
+                String cognome = cognome_tf.getText();
+                applicazione.getStudenti().add(new Studente(matricola, nome,cognome));
+                mainFrame.remove(mainPanel);
+                new Menu(mainFrame,applicazione);
+            }
+        });
 
-        getMain_panel().add(matricola_l);
-        getMain_panel().add(matricola_tf);
-        getMain_panel().add(nome_l);
-        getMain_panel().add(nome_tf);
-        getMain_panel().add(cognome_l);
-        getMain_panel().add(cognome_tf);
-        getMain_panel().add(registra_b);
-        getData_frame().add(getMain_panel());
-        getData_frame().pack();
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        int matricola = Integer.parseInt(matricola_tf.getText());
-        String nome = nome_tf.getText();
-        String cognome = cognome_tf.getText();
-        getArchivioStudenti().add(new Studente(matricola, nome,cognome));
-        getData_frame().dispose();
-        MainWindow();
+        mainPanel.add(matricola_l);
+        mainPanel.add(matricola_tf);
+        mainPanel.add(nome_l);
+        mainPanel.add(nome_tf);
+        mainPanel.add(cognome_l);
+        mainPanel.add(cognome_tf);
+        mainPanel.add(registra_b);
+        mainFrame.add(mainPanel);
+        mainFrame.pack();
     }
 }

@@ -13,7 +13,8 @@ public class Salvataggio {
         try{
             objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
             for(int i=0; i< esami.size(); i++){
-                objectOutputStream.writeObject(esami.get(i));
+                objectOutputStream.writeObject(esami.get(i).getNome());
+                //objectOutputStream.writeObject(esami.get(i).get);
             }
             objectOutputStream.close();
         }catch (IOException e){

@@ -76,7 +76,7 @@ public class Esame {
      * Metodo getter che restituisce un valore booleano
      * @return true (se il voto finale è con lode) false (altrimenti)
      */
-    public boolean isLode() {
+    public boolean getLode() {
         return this.lode;
     }
 

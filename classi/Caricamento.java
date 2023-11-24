@@ -5,9 +5,9 @@ import gui.Applicazione;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Caricamento extends Applicazione {
+public class Caricamento {
 
-    public Caricamento(String path){
+    public Caricamento(String path, Applicazione applicazione){
 
         File file = new File(path);
         ObjectInputStream objectInputStream = null;
@@ -15,8 +15,8 @@ public class Caricamento extends Applicazione {
         try{
             objectInputStream = new ObjectInputStream(new FileInputStream(file));
             Esame esame = (Esame) objectInputStream.readObject();
-            getArchivioStudenti().add(esame.getStudente());
-            getArchivioEsami().add(esame);
+            applicazione.getStudenti().add(esame.getStudente());
+            applicazione.getEsami().add(esame);
             objectInputStream.close();
         }catch (Exception e){
             System.err.println("Errore in fase di apertura o lettura del file ");

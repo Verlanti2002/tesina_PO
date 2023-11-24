@@ -1,53 +1,65 @@
 package gui;
 
-import classi.EsameComposto;
-import classi.EsameSemplice;
-import classi.Studente;
-import classi.TipologiaProva;
+import classi.*;
 import gui.my_components.MyButton;
+import gui.my_components.MyFrame;
 import gui.my_components.MyLabel;
+import gui.my_components.MyPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegistraEsame extends Applicazione implements ActionListener{
+public class RegistraEsame {
 
-    String tipologia;
-    int peso, voto;
-    MyLabel matricola_l, nome_l, voto_l, cfu_l, peso_l;
-    JTextField matricola_tf, nome_tf, voto_tf, cfu_tf, peso_tf;
-    MyButton registra_b;
-    JComboBox jComboBox;
+    private String tipologia;
+    private int peso, voto;
+    private MyLabel matricola_l, nome_l, voto_l, cfu_l, peso_l;
+    private JTextField matricola_tf, nome_tf, voto_tf, cfu_tf, peso_tf;
+    private MyButton registra_b;
+    private JComboBox jComboBox;
 
-    public RegistraEsame(){
-        disposeMainFrame("Registrazione Esame");
+    public RegistraEsame(MyFrame mainFrame, Applicazione applicazione){
+
+        MyPanel mainPanel = new MyPanel();
+        MyPanel secondPanel = new MyPanel();
 
         JLabel jLabel = new JLabel("Seleziona la tipologia d'esame");
 
-        String[] tipologia_esami = {"Esame Semplice", "Esame Composto"};
+        String[] tipologia_esami = {"", "Esame Semplice", "Esame Composto"};
         JComboBox jComboBox = new JComboBox(tipologia_esami);
         jComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MyPanel semplicePanel = null;
                 String scelta = (String) jComboBox.getSelectedItem();
                 if(scelta.equals("Esame Semplice")){
-                    semplice();
+                    System.out.println("Sono esame semplice");
+                    if (semplicePanel != null)
+                        mainPanel.remove(semplicePanel);
+                    semplicePanel = semplice(applicazione);
                 } else{
-                    composto();
+                    System.out.println("Sono esame composto");
+                    if (semplicePanel != null)
+                        mainPanel.remove(semplicePanel);
+                    semplicePanel = composto(applicazione);
+
                 }
+                mainPanel.add(semplicePanel);
             }
         });
-        getMain_panel().add(jLabel);
-        getMain_panel().add(jComboBox);
-        getData_frame().add(getMain_panel());
-        getData_frame().pack();
+
+        mainPanel.add(jLabel);
+        mainPanel.add(jComboBox);
+        mainFrame.add(mainPanel);
+        mainFrame.pack();
     }
 
-    public void semplice(){
+    public MyPanel semplice(Applicazione applicazione){
 
-        disposeDataFrame("Registrazione Esame Semplice");
+
+        MyPanel semplicePanel = new MyPanel();
 
         matricola_l = new MyLabel("Matricola");
         matricola_tf = new JTextField(6);
@@ -80,35 +92,33 @@ public class RegistraEsame extends Applicazione implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int matricola = Integer.parseInt(matricola_tf.getText());
-                Studente studente = ricercaStudente(matricola);
+                Studente studente = applicazione.ricercaStudente(matricola);
                 String nome = nome_tf.getText();
                 int voto = Integer.parseInt(voto_tf.getText());
                 Boolean lode = Boolean.parseBoolean(lode_tf.getText());
                 int cfu = Integer.parseInt(cfu_tf.getText());
-                getArchivioEsami().add(new EsameSemplice(studente,nome,voto,lode,cfu));
-                getData_frame().dispose();
-                MainWindow();
+                if(studente != null)
+                    applicazione.getEsami().add(new EsameSemplice(studente,nome,voto,lode,cfu));
             }
         });
 
-        getMain_panel().add(matricola_l);
-        getMain_panel().add(matricola_tf);
-        getMain_panel().add(nome_l);
-        getMain_panel().add(nome_tf);
-        getMain_panel().add(voto_l);
-        getMain_panel().add(voto_tf);
-        getMain_panel().add(lode_l);
-        getMain_panel().add(lode_tf);
-        getMain_panel().add(cfu_l);
-        getMain_panel().add(cfu_tf);
-        getMain_panel().add(registra_b);
-        getData_frame().add(getMain_panel());
-        getData_frame().pack();
+        semplicePanel.add(matricola_l);
+        semplicePanel.add(matricola_tf);
+        semplicePanel.add(nome_l);
+        semplicePanel.add(nome_tf);
+        semplicePanel.add(voto_l);
+        semplicePanel.add(voto_tf);
+        semplicePanel.add(lode_l);
+        semplicePanel.add(lode_tf);
+        semplicePanel.add(cfu_l);
+        semplicePanel.add(cfu_tf);
+        semplicePanel.add(registra_b);
+        return semplicePanel;
     }
 
-    public void composto(){
+    public MyPanel composto(Applicazione applicazione){
 
-        disposeDataFrame("Registrazione Esame Composto");
+        MyPanel compostoPanel = new MyPanel();
 
         matricola_l = new MyLabel("Matricola");
         matricola_tf = new JTextField(6);
@@ -135,49 +145,39 @@ public class RegistraEsame extends Applicazione implements ActionListener{
 
         registra_b = new MyButton("Registra Esame");
 
+        registra_b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tipologia = (String) jComboBox.getSelectedItem();
+                peso = Integer.parseInt(peso_tf.getText());
+                voto = Integer.parseInt(voto_tf.getText());
+
+                int matricola = Integer.parseInt(matricola_tf.getText());
+                Studente studente = applicazione.ricercaStudente(matricola);
+                String nome = nome_tf.getText();
+                int cfu = Integer.parseInt(cfu_tf.getText());
+                EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
+                esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
+                applicazione.getEsami().add(esameComposto);
+            }
+        });
+
         /*if(!studentExist(Integer.parseInt(matricola_tf.getText())))
             registra_b.setEnabled(false);
          */
-        registra_b.addActionListener(this);
 
-        getMain_panel().add(matricola_l);
-        getMain_panel().add(matricola_tf);
-        getMain_panel().add(nome_l);
-        getMain_panel().add(nome_tf);
-        getMain_panel().add(cfu_l);
-        getMain_panel().add(cfu_tf);
-        getMain_panel().add(jComboBox);
-        getMain_panel().add(peso_l);
-        getMain_panel().add(peso_tf);
-        getMain_panel().add(voto_l);
-        getMain_panel().add(voto_tf);
-        getMain_panel().add(registra_b);
-        getData_frame().add(getMain_panel());
-        getData_frame().pack();
-    }
-
-    public void actionPerformed(ActionEvent e) {
-
-        tipologia = (String) jComboBox.getSelectedItem();
-        peso = Integer.parseInt(peso_tf.getText());
-        voto = Integer.parseInt(voto_tf.getText());
-
-        int matricola = Integer.parseInt(matricola_tf.getText());
-        Studente studente = ricercaStudente(matricola);
-        String nome = nome_tf.getText();
-        int cfu = Integer.parseInt(cfu_tf.getText());
-        EsameComposto esameComposto = new EsameComposto(studente,nome,cfu);
-        esameComposto.aggiungiTipologia(new TipologiaProva(tipologia,peso,voto));
-        getArchivioEsami().add(esameComposto);
-        getData_frame().dispose();
-        MainWindow();
-    }
-
-    public boolean studentExist(int matricola){
-        for(int i=0; i< getArchivioStudenti().size(); i++){
-            if(getArchivioStudenti().get(i).getMatricola() == matricola)
-                return true;
-        }
-        return false;
+        compostoPanel.add(matricola_l);
+        compostoPanel.add(matricola_tf);
+        compostoPanel.add(nome_l);
+        compostoPanel.add(nome_tf);
+        compostoPanel.add(cfu_l);
+        compostoPanel.add(cfu_tf);
+        compostoPanel.add(jComboBox);
+        compostoPanel.add(peso_l);
+        compostoPanel.add(peso_tf);
+        compostoPanel.add(voto_l);
+        compostoPanel.add(voto_tf);
+        compostoPanel.add(registra_b);
+        return compostoPanel;
     }
 }
