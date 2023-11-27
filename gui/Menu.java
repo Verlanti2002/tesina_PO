@@ -1,51 +1,53 @@
-package gui.my_components;
+package gui;
 
-import classi.Salvataggio;
-import gui.Applicazione;
-import gui.RegistraEsame;
-import gui.RegistraStudente;
+import classi.*;
+import gui.my_components.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Menu {
 
-    public Menu(MyFrame mainFrame, Applicazione applicazione){
+    public Menu(MainFrame mainFrame, Applicazione applicazione){
 
-        MyPanel mainPanel = new MyPanel();
-        mainPanel.setLayout(new GridLayout(4,2));
+        MainPanel mainPanel = new MainPanel();
 
-        MyButton registra_studente_b = new MyButton("Registra Studente");
+        mainPanel.setLayout(new GridLayout(3,2));
+
+        MainButton registra_studente_b = new MainButton("Registra Studente");
         registra_studente_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainFrame.remove(mainPanel);
-                RegistraStudente registraStudente = new RegistraStudente(mainFrame, applicazione);
+                RegistraStudente registraStudente = new RegistraStudente(applicazione);
             }
         });
 
-        MyButton registra_esame_b = new MyButton("Registra Esame");
+        MainButton registra_esame_b = new MainButton("Registra Esame");
 
-        if(applicazione.getStudenti().isEmpty())
-            registra_esame_b.setEnabled(false);
+        /*if(applicazione.getStudenti().isEmpty())
+            registra_esame_b.setEnabled(false);*/
         registra_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainFrame.remove(mainPanel);
-                RegistraEsame registraEsame = new RegistraEsame(mainFrame, applicazione);
+                RegistraEsame registraEsame = new RegistraEsame(applicazione);
             }
         });
-        MyButton carica_esame_b = new MyButton("Carica Esami");
+        MainButton carica_esame_b = new MainButton("Carica Esami");
         carica_esame_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser jFileChooser = new JFileChooser();
-                // Caricamento caricamento = new Caricamento();
+                jFileChooser.showOpenDialog(null);
+                File file = jFileChooser.getSelectedFile();
+                Caricamento caricamento = new Caricamento(file,applicazione);
             }
         });
-        MyButton salva_esame_b = new MyButton("Salva Esami");
+        MainButton salva_esame_b = new MainButton("Salva Esami");
 
         if(applicazione.getEsami().isEmpty())
             salva_esame_b.setEnabled(false);
@@ -56,7 +58,7 @@ public class Menu {
             }
         });
 
-        MyButton visualizza_studenti_b = new MyButton("Visualizza Studenti Registrati");
+        MainButton visualizza_studenti_b = new MainButton("Visualizza Studenti Registrati");
 
         if(applicazione.getStudenti().isEmpty())
             visualizza_studenti_b.setEnabled(false);
@@ -64,22 +66,18 @@ public class Menu {
         visualizza_studenti_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i=0; i< applicazione.getStudenti().size(); i++){
-                    applicazione.getStudenti().get(i).visualizza();
-                }
+                VisualizzaStudenti visualizzaStudenti = new VisualizzaStudenti(applicazione);
             }
         });
 
-        visualizza_studenti_b.addActionListener(new ActionListener() {
+        MainButton visualizza_esami_b = new MainButton("Visualizza Esami Registrati");
+        visualizza_esami_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i=0; i<applicazione.getEsami().size(); i++){
-                    applicazione.getEsami().get(i).visualizza();
-                }
+                VisualizzaEsami visualizzaEsami = new VisualizzaEsami(applicazione);
             }
         });
 
-        MyButton visualizza_esami_b = new MyButton("Visualizza Esami Registrati");
         if(applicazione.getEsami().isEmpty())
             visualizza_esami_b.setEnabled(false);
 
@@ -89,7 +87,6 @@ public class Menu {
         mainPanel.add(salva_esame_b);
         mainPanel.add(visualizza_studenti_b);
         mainPanel.add(visualizza_esami_b);
-
         mainFrame.add(mainPanel);
         mainFrame.pack();
     }

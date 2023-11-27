@@ -4,8 +4,8 @@ import gui.Terminator;
 
 import javax.swing.*;
 
-public class MyFrame extends JFrame {
-    public MyFrame(String titolo){
+public class MainFrame extends JFrame {
+    public MainFrame(String titolo){
         super(titolo);
         setBounds(700,200,600,600);
         addWindowListener(new Terminator());

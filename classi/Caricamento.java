@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 public class Caricamento {
 
-    public Caricamento(String path, Applicazione applicazione){
+    public Caricamento(File file, Applicazione applicazione){
 
-        File file = new File(path);
         ObjectInputStream objectInputStream = null;
 
         try{
             objectInputStream = new ObjectInputStream(new FileInputStream(file));
+            
             Esame esame = (Esame) objectInputStream.readObject();
             applicazione.getStudenti().add(esame.getStudente());
             applicazione.getEsami().add(esame);

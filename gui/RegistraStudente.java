@@ -1,34 +1,38 @@
 package gui;
 
-import classi.ArchivioStudenti;
-import classi.Main;
 import classi.Studente;
 import gui.my_components.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RegistraStudente{
 
-    private MyLabel matricola_l, nome_l, cognome_l;
-    private JTextField matricola_tf, nome_tf, cognome_tf;
-    private MyButton registra_b;
+    public RegistraStudente(Applicazione applicazione){
 
-    public RegistraStudente(MyFrame mainFrame, Applicazione applicazione){
+        MainFrame mainFrame = new MainFrame("Registrazione studente");
+        DataPanel dataPanel = new DataPanel();
+        dataPanel.setPreferredSize(new Dimension(400,200));
 
-        MyPanel mainPanel = new MyPanel();
+        JLabel matricola_l = new JLabel("Matricola");
+        matricola_l.setBounds(110,10,100,20);
+        JTextField matricola_tf = new JTextField();
+        matricola_tf.setBounds(110,30,200,20);
 
-        matricola_l = new MyLabel("Matricola");
-        matricola_tf = new JTextField(6);
+        JLabel nome_l = new JLabel("Nome");
+        nome_l.setBounds(110,50,100,20);
+        JTextField nome_tf = new JTextField(20);
+        nome_tf.setBounds(110,70,200,20);
 
-        nome_l = new MyLabel("Nome studente");
-        nome_tf = new JTextField(20);
+        JLabel cognome_l = new JLabel("Cognome");
+        cognome_l.setBounds(110,90,100,20);
+        JTextField cognome_tf = new JTextField();
+        cognome_tf.setBounds(110,110, 200,20);
 
-        cognome_l = new MyLabel("Cognome studente");
-        cognome_tf = new JTextField(20);
-
-        registra_b = new MyButton("Registra Studente");
+        DataButton registra_b = new DataButton("Registra Studente");
+        registra_b.setBounds(140,150,140,25);
 
         registra_b.addActionListener(new ActionListener() {
             @Override
@@ -37,19 +41,19 @@ public class RegistraStudente{
                 String nome = nome_tf.getText();
                 String cognome = cognome_tf.getText();
                 applicazione.getStudenti().add(new Studente(matricola, nome,cognome));
-                mainFrame.remove(mainPanel);
+                mainFrame.remove(dataPanel);
                 new Menu(mainFrame,applicazione);
             }
         });
 
-        mainPanel.add(matricola_l);
-        mainPanel.add(matricola_tf);
-        mainPanel.add(nome_l);
-        mainPanel.add(nome_tf);
-        mainPanel.add(cognome_l);
-        mainPanel.add(cognome_tf);
-        mainPanel.add(registra_b);
-        mainFrame.add(mainPanel);
+        dataPanel.add(matricola_l);
+        dataPanel.add(matricola_tf);
+        dataPanel.add(nome_l);
+        dataPanel.add(nome_tf);
+        dataPanel.add(cognome_l);
+        dataPanel.add(cognome_tf);
+        dataPanel.add(registra_b);
+        mainFrame.add(dataPanel);
         mainFrame.pack();
     }
 }

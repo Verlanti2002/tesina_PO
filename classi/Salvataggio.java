@@ -3,6 +3,15 @@ package classi;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Esempio di salvataggio su file
+ * Matricola
+ * Nome esame
+ * Voto
+ * Lode
+ * Cfu
+ * **/
+
 public class Salvataggio {
 
     public Salvataggio(ArchivioEsami<Esame> esami){
@@ -13,8 +22,11 @@ public class Salvataggio {
         try{
             objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
             for(int i=0; i< esami.size(); i++){
+                objectOutputStream.writeObject(esami.get(i).getStudente().getMatricola());
                 objectOutputStream.writeObject(esami.get(i).getNome());
-                //objectOutputStream.writeObject(esami.get(i).get);
+                objectOutputStream.writeObject(esami.get(i).getVoto());
+                objectOutputStream.writeObject(esami.get(i).getLode());
+                objectOutputStream.writeObject(esami.get(i).getCfu());
             }
             objectOutputStream.close();
         }catch (IOException e){

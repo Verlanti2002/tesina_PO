@@ -3,9 +3,9 @@ package gui.my_components;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyPanel extends JPanel {
+public class MainPanel extends JPanel {
 
-        public MyPanel(){
+        public MainPanel(){
             super();
             setPreferredSize(new Dimension(600,600));
         }

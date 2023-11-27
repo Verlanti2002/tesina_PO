@@ -1,88 +1,86 @@
 package gui;
 
 import classi.*;
-import gui.my_components.MyButton;
-import gui.my_components.MyFrame;
-import gui.my_components.MyLabel;
-import gui.my_components.MyPanel;
+import gui.my_components.*;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RegistraEsame {
 
-    private String tipologia;
-    private int peso, voto;
-    private MyLabel matricola_l, nome_l, voto_l, cfu_l, peso_l;
-    private JTextField matricola_tf, nome_tf, voto_tf, cfu_tf, peso_tf;
-    private MyButton registra_b;
-    private JComboBox jComboBox;
+    public RegistraEsame(Applicazione applicazione){
 
-    public RegistraEsame(MyFrame mainFrame, Applicazione applicazione){
-
-        MyPanel mainPanel = new MyPanel();
-        MyPanel secondPanel = new MyPanel();
+        MainFrame mainFrame = new MainFrame("Registrazione esame");
+        DataPanel dataPanel = new DataPanel();
+        dataPanel.setPreferredSize(new Dimension(500,300));
 
         JLabel jLabel = new JLabel("Seleziona la tipologia d'esame");
+        jLabel.setBounds(170,10,200,20);
 
-        String[] tipologia_esami = {"", "Esame Semplice", "Esame Composto"};
-        JComboBox jComboBox = new JComboBox(tipologia_esami);
+        String[] comboList = {"Esame Semplice", "Esame Composto"};
+
+        JComboBox jComboBox = new JComboBox(comboList);
+        jComboBox.setBounds(183,30,150,20);
+        jComboBox.setEditable(false);
+
         jComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MyPanel semplicePanel = null;
-                String scelta = (String) jComboBox.getSelectedItem();
-                if(scelta.equals("Esame Semplice")){
-                    System.out.println("Sono esame semplice");
-                    if (semplicePanel != null)
-                        mainPanel.remove(semplicePanel);
-                    semplicePanel = semplice(applicazione);
-                } else{
-                    System.out.println("Sono esame composto");
-                    if (semplicePanel != null)
-                        mainPanel.remove(semplicePanel);
-                    semplicePanel = composto(applicazione);
-
+                JPanel semplicePanel = null;
+                if(e.getSource() == jComboBox) {
+                    String scelta = (String) jComboBox.getSelectedItem();
+                    if (scelta.equals("Esame Semplice")) {
+                        System.out.println("Sono esame semplice");
+                        if (semplicePanel != null)
+                            dataPanel.remove(semplicePanel);
+                        semplicePanel = semplice(dataPanel, applicazione);
+                    } else {
+                        System.out.println("Sono esame composto");
+                        if (semplicePanel != null)
+                            dataPanel.remove(semplicePanel);
+                        semplicePanel = composto(dataPanel, applicazione);
+                    }
+                    dataPanel.add(semplicePanel);
                 }
-                mainPanel.add(semplicePanel);
             }
         });
 
-        mainPanel.add(jLabel);
-        mainPanel.add(jComboBox);
-        mainFrame.add(mainPanel);
+        dataPanel.add(jLabel);
+        dataPanel.add(jComboBox);
+        mainFrame.add(dataPanel);
         mainFrame.pack();
     }
 
-    public MyPanel semplice(Applicazione applicazione){
+    public JPanel semplice(DataPanel dataPanel, Applicazione applicazione){
 
+        JPanel semplicePanel = new JPanel();
+        semplicePanel.setLayout(null);
 
-        MyPanel semplicePanel = new MyPanel();
-
-        matricola_l = new MyLabel("Matricola");
-        matricola_tf = new JTextField(6);
+        MyLabel matricola_l = new MyLabel("Matricola");
+        JTextField matricola_tf = new JTextField(6);
 
         /** Controllo sull'esistenza della matricola inserita **/
         /*if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
             JOptionPane.showMessageDialog(main_frame, "Errore, matricola non esistente!", "Swing Tester", JOptionPane.ERROR_MESSAGE);
         */
 
-        nome_l = new MyLabel("Nome esame");
-        nome_tf = new JTextField(20);
+        MyLabel nome_l = new MyLabel("Nome esame");
+        JTextField nome_tf = new JTextField(20);
 
         /** Mancano i controlli sull'inserimento **/
-        voto_l = new MyLabel("Voto");
-        voto_tf = new JTextField(2);
+        MyLabel voto_l = new MyLabel("Voto");
+        JTextField voto_tf = new JTextField(2);
 
         JLabel lode_l = new MyLabel("Lode");
         JTextField lode_tf = new JTextField(5);
 
-        cfu_l = new MyLabel("CFU");
-        cfu_tf = new JTextField(2);
+        MyLabel cfu_l = new MyLabel("CFU");
+        JTextField cfu_tf = new JTextField(2);
 
-        registra_b = new MyButton("Registra Esame");
+        DataButton registra_b = new DataButton("Registra Esame");
 
         /*if(!studentExist(Integer.parseInt(matricola_tf.getText())))
             registra_b.setEnabled(false);
@@ -113,44 +111,45 @@ public class RegistraEsame {
         semplicePanel.add(cfu_l);
         semplicePanel.add(cfu_tf);
         semplicePanel.add(registra_b);
+        dataPanel.add(semplicePanel);
         return semplicePanel;
     }
 
-    public MyPanel composto(Applicazione applicazione){
+    public JPanel composto(DataPanel dataPanel, Applicazione applicazione){
 
-        MyPanel compostoPanel = new MyPanel();
+        JPanel compostoPanel = new DataPanel();
 
-        matricola_l = new MyLabel("Matricola");
-        matricola_tf = new JTextField(6);
+        MyLabel matricola_l = new MyLabel("Matricola");
+        JTextField matricola_tf = new JTextField(6);
 
         /** Controllo sull'esistenza della matricola inserita **/
         /*if(matricola_tf.getText() != null && !controllore.controlloMatricola(studenti,Integer.parseInt(matricola_tf.getText())))
             JOptionPane.showMessageDialog(main_frame, "Errore, matricola non esistente!", "Swing Tester", JOptionPane.ERROR_MESSAGE);
         */
-        nome_l = new MyLabel("Nome Esame");
-        nome_tf = new JTextField(20);
+        MyLabel nome_l = new MyLabel("Nome Esame");
+        JTextField nome_tf = new JTextField(20);
 
         /** Mancano i controlli sull'inserimento **/
-        cfu_l = new MyLabel("CFU");
-        cfu_tf = new JTextField(2);
+        MyLabel cfu_l = new MyLabel("CFU");
+        JTextField cfu_tf = new JTextField(2);
 
         String[] tipologia_prova = {"Scritta", "Orale", "Pratica"};
-        jComboBox = new JComboBox(tipologia_prova);
+        JComboBox jComboBox = new JComboBox(tipologia_prova);
 
-        peso_l = new MyLabel("Peso");
-        peso_tf = new JTextField(2);
+        MyLabel peso_l = new MyLabel("Peso");
+        JTextField peso_tf = new JTextField(2);
 
-        voto_l = new MyLabel("Voto");
-        voto_tf = new JTextField(2);
+        MyLabel voto_l = new MyLabel("Voto");
+        JTextField voto_tf = new JTextField(2);
 
-        registra_b = new MyButton("Registra Esame");
+        DataButton registra_b = new DataButton("Registra Esame");
 
         registra_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tipologia = (String) jComboBox.getSelectedItem();
-                peso = Integer.parseInt(peso_tf.getText());
-                voto = Integer.parseInt(voto_tf.getText());
+                String tipologia = (String) jComboBox.getSelectedItem();
+                int peso = Integer.parseInt(peso_tf.getText());
+                int voto = Integer.parseInt(voto_tf.getText());
 
                 int matricola = Integer.parseInt(matricola_tf.getText());
                 Studente studente = applicazione.ricercaStudente(matricola);
@@ -178,6 +177,7 @@ public class RegistraEsame {
         compostoPanel.add(voto_l);
         compostoPanel.add(voto_tf);
         compostoPanel.add(registra_b);
+        dataPanel.add(compostoPanel);
         return compostoPanel;
     }
 }

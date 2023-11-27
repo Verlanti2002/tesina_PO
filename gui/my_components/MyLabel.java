@@ -10,10 +10,7 @@ public class MyLabel extends JLabel {
 
         super(text);
 
-        //setPreferredSize(new Dimension(150, 100));
-        setFont(new Font("Arial", Font.BOLD, 12));
-        setHorizontalAlignment(JLabel.CENTER);
-        setVerticalAlignment(JLabel.CENTER);
-
+        setPreferredSize(new Dimension(100, 200));
+        //setFont(new Font("Arial", Font.BOLD, 12));
     }
 }

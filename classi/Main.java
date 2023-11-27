@@ -1,11 +1,8 @@
 package classi;
 
 import gui.Applicazione;
-import gui.my_components.Menu;
-import gui.my_components.MyFrame;
-import gui.my_components.MyPanel;
-
-import javax.swing.*;
+import gui.Menu;
+import gui.my_components.MainFrame;
 
 public class Main {
 
@@ -35,7 +32,7 @@ public class Main {
             System.out.println("\n");
         }*/
         Applicazione applicazione = new Applicazione();
-        MyFrame mainFrame = new MyFrame("Gestione esami");
+        MainFrame mainFrame = new MainFrame("Gestione esami");
         Menu menu = new Menu(mainFrame, applicazione);
 
         /*MyFrame myframe = new MyFrame("New title");
