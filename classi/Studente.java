@@ -91,4 +91,6 @@ public class Studente {
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
+
+    public String toString(){ return nome + " " + cognome; }
 }
