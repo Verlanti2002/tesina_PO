@@ -1,14 +1,12 @@
 package gui.my_components;
 
-import gui.Terminator;
-
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
     public MainFrame(String titolo){
         super(titolo);
-        setBounds(700,200,600,600);
-        addWindowListener(new Terminator());
+        setBounds(700,200,800,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 }

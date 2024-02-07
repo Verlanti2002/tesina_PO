@@ -42,7 +42,7 @@ public class RegistraStudente{
                 String cognome = cognome_tf.getText();
                 applicazione.getStudenti().add(new Studente(matricola, nome,cognome));
                 mainFrame.remove(dataPanel);
-                new Menu(mainFrame,applicazione);
+                //new Menu(mainFrame,applicazione);
             }
         });
 

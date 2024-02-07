@@ -1,95 +1,83 @@
 package gui;
 
-import classi.*;
-import gui.my_components.*;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-public class Menu {
+public class Menu extends JFrame{
 
-    public Menu(MainFrame mainFrame, Applicazione applicazione){
+    public Menu(Applicazione applicazione){
+        setTitle("Gestione Esami");
+        setSize(600,300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        MainPanel mainPanel = new MainPanel();
+        JPanel mainPanel = new JPanel();
+        //mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainPanel.setLayout(new GridBagLayout());
 
-        mainPanel.setLayout(new GridLayout(3,2));
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
 
-        MainButton registra_studente_b = new MainButton("Registra Studente");
-        registra_studente_b.addActionListener(new ActionListener() {
+        mainPanel.add(new JLabel("<html><h1><strong><i>Benvenuto nella mia nuova applicazione!</i></strong></h1><hr></html>"), gridBagConstraints);
+
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        JButton jButton1 = new JButton("Gestione degli esami");
+        JButton jButton2 = new JButton("Caricamento esami");
+        JButton jButton3 = new JButton("Salvataggio esami");
+        JButton jButton4 = new JButton("Dati statistici");
+        JButton jButton5 = new JButton("Tabella degli esami");
+
+        jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.remove(mainPanel);
-                RegistraStudente registraStudente = new RegistraStudente(applicazione);
+                GestioneEsami gestioneEsami = new GestioneEsami(applicazione);
             }
         });
 
-        MainButton registra_esame_b = new MainButton("Registra Esame");
+        jButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        /*if(applicazione.getStudenti().isEmpty())
-            registra_esame_b.setEnabled(false);*/
-        registra_esame_b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.remove(mainPanel);
-                RegistraEsame registraEsame = new RegistraEsame(applicazione);
-            }
-        });
-        MainButton carica_esame_b = new MainButton("Carica Esami");
-        carica_esame_b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser jFileChooser = new JFileChooser();
-                jFileChooser.showOpenDialog(null);
-                File file = jFileChooser.getSelectedFile();
-                Caricamento caricamento = new Caricamento(file,applicazione);
-            }
-        });
-        MainButton salva_esame_b = new MainButton("Salva Esami");
-
-        if(applicazione.getEsami().isEmpty())
-            salva_esame_b.setEnabled(false);
-        salva_esame_b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Salvataggio salvataggio = new Salvataggio(applicazione.getEsami());
             }
         });
 
-        MainButton visualizza_studenti_b = new MainButton("Visualizza Studenti Registrati");
-
-        if(applicazione.getStudenti().isEmpty())
-            visualizza_studenti_b.setEnabled(false);
-
-        visualizza_studenti_b.addActionListener(new ActionListener() {
+        jButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.remove(mainPanel);
-                VisualizzaStudenti visualizzaStudenti = new VisualizzaStudenti(applicazione);
+
             }
         });
 
-        MainButton visualizza_esami_b = new MainButton("Visualizza Esami Registrati");
-        visualizza_esami_b.addActionListener(new ActionListener() {
+        jButton4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.remove(mainPanel);
-                VisualizzaEsami visualizzaEsami = new VisualizzaEsami(applicazione);
+
             }
         });
 
-        if(applicazione.getEsami().isEmpty())
-            visualizza_esami_b.setEnabled(false);
+        buttonPanel.add(jButton1, gridBagConstraints);
+        buttonPanel.add(jButton2, gridBagConstraints);
+        buttonPanel.add(jButton3, gridBagConstraints);
+        buttonPanel.add(jButton4, gridBagConstraints);
+        buttonPanel.add(jButton5, gridBagConstraints);
 
-        mainPanel.add(registra_studente_b);
-        mainPanel.add(registra_esame_b);
-        mainPanel.add(carica_esame_b);
-        mainPanel.add(salva_esame_b);
-        mainPanel.add(visualizza_studenti_b);
-        mainPanel.add(visualizza_esami_b);
-        mainFrame.add(mainPanel);
-        mainFrame.pack();
+        gridBagConstraints.weighty = 1;
+        mainPanel.add(buttonPanel, gridBagConstraints);
+
+        // Aggiunta del pannello principale al frame
+        add(mainPanel);
+
+        // Imposta la finestra al centro dello schermo
+        setLocationRelativeTo(null);
+
+        // Rendi la finestra visibile
+        setVisible(true);
     }
 }

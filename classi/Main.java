@@ -32,8 +32,7 @@ public class Main {
             System.out.println("\n");
         }*/
         Applicazione applicazione = new Applicazione();
-        MainFrame mainFrame = new MainFrame("Gestione esami");
-        Menu menu = new Menu(mainFrame, applicazione);
+        Menu menu = new Menu(applicazione);
 
         /*MyFrame myframe = new MyFrame("New title");
         MyPanel mypanel = new MyPanel();
