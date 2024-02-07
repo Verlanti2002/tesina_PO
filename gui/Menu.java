@@ -66,6 +66,7 @@ public class Menu {
         visualizza_studenti_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainFrame.remove(mainPanel);
                 VisualizzaStudenti visualizzaStudenti = new VisualizzaStudenti(applicazione);
             }
         });
@@ -74,6 +75,7 @@ public class Menu {
         visualizza_esami_b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainFrame.remove(mainPanel);
                 VisualizzaEsami visualizzaEsami = new VisualizzaEsami(applicazione);
             }
         });
