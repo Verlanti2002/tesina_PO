@@ -18,18 +18,6 @@ public class Applicazione {
 
     public Applicazione(){}
 
-    /** Da mettere a posto
-    public void caricaEsamiPanel(){
-        disposeMainFrame("Caricamento Esame");
-        JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.showOpenDialog(main_frame);
-        Caricamento caricamento = new Caricamento(jFileChooser.getName());
-        main_panel.add(jFileChooser);
-        data_frame.add(main_panel);
-        data_frame.pack();
-        //Caricamento carica = new Caricamento(jFileChooser.getF);
-    }**/
-
     public ArchivioEsami<Esame> getEsami(){
         return archivioEsami;
     }

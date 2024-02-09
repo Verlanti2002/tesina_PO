@@ -32,7 +32,7 @@ public class Menu extends JFrame{
         JButton jButton2 = new JButton("Caricamento esami");
         JButton jButton3 = new JButton("Salvataggio esami");
         JButton jButton4 = new JButton("Dati statistici");
-        JButton jButton5 = new JButton("Tabella degli esami");
+        JButton jButton5 = new JButton("Stampa tabella degli esami");
 
         jButton1.addActionListener(new ActionListener() {
             @Override

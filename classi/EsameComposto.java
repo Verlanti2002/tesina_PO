@@ -11,7 +11,7 @@ package classi;
 public class EsameComposto extends Esame{
 
     /**
-     * Array di classe EsameParziale
+     * Array di classe TipologiaProva
      * Necessario per memorizzare in ogni oggetto voto e peso
      * di un determinato esame parziale (scritto, orale o pratico) di un esame composto
      */
