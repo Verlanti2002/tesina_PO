@@ -1,22 +1,23 @@
 package gui;
 
 import classi.*;
-import gui.my_components.*;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
 public class Applicazione {
 
-    //private Controllore controllore;
-    private ArchivioStudenti<Studente> archivioStudenti = new ArchivioStudenti<>();
-    private ArchivioEsami<Esame> archivioEsami = new ArchivioEsami<>();
+    private ArchivioStudenti<Studente> archivioStudenti;
+    private ArchivioEsami<Esame> archivioEsami;
+    private DefaultTableModel defaultTableModel;
 
-    public Applicazione(){}
+    private JTable jTable;
+
+    public Applicazione(){
+        archivioStudenti = new ArchivioStudenti<>();
+        archivioEsami = new ArchivioEsami<>();
+        defaultTableModel = new DefaultTableModel();
+    }
 
     public ArchivioEsami<Esame> getEsami(){
         return archivioEsami;
@@ -26,7 +27,25 @@ public class Applicazione {
         return archivioStudenti;
     }
 
-    public Studente ricercaStudente(int matricola){
+    public JTable getjTable() {
+        return jTable;
+    }
+
+    public DefaultTableModel getDefaultTableModel() {
+        return defaultTableModel;
+    }
+
+    public void initializeTable(){
+        defaultTableModel.addColumn("Nome");
+        defaultTableModel.addColumn("Cognome");
+        defaultTableModel.addColumn("Corso");
+        defaultTableModel.addColumn("Voto finale");
+        defaultTableModel.addColumn("Lode");
+        defaultTableModel.addColumn("CFU");
+        jTable = new JTable(defaultTableModel);
+    }
+
+    public Studente searchStudent(int matricola){
         for(int i=0; i< archivioStudenti.size(); i++){
             if (archivioStudenti.get(i).getMatricola() == matricola)
                 return archivioStudenti.get(i);

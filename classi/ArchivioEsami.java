@@ -1,13 +1,14 @@
 package classi;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class ArchivioEsami<E> {
 
-    private Vector<E> esami;
+    private ArrayList<E> esami;
 
     public ArchivioEsami(){
-        esami = new Vector<>();
+        esami = new ArrayList<>();
     }
 
     public void add (E esame){

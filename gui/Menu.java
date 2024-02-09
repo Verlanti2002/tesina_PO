@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class Menu extends JFrame{
+public class Menu {
 
     public Menu(Applicazione applicazione){
-        setTitle("Gestione Esami");
-        setSize(600,300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame mainFrame = new JFrame("Gestione Esami");
+        mainFrame.setSize(600,300);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainPanel = new JPanel();
         //mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -44,14 +44,14 @@ public class Menu extends JFrame{
         jButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                CaricamentoEsami caricamentoEsami = new CaricamentoEsami(mainFrame, applicazione);
             }
         });
 
         jButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                SalvataggioEsami salvataggioEsami = new SalvataggioEsami(mainFrame, applicazione);
             }
         });
 
@@ -72,12 +72,12 @@ public class Menu extends JFrame{
         mainPanel.add(buttonPanel, gridBagConstraints);
 
         // Aggiunta del pannello principale al frame
-        add(mainPanel);
+        mainFrame.add(mainPanel);
 
         // Imposta la finestra al centro dello schermo
-        setLocationRelativeTo(null);
+        mainFrame.setLocationRelativeTo(null);
 
         // Rendi la finestra visibile
-        setVisible(true);
+        mainFrame.setVisible(true);
     }
 }

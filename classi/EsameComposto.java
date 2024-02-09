@@ -1,5 +1,7 @@
 package classi;
 
+import java.util.ArrayList;
+
 /**
  * EsameComposto
  * Sottoclasse derivata della superclasse Esame
@@ -15,7 +17,7 @@ public class EsameComposto extends Esame{
      * Necessario per memorizzare in ogni oggetto voto e peso
      * di un determinato esame parziale (scritto, orale o pratico) di un esame composto
      */
-    private TipologiaProva[] esami_parziali;
+    private ArrayList<TipologiaProva> esami_parziali;
 
     /**
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
@@ -27,6 +29,11 @@ public class EsameComposto extends Esame{
      */
     public EsameComposto(Studente studente, String nome, int cfu) {
         super(studente, nome, false, cfu);
+        esami_parziali = new ArrayList<>();
+    }
+
+    public ArrayList<TipologiaProva> getEsami_parziali() {
+        return esami_parziali;
     }
 
     /**
@@ -37,32 +44,18 @@ public class EsameComposto extends Esame{
      */
     public void voto(){
 
-        int voto_finale = 0;
+        if (esami_parziali != null) {
+            int voto_finale = 0;
 
-        for(int i=0; i< this.esami_parziali.length; i++){
-            voto_finale += (this.esami_parziali[i].getVoto() * this.esami_parziali[i].getPeso())/100;
+            for (TipologiaProva esameParziale : esami_parziali) {
+                if (esameParziale != null) {
+                    voto_finale += (esameParziale.getVoto() * esameParziale.getPeso()) / 100;
+                }
+            }
+
+            super.setVoto(voto_finale);
+        } else {
+            System.out.println("Non è stata registrata alcuna prova parziale");
         }
-
-        super.setVoto(voto_finale);
-    }
-
-    /**
-     * Metodo che aggiunge all'array degli esami parziali l'oggetto passato
-     * e aggiorna il voto finale dell'esame a seconda degli esami parziali registrati in quel momento
-     * @param esameParziale esame parziale
-     */
-    public void aggiungiTipologia(TipologiaProva esameParziale){
-
-        if(this.esami_parziali == null){
-            this.esami_parziali = new TipologiaProva[1];
-            this.esami_parziali[0] = esameParziale;
-            return;
-        }
-        TipologiaProva[] tmp = new TipologiaProva[this.esami_parziali.length+1];
-        System.arraycopy(this.esami_parziali,0,tmp,0, this.esami_parziali.length);
-        tmp[tmp.length-1] = esameParziale;
-        this.esami_parziali = tmp;
-
-        this.voto();
     }
 }

@@ -2,7 +2,6 @@ package classi;
 
 import gui.Applicazione;
 import gui.Menu;
-import gui.my_components.MainFrame;
 
 public class Main {
 
@@ -31,18 +30,9 @@ public class Main {
             esami[i].visualizza();
             System.out.println("\n");
         }*/
+
         Applicazione applicazione = new Applicazione();
         Menu menu = new Menu(applicazione);
-
-        /*MyFrame myframe = new MyFrame("New title");
-        MyPanel mypanel = new MyPanel();
-        JLabel label = new JLabel("Hello World");
-        mypanel.add(label);
-        myframe.add(mypanel);
-        myframe.pack();
-
-        myframe.remove(mypanel);*/
-
 
     }
 }
