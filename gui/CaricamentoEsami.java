@@ -2,10 +2,7 @@ package gui;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 /**
  * CaricamentoEsami
@@ -20,46 +17,36 @@ public class CaricamentoEsami {
      * @param applicazione contiene tutti gli oggetti necessari per il funzionamento dell'intero applicativo
      */
     public CaricamentoEsami(JFrame mainFrame, Applicazione applicazione){
-        /** Mostra un dialogo per selezionare il file da cui caricare la tabella */
         JFileChooser fileChooser = new JFileChooser();
-        /** Imposta il filtro per i tipi di file */
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tabella salvata (*.tbl)", "tbl");
+        // Imposta il filtro per i tipi di file
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tabella salvata (*.txt)", "txt");
         fileChooser.setFileFilter(filter);
 
-        /** Mostra il dialogo di apertura e memorizza la risposta dell'utente */
+        // Mostra il dialogo di selezione del file e aspetta che l'utente selezioni un file o annulli l'operazione
         int returnVal = fileChooser.showOpenDialog(mainFrame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            /** Permette di ottenere il file selezionato dall'utente */
+            // Ottiene il file selezionato dall'utente
             File file = fileChooser.getSelectedFile();
-            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
-                /** Legge i dati dal file utilizzando un ObjectInputStream */
-                Object data = inputStream.readObject();
-                if (data instanceof Object[][]) {
-                    /** Rimuovi tutte le righe esistenti dal modello di tabella */
-                    applicazione.getDefaultTableModel().setRowCount(0);
-                    /** Rimuovi tutte le colonne esistenti dal modello di tabella */
-                    applicazione.getDefaultTableModel().setColumnCount(0);
-                    /** Ottieni il numero di colonne */
-                    int columnCount = ((Object[][]) data)[0].length;
-                    /** Aggiungi le intestazioni delle colonne al modello di tabella */
-                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                        String columnName = "Colonna " + (columnIndex + 1); // Puoi sostituire questo con nomi personalizzati se necessario
-                        applicazione.getDefaultTableModel().addColumn(columnName);
-                    }
-                    /** Imposta i dati del modello di tabella */
-                    for (Object[] row : (Object[][]) data) {
-                        applicazione.getDefaultTableModel().addRow(row);
-                    }
-                    /** Mostra un messaggio di conferma del caricamento */
-                    JOptionPane.showMessageDialog(mainFrame, "Tabella caricata con successo!");
-                } else {
-                    /** Mostra un messaggio di errore se il file non contiene dati della tabella */
-                    JOptionPane.showMessageDialog(mainFrame, "Il file selezionato non contiene dati della tabella.", "Errore", JOptionPane.ERROR_MESSAGE);
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                // Legge la prima riga del file che contiene i nomi delle colonne
+                String line = reader.readLine();
+                if (line != null) {
+                    String[] columnNames = line.split("\t"); // Assume che le colonne siano separate da una tabulazione
+                    applicazione.creaTabella(columnNames); // Crea una nuova tabella con i nomi delle colonne letti dal file
                 }
-            } catch (IOException | ClassNotFoundException e) {
-                /** Gestione di eventuali eccezioni di IO o di class not found */
+
+                // Legge il resto del file che contiene i dati della tabella
+                while ((line = reader.readLine()) != null) {
+                    String[] rowData = line.split("\t"); // Assume che i dati delle righe siano separati da una tabulazione
+                    applicazione.aggiungiRigaAllaTabella(rowData); // Aggiunge una nuova riga alla tabella con i dati letti dal file
+                }
+
+                // Mostra un messaggio di conferma del caricamento
+                JOptionPane.showMessageDialog(mainFrame, "Tabella caricata con successo!");
+            } catch (IOException e) {
+                // Gestione di eventuali eccezioni di IO
                 e.printStackTrace();
-                /** Mostra un messaggio di errore se si verifica un problema durante il caricamento */
+                // Mostra un messaggio di errore se si verifica un problema durante il caricamento
                 JOptionPane.showMessageDialog(mainFrame, "Si è verificato un errore durante il caricamento della tabella.", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }

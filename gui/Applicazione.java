@@ -17,6 +17,19 @@ public class Applicazione {
         archivioStudenti = new ArchivioStudenti<>();
         archivioEsami = new ArchivioEsami<>();
         defaultTableModel = new DefaultTableModel();
+         final String[] columnNames = {"Nome", "Cognome", "Corso", "Voto", "Lode", "CFU"};
+        creaTabella(columnNames);
+    }
+
+    public void creaTabella(String[] columnNames){
+        for(int i=0; i< columnNames.length; i++){
+            defaultTableModel.addColumn(columnNames[i]);
+        }
+        jTable = new JTable(defaultTableModel);
+    }
+
+    public void aggiungiRigaAllaTabella(String[] rowData){
+
     }
 
     public ArchivioEsami<Esame> getEsami(){
@@ -33,16 +46,6 @@ public class Applicazione {
 
     public DefaultTableModel getDefaultTableModel() {
         return defaultTableModel;
-    }
-
-    public void initializeTable(){
-        defaultTableModel.addColumn("Nome");
-        defaultTableModel.addColumn("Cognome");
-        defaultTableModel.addColumn("Corso");
-        defaultTableModel.addColumn("Voto finale");
-        defaultTableModel.addColumn("Lode");
-        defaultTableModel.addColumn("CFU");
-        jTable = new JTable(defaultTableModel);
     }
 
     public Studente searchStudent(int matricola){

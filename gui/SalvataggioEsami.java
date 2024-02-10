@@ -2,18 +2,15 @@ package gui;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class SalvataggioEsami {
 
     public SalvataggioEsami(JFrame mainFrame, Applicazione applicazione){
-        /** Mostra un dialogo per selezionare il file in cui salvare la tabella */
+        /** Crea un nuovo oggetto JFileChooser, che permette all'utente di navigare attraverso il filesystem */
         JFileChooser fileChooser = new JFileChooser();
         /** Imposta il filtro per i tipi di file */
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tabella salvata (*.tbl)", "tbl");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tabella salvata (*.txt)", "txt");
         fileChooser.setFileFilter(filter);
 
         /** Mostra il dialogo di salvataggio e memorizza la risposta dell'utente */
@@ -21,9 +18,30 @@ public class SalvataggioEsami {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             /** Ottiene il file selezionato dall'utente */
             File file = fileChooser.getSelectedFile();
-            try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
-                /** Scrive i dati del modello di tabella nel file usando un ObjectOutputStream */
-                outputStream.writeObject(applicazione.getDefaultTableModel().getDataVector());
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
+                /** Scrive i nomi delle colonne */
+                for (int i = 0; i < applicazione.getDefaultTableModel().getColumnCount(); i++) {
+                    writer.write(applicazione.getDefaultTableModel().getColumnName(i));
+                    if (i < applicazione.getDefaultTableModel().getColumnCount() - 1) {
+                        writer.write("\t");
+                    } else {
+                        writer.write("\n");
+                    }
+                }
+
+                /** Scrive i dati della tabella */
+                for (int row = 0; row < applicazione.getDefaultTableModel().getRowCount(); row++) {
+                    for (int col = 0; col < applicazione.getDefaultTableModel().getColumnCount(); col++) {
+                        writer.write(applicazione.getDefaultTableModel().getValueAt(row, col).toString());
+                        if (col < applicazione.getDefaultTableModel().getColumnCount() - 1) {
+                            writer.write("\t");
+                        } else {
+                            writer.write("\n");
+                        }
+                    }
+                }
+
                 /** Mostra un messaggio di conferma del salvataggio */
                 JOptionPane.showMessageDialog(mainFrame, "Tabella salvata con successo!");
             } catch (IOException e) {

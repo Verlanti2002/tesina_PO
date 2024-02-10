@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GestioneEsami{
 
@@ -32,8 +34,6 @@ public class GestioneEsami{
 
         mainPanel = new JPanel(new GridLayout(2, 1));
 
-        applicazione.initializeTable();
-
         JScrollPane jScrollPane = new JScrollPane(applicazione.getjTable());
 
         // Pannello per i controlli
@@ -56,6 +56,26 @@ public class GestioneEsami{
         mainFrame.setLocationRelativeTo(null);
 
         mainFrame.setVisible(true);
+
+        applicazione.getjTable().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = applicazione.getjTable().columnAtPoint(e.getPoint());
+                // Verifica se è stato fatto clic sulla colonna "Azioni"
+                if (col == 2) {
+                    // Apri un nuovo JFrame quando viene cliccata la cella "Azioni"
+                    JFrame jFrameInfo = new JFrame("Informazioni");
+                    jFrameInfo.setSize(300, 200);
+                    jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    JPanel jPanelInfo = new JPanel();
+                    jPanelInfo.setLayout(null);
+                    jPanelInfo.setPreferredSize(new Dimension(300, 200));
+                    jFrameInfo.add(jPanelInfo);
+                    jFrameInfo.setLocationRelativeTo(null);
+                    jFrameInfo.setVisible(true);
+                }
+            }
+        });
 
         aggiungi_btn.addActionListener(new ActionListener() {
             @Override
