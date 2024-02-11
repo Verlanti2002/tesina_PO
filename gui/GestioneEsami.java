@@ -1,9 +1,6 @@
 package gui;
 
-import classi.EsameComposto;
-import classi.EsameSemplice;
-import classi.Studente;
-import classi.TipologiaProva;
+import classi.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +11,11 @@ import java.awt.event.MouseEvent;
 
 public class GestioneEsami{
 
-    private JFrame jFrameSemplice, jFrameComposto, jFrameProve;
-    private JPanel mainPanel, jPanelSemplice, jPanelComposto, jPanelProve;
+    private JFrame jFrameSemplice, jFrameComposto, jFrameProve, jFrameInfo;
+    private JPanel mainPanel, jPanelSemplice, jPanelComposto, jPanelProve, jPanelInfo;
     private JLabel matricola_l, nome_l, cognome_l, corso_l, voto_l, lode_l, cfu_l, tipologia_prova_l, peso_l, tipologia_l;
     private JTextField matricola_tf, nome_tf, cognome_tf, corso_tf, voto_tf, cfu_tf;
-    private JTextField[] voto_prova_tf, peso_prova_tf;
+    private JTextField[] tipologia_prova_tf, voto_prova_tf, peso_prova_tf;
     private JCheckBox lode_cb, semplice_cb, composto_cb;
     private JButton aggiungi_btn, modifica_btn, elimina_btn, registra_esame_btn;
     private JComboBox n_prove_cb;
@@ -60,20 +57,88 @@ public class GestioneEsami{
         applicazione.getjTable().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                int row = applicazione.getjTable().rowAtPoint(e.getPoint());
                 int col = applicazione.getjTable().columnAtPoint(e.getPoint());
-                // Verifica se è stato fatto clic sulla colonna "Azioni"
+                String tipologia_esame = String.valueOf(applicazione.getEsami().get(row).getClass());
+                // Verifica se è stato fatto clic sulla colonna "Voto"
                 if (col == 2) {
-                    // Apri un nuovo JFrame quando viene cliccata la cella "Azioni"
-                    JFrame jFrameInfo = new JFrame("Informazioni");
-                    jFrameInfo.setSize(300, 200);
-                    jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                    JPanel jPanelInfo = new JPanel();
-                    jPanelInfo.setLayout(null);
-                    jPanelInfo.setPreferredSize(new Dimension(300, 200));
-                    jFrameInfo.add(jPanelInfo);
-                    jFrameInfo.setLocationRelativeTo(null);
-                    jFrameInfo.setVisible(true);
+                    if(tipologia_esame.contains("Semplice")){
+                        EsameSemplice esameSemplice = (EsameSemplice) applicazione.getEsami().get(row);
+
+                        jFrameInfo = new JFrame("Informazioni");
+                        jFrameInfo.setSize(600, 250);
+                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                        jPanelInfo = new JPanel();
+                        jPanelInfo.setLayout(null);
+                        jPanelInfo.setPreferredSize(new Dimension(600, 250));
+
+                        formInfoExam(esameSemplice);
+
+                        modifica_btn = new JButton("Modifca");
+                        modifica_btn.setBounds(230,150,140,25);
+
+                        modifica_btn.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                            }
+                        });
+
+                        jPanelInfo.add(modifica_btn);
+                        jFrameInfo.add(jPanelInfo);
+                    }
+
+                    if (tipologia_esame.contains("Composto")) {
+                        EsameComposto esameComposto = (EsameComposto) applicazione.getEsami().get(row);
+
+                        jFrameInfo = new JFrame("Informazioni");
+                        jFrameInfo.setSize(600, 400);
+                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                        jPanelInfo = new JPanel();
+                        jPanelInfo.setLayout(null);
+                        jPanelInfo.setPreferredSize(new Dimension(600, 400));
+
+                        // Apre un nuovo JFrame (specchietto) quando viene cliccata la cella "Voto"
+                        formInfoExam(esameComposto);
+
+                        int n_prove = esameComposto.getEsami_parziali().size();
+                        tipologia_prova_tf = new JTextField[n_prove];
+                        peso_prova_tf = new JTextField[n_prove];
+                        voto_prova_tf = new JTextField[n_prove];
+
+                        for (int i = 0, y = 170; i < esameComposto.getEsami_parziali().size(); i++, y = y + 50) {
+                            tipologia_prova_l = new JLabel("Tipologia prova:");
+                            tipologia_prova_l.setBounds(20, y, 100, 20);
+                            tipologia_prova_tf[i] = new JTextField();
+                            tipologia_prova_tf[i].setBounds(120, y, 100, 20);
+                            tipologia_prova_tf[i].setText(esameComposto.getEsami_parziali().get(i).getNome());
+                            peso_l = new JLabel("Peso:");
+                            peso_l.setBounds(240, y, 100, 20);
+                            peso_prova_tf[i] = new JTextField();
+                            peso_prova_tf[i].setBounds(280, y, 100, 20);
+                            peso_prova_tf[i].setText(Integer.toString(esameComposto.getEsami_parziali().get(i).getPeso()));
+                            voto_l = new JLabel("Voto:");
+                            voto_l.setBounds(400, y, 100, 20);
+                            voto_prova_tf[i] = new JTextField();
+                            voto_prova_tf[i].setBounds(440, y, 100, 20);
+                            voto_prova_tf[i].setText(Integer.toString(esameComposto.getEsami_parziali().get(i).getVoto()));
+
+                            modifica_btn = new JButton("Modifca");
+                            modifica_btn.setBounds(230,320,140,25);
+
+                            jPanelInfo.add(tipologia_prova_l);
+                            jPanelInfo.add(tipologia_prova_tf[i]);
+                            jPanelInfo.add(peso_l);
+                            jPanelInfo.add(peso_prova_tf[i]);
+                            jPanelInfo.add(voto_l);
+                            jPanelInfo.add(voto_prova_tf[i]);
+                            jPanelInfo.add(modifica_btn);
+                        }
+                    }
                 }
+
+                jPanelInfo.add(modifica_btn);
+                jFrameInfo.add(jPanelInfo);
             }
         });
 
@@ -160,7 +225,6 @@ public class GestioneEsami{
                                     if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
                                         System.out.println("Devi prima compilare tutti i campi!");
                                     } else {
-                                        jFrameComposto.dispose();
                                         jFrameProve = new JFrame("Registrazione Prove Parziali");
                                         jFrameProve.setSize(600, 300);
                                         jFrameProve.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -205,6 +269,7 @@ public class GestioneEsami{
                                         registra_esame_btn.addActionListener(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
+                                                jFrameComposto.dispose();
                                                 for(int i=0; i<selectedValue; i++){
                                                     String nome = (String) tipologia_prova_cb[i].getSelectedItem();
                                                     int peso = Integer.parseInt(peso_prova_tf[i].getText());
@@ -268,14 +333,77 @@ public class GestioneEsami{
         });
     }
 
+    public void formInfoExam(Esame esame){
+
+        matricola_l = new JLabel("Matricola:");
+        matricola_l.setBounds(200, 20, 100,20);
+        matricola_tf = new JTextField();
+        matricola_tf.setBounds(260,20,100,20);
+        matricola_tf.setText(Integer.toString(esame.getStudente().getMatricola()));
+
+        nome_l = new JLabel("Nome:");
+        nome_l.setBounds(40, 60, 100, 20);
+        nome_tf = new JTextField();
+        nome_tf.setBounds(80, 60, 100, 20);
+        nome_tf.setText(esame.getStudente().getNome());
+
+        cognome_l = new JLabel("Cognome:");
+        cognome_l.setBounds(200, 60, 100, 20);
+        cognome_tf = new JTextField();
+        cognome_tf.setBounds(260, 60, 100, 20);
+        cognome_tf.setText(esame.getStudente().getCognome());
+
+        corso_l = new JLabel("Corso:");
+        corso_l.setBounds(380, 60, 100, 20);
+        corso_tf = new JTextField();
+        corso_tf.setBounds(420, 60, 100, 20);
+        corso_tf.setText(esame.getNome());
+
+        voto_l = new JLabel("Voto:");
+        voto_l.setBounds(40, 100, 100, 20);
+        voto_tf = new JTextField();
+        voto_tf.setBounds(80, 100, 100, 20);
+        voto_tf.setText(Integer.toString(esame.getVoto()));
+
+        lode_l = new JLabel("Lode:");
+        lode_l.setBounds(200, 100, 100, 20);
+        JTextField lode_tf = new JTextField();
+        lode_tf.setBounds(260, 100, 100, 20);
+        lode_tf.setText(Boolean.toString(esame.getLode()));
+
+        cfu_l = new JLabel("CFU:");
+        cfu_l.setBounds(380, 100, 100, 20);
+        cfu_tf = new JTextField();
+        cfu_tf.setBounds(420, 100, 100, 20);
+        cfu_tf.setText(Integer.toString(esame.getCfu()));
+
+        jPanelInfo.add(matricola_l);
+        jPanelInfo.add(matricola_tf);
+        jPanelInfo.add(nome_l);
+        jPanelInfo.add(nome_tf);
+        jPanelInfo.add(cognome_l);
+        jPanelInfo.add(cognome_tf);
+        jPanelInfo.add(corso_l);
+        jPanelInfo.add(corso_tf);
+        jPanelInfo.add(voto_l);
+        jPanelInfo.add(voto_tf);
+        jPanelInfo.add(lode_l);
+        jPanelInfo.add(lode_tf);
+        jPanelInfo.add(cfu_l);
+        jPanelInfo.add(cfu_tf);
+
+        jFrameInfo.setLocationRelativeTo(null);
+        jFrameInfo.setVisible(true);
+    }
+
     public void formSimpleExam(){
 
         jFrameSemplice = new JFrame("Registrazione Esame Semplice");
+        jFrameSemplice.setSize(600, 300);
         jPanelSemplice = new JPanel();
-        jFrameSemplice.setSize(600,300);
         jFrameSemplice.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        jFrameSemplice.setPreferredSize(new Dimension(600, 300));
         jPanelSemplice.setLayout(null);
-        jPanelSemplice.setPreferredSize(new Dimension(600,300));
 
         tipologia_l = new JLabel("Tipologia esame:");
         tipologia_l.setBounds(150,20, 100,20);
@@ -358,7 +486,7 @@ public class GestioneEsami{
         String corso = corso_tf.getText();
         int cfu = Integer.parseInt(cfu_tf.getText());
         Studente studente = new Studente(matricola, nome, cognome);
-        if(!studente.equals(applicazione.searchStudent(matricola)))
+        if(!studente.equals(applicazione.ricercaStudente(matricola)))
             applicazione.getStudenti().add(studente);
         if (semplice_cb.isSelected()) {
             boolean lode = lode_cb.isSelected();
@@ -380,26 +508,38 @@ public class GestioneEsami{
         }
     }
 
-    /*public void editEntry(Applicazione applicazione){
-        // Modifica un'entry nella tabella
-        int selectedRow = jTable.getSelectedRow();
+    public void editEntry(Applicazione applicazione, int row){
 
-        System.out.println(selectedRow);
-        if (selectedRow != -1) {
+        if (row != -1) {
+            int matricola = Integer.parseInt(matricola_tf.getText());
             String nome = nome_tf.getText();
             String cognome = cognome_tf.getText();
             String corso = corso_tf.getText();
-            String voto = voto_tf.getText();
+            int voto = Integer.parseInt(voto_tf.getText());
             boolean lode = lode_cb.isSelected();
-            String cfu = cfu_tf.getText();
-            defaultTableModel.setValueAt(nome, selectedRow, 1);
-            defaultTableModel.setValueAt(cognome, selectedRow, 2);
-            defaultTableModel.setValueAt(corso, selectedRow, 3);
-            defaultTableModel.setValueAt(voto, selectedRow, 4);
-            defaultTableModel.setValueAt(lode, selectedRow, 5);
-            defaultTableModel.setValueAt(cfu, selectedRow, 6);
+            int cfu = Integer.parseInt(cfu_tf.getText());
+            applicazione.getDefaultTableModel().setValueAt(nome, row, 1);
+            applicazione.getDefaultTableModel().setValueAt(cognome, row, 2);
+            applicazione.getDefaultTableModel().setValueAt(corso, row, 3);
+            applicazione.getDefaultTableModel().setValueAt(voto, row, 4);
+            applicazione.getDefaultTableModel().setValueAt(lode, row, 5);
+            applicazione.getDefaultTableModel().setValueAt(cfu, row, 6);
+
+            Studente studente = applicazione.ricercaStudente(matricola);
+            studente.setMatricola(matricola);
+            studente.setNome(nome);
+            studente.setCognome(cognome);
+            applicazione.getEsami().get(row).setNome(corso);
+            applicazione.getEsami().get(row).setVoto(voto);
+            applicazione.getEsami().get(row).setLode(lode);
+            applicazione.getEsami().get(row).setCfu(cfu);
+
+            String tipologia_esame = String.valueOf(applicazione.getEsami().get(row).getClass());
+            if(tipologia_esame.contains("Composto")){
+
+            }
         }
-    }*/
+    }
 
     public void deleteEntry(Applicazione applicazione) {
         // Elimina un'entry dalla tabella

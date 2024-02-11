@@ -1,5 +1,7 @@
 package classi;
 
+import java.util.ArrayList;
+
 /**
  * EsameSemplice
  * Sottoclasse derivata della superclasse Esame
@@ -23,5 +25,9 @@ public class EsameSemplice extends Esame{
     public EsameSemplice(Studente studente, String nome, int voto, boolean lode, int cfu) {
         super(studente, nome, lode, cfu);
         super.setVoto(voto);
+    }
+
+    public ArrayList<TipologiaProva> getEsami_parziali() {
+        return null;
     }
 }

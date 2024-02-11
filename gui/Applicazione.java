@@ -48,7 +48,7 @@ public class Applicazione {
         return defaultTableModel;
     }
 
-    public Studente searchStudent(int matricola){
+    public Studente ricercaStudente(int matricola){
         for(int i=0; i< archivioStudenti.size(); i++){
             if (archivioStudenti.get(i).getMatricola() == matricola)
                 return archivioStudenti.get(i);

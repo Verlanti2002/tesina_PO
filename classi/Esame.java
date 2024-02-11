@@ -1,12 +1,14 @@
 package classi;
 
+import java.util.ArrayList;
+
 /**
  * Esame
  * Classe principale che definisce l'entità Esame
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
  */
-public class Esame {
+public abstract class Esame {
 
     /** Attributo privato di classe Studente che rappresenta l'oggetto studente */
     private Studente studente;
@@ -125,4 +127,6 @@ public class Esame {
     public void setCfu(int cfu) {
         this.cfu = cfu;
     }
+
+    public abstract ArrayList<TipologiaProva> getEsami_parziali();
 }
