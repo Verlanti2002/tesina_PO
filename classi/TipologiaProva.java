@@ -60,4 +60,16 @@ public class TipologiaProva {
     public int getVoto() {
         return this.voto;
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }
+
+    public void setVoto(int voto) {
+        this.voto = voto;
+    }
 }

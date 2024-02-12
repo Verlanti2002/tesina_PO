@@ -6,14 +6,14 @@ import javax.print.attribute.*;
 
 public class StampaTabella {
 
-    public StampaTabella(Applicazione applicazione){
+    public StampaTabella(Tabella table){
         // Creazione del formato di stampa per la tabella
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
         PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
         PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
 
         // Impostazione del documento da stampare
-        TabellaStampabile printableTable = new TabellaStampabile(applicazione);
+        TabellaStampabile printableTable = new TabellaStampabile(table.getTable());
         Doc doc = new SimpleDoc(printableTable, flavor, null);
 
         // Stampa del documento

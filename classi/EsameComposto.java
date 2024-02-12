@@ -27,8 +27,8 @@ public class EsameComposto extends Esame{
      * @param cfu numero di cfu totali dell'esame
      * L'attributo relativo alla lode è settato a false in quanto esame di tipo composto
      */
-    public EsameComposto(Studente studente, String nome, int cfu) {
-        super(studente, nome, false, cfu);
+    public EsameComposto(Studente studente, String nome, boolean lode, int cfu) {
+        super(studente, nome, lode, cfu);
         esami_parziali = new ArrayList<>();
     }
 

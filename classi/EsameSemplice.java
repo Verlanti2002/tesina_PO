@@ -30,4 +30,6 @@ public class EsameSemplice extends Esame{
     public ArrayList<TipologiaProva> getEsami_parziali() {
         return null;
     }
+
+    public void voto() {}
 }

@@ -9,8 +9,8 @@ import java.awt.print.PrinterException;
 public class TabellaStampabile implements Printable {
 
     private JTable jTable;
-    public TabellaStampabile(Applicazione applicazione){
-        this.jTable = applicazione.getjTable();
+    public TabellaStampabile(JTable table){
+        this.jTable = table;
     }
 
     @Override

@@ -14,7 +14,8 @@ public class CaricamentoEsami {
     /**
      * Costruttore della classe CaricamentoEsami
      * Permette di caricare una tabella di esami da file
-     * @param applicazione contiene tutti gli oggetti necessari per il funzionamento dell'intero applicativo
+     * @param mainFrame finestra per il caricamento degli esami da file
+     * @param applicazione oggetto che permette di aggiornare gli archivi dati
      */
     public CaricamentoEsami(JFrame mainFrame, Applicazione applicazione){
         JFileChooser fileChooser = new JFileChooser();
@@ -29,16 +30,11 @@ public class CaricamentoEsami {
             File file = fileChooser.getSelectedFile();
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 // Legge la prima riga del file che contiene i nomi delle colonne
-                String line = reader.readLine();
-                if (line != null) {
-                    String[] columnNames = line.split("\t"); // Assume che le colonne siano separate da una tabulazione
-                    applicazione.creaTabella(columnNames); // Crea una nuova tabella con i nomi delle colonne letti dal file
-                }
-
+                String line;
                 // Legge il resto del file che contiene i dati della tabella
                 while ((line = reader.readLine()) != null) {
                     String[] rowData = line.split("\t"); // Assume che i dati delle righe siano separati da una tabulazione
-                    applicazione.aggiungiRigaAllaTabella(rowData); // Aggiunge una nuova riga alla tabella con i dati letti dal file
+                    applicazione.getTabella().getDefaultTableModel().addRow(rowData); // Aggiunge una nuova riga alla tabella con i dati letti dal file
                 }
 
                 // Mostra un messaggio di conferma del caricamento

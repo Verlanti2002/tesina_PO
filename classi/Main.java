@@ -2,6 +2,7 @@ package classi;
 
 import gui.Applicazione;
 import gui.Menu;
+import gui.Tabella;
 
 public class Main {
 
@@ -31,7 +32,9 @@ public class Main {
             System.out.println("\n");
         }*/
 
-        Applicazione applicazione = new Applicazione();
+        String[] columnNames = new String[]{"Matricola", "Nome", "Cognome", "Corso", "Voto", "Lode", "CFU"};
+        Tabella tabella = new Tabella(columnNames);
+        Applicazione applicazione = new Applicazione(tabella);
         Menu menu = new Menu(applicazione);
 
     }

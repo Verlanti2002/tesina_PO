@@ -30,9 +30,8 @@ public class Menu {
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         JButton jButton1 = new JButton("Gestione degli esami");
         JButton jButton2 = new JButton("Caricamento esami");
-        JButton jButton3 = new JButton("Salvataggio esami");
-        JButton jButton4 = new JButton("Dati statistici");
-        JButton jButton5 = new JButton("Stampa tabella degli esami");
+        JButton jButton3 = new JButton("Dati statistici");
+        JButton jButton4 = new JButton("Stampa tabella degli esami");
 
         jButton1.addActionListener(new ActionListener() {
             @Override
@@ -51,13 +50,6 @@ public class Menu {
         jButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SalvataggioEsami salvataggioEsami = new SalvataggioEsami(mainFrame, applicazione);
-            }
-        });
-
-        jButton4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
             }
         });
@@ -66,7 +58,6 @@ public class Menu {
         buttonPanel.add(jButton2, gridBagConstraints);
         buttonPanel.add(jButton3, gridBagConstraints);
         buttonPanel.add(jButton4, gridBagConstraints);
-        buttonPanel.add(jButton5, gridBagConstraints);
 
         gridBagConstraints.weighty = 1;
         mainPanel.add(buttonPanel, gridBagConstraints);

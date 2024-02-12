@@ -2,34 +2,16 @@ package gui;
 
 import classi.*;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 public class Applicazione {
 
     private ArchivioStudenti<Studente> archivioStudenti;
     private ArchivioEsami<Esame> archivioEsami;
-    private DefaultTableModel defaultTableModel;
+    private Tabella tabella;
 
-    private JTable jTable;
-
-    public Applicazione(){
+    public Applicazione(Tabella tabella){
         archivioStudenti = new ArchivioStudenti<>();
         archivioEsami = new ArchivioEsami<>();
-        defaultTableModel = new DefaultTableModel();
-         final String[] columnNames = {"Nome", "Cognome", "Corso", "Voto", "Lode", "CFU"};
-        creaTabella(columnNames);
-    }
-
-    public void creaTabella(String[] columnNames){
-        for(int i=0; i< columnNames.length; i++){
-            defaultTableModel.addColumn(columnNames[i]);
-        }
-        jTable = new JTable(defaultTableModel);
-    }
-
-    public void aggiungiRigaAllaTabella(String[] rowData){
-
+        this.tabella = tabella;
     }
 
     public ArchivioEsami<Esame> getEsami(){
@@ -40,12 +22,8 @@ public class Applicazione {
         return archivioStudenti;
     }
 
-    public JTable getjTable() {
-        return jTable;
-    }
-
-    public DefaultTableModel getDefaultTableModel() {
-        return defaultTableModel;
+    public Tabella getTabella() {
+        return tabella;
     }
 
     public Studente ricercaStudente(int matricola){

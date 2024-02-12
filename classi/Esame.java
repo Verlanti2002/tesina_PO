@@ -129,4 +129,6 @@ public abstract class Esame {
     }
 
     public abstract ArrayList<TipologiaProva> getEsami_parziali();
+
+    public abstract void voto();
 }

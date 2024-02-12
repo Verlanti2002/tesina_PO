@@ -6,7 +6,7 @@ import java.io.*;
 
 public class SalvataggioEsami {
 
-    public SalvataggioEsami(JFrame mainFrame, Applicazione applicazione){
+    public SalvataggioEsami(JFrame mainFrame, Tabella tabella){
         /** Crea un nuovo oggetto JFileChooser, che permette all'utente di navigare attraverso il filesystem */
         JFileChooser fileChooser = new JFileChooser();
         /** Imposta il filtro per i tipi di file */
@@ -20,21 +20,12 @@ public class SalvataggioEsami {
             File file = fileChooser.getSelectedFile();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
-                /** Scrive i nomi delle colonne */
-                for (int i = 0; i < applicazione.getDefaultTableModel().getColumnCount(); i++) {
-                    writer.write(applicazione.getDefaultTableModel().getColumnName(i));
-                    if (i < applicazione.getDefaultTableModel().getColumnCount() - 1) {
-                        writer.write("\t");
-                    } else {
-                        writer.write("\n");
-                    }
-                }
-
                 /** Scrive i dati della tabella */
-                for (int row = 0; row < applicazione.getDefaultTableModel().getRowCount(); row++) {
-                    for (int col = 0; col < applicazione.getDefaultTableModel().getColumnCount(); col++) {
-                        writer.write(applicazione.getDefaultTableModel().getValueAt(row, col).toString());
-                        if (col < applicazione.getDefaultTableModel().getColumnCount() - 1) {
+                // L'indice parte da 1 in modo tale da non scrivere su file anche il nome delle colonne (non necessario)
+                for (int row = 1; row < tabella.getDefaultTableModel().getRowCount(); row++) {
+                    for (int col = 0; col < tabella.getDefaultTableModel().getColumnCount(); col++) {
+                        writer.write(tabella.getDefaultTableModel().getValueAt(row, col).toString());
+                        if (col < tabella.getDefaultTableModel().getColumnCount() - 1) {
                             writer.write("\t");
                         } else {
                             writer.write("\n");
