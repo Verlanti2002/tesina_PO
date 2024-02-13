@@ -33,6 +33,8 @@ public class CaricaEsami {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             // Ottiene il file selezionato dall'utente
             File file = fileChooser.getSelectedFile();
+            /** Una volta selezionato il file, prima di caricare i dati dal file, elimino quelli precedenti */
+            applicazione.getTabella().getDefaultTableModel().setRowCount(0);
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 // Legge la prima riga del file che contiene i nomi delle colonne
                 String line;
@@ -41,6 +43,7 @@ public class CaricaEsami {
                     String[] rowData = line.split("\t"); // Assume che i dati delle righe siano separati da una tabulazione
                     String[] rowDataTable = new String[7]; // Array che conterrà solo i dati per riempire la tabella
                     System.arraycopy(rowData, 0, rowDataTable, 0, 7);
+                    /** Carico la nuova tabella con i dati prelevati dal file */
                     applicazione.getTabella().getDefaultTableModel().addRow(rowDataTable); // Aggiunge una nuova riga alla tabella con i dati letti dal file
                     Studente studente = new Studente(Integer.parseInt(rowDataTable[0]), rowDataTable[1], rowDataTable[2]);
                     applicazione.getStudenti().add(studente);
