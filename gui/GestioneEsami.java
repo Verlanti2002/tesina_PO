@@ -8,10 +8,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class GestioneEsami{
 
@@ -25,12 +22,14 @@ public class GestioneEsami{
     private JComboBox n_prove_cb;
     private JComboBox[] tipologia_prova_cb;
     private TipologiaProva[] datiProve;
+    private boolean modificheNonSalvate;
+    private SalvaEsami salvaEsami = null;
 
     public GestioneEsami(Applicazione applicazione) {
 
         mainFrame = new JFrame();
         mainFrame.setTitle("Gestione esami");
-        mainFrame.setSize(800,400);
+        mainFrame.setSize(800,500);
         mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         mainPanel = new JPanel(new GridLayout(2, 1));
@@ -45,6 +44,37 @@ public class GestioneEsami{
         JTextField filtro_tf = new JTextField(10);
 
         JButton filtro_btn = new JButton("Media");
+        JButton grafico_btn = new JButton("Grafico");
+
+        // Aggiungo un listener per tracciare le modifiche sulla tabella
+        applicazione.getTabella().getDefaultTableModel().addTableModelListener(e -> modificheNonSalvate = true);
+
+        if (salvaEsami != null)
+            modificheNonSalvate = false;
+
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if(modificheNonSalvate){
+                    int result = JOptionPane.showConfirmDialog(mainFrame, "Ci sono modifiche non salvate. Vuoi salvarle prima di chiudere?", "Modifiche non salvate", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        // Salvataggio delle modifiche
+                        salvaEsami = new SalvaEsami(mainFrame, applicazione);
+                        // Chiudi il frame
+                        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    } else if (result == JOptionPane.NO_OPTION) {
+                        // Chiudi il frame senza salvare
+                        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    } else {
+                        // Annulla la chiusura del frame
+                        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    }
+                } else {
+                    // Chiudi il frame se non ci sono modifiche non salvate
+                    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                }
+            }
+        });
 
         filtro_btn.addActionListener(new ActionListener() {
             @Override
@@ -84,11 +114,17 @@ public class GestioneEsami{
                 applicazione.getTabella().getTable().setRowSorter(sorter);
 
                 // Applica il filtro solo alle colonne specificate (Studente e Corso)
-                // Applica un filtro regex (ignorando le maiuscole/minuscole) sulle colonne 1 (Cognome) e 2 (Corso) in base al testo inserito nel campo di testo
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query.trim(), 1, 2));
+                // Applica un filtro regex (ignorando le maiuscole/minuscole) sulle colonne 2 (Cognome) e 3 (Corso) in base al testo inserito nel campo di testo
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query.trim(), 2, 3));
             }
         });
 
+        grafico_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Grafico datiStatistici = new Grafico(applicazione);
+            }
+        });
 
         aggiungi_btn = new JButton("Aggiungi");
         elimina_btn = new JButton("Elimina");
@@ -97,13 +133,14 @@ public class GestioneEsami{
         salva_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SalvataggioEsami salvataggioEsami = new SalvataggioEsami(mainFrame, applicazione.getTabella());
+                salvaEsami = new SalvaEsami(mainFrame, applicazione);
             }
         });
 
         controlPanel.add(filtro_l);
         controlPanel.add(filtro_tf);
         controlPanel.add(filtro_btn);
+        controlPanel.add(grafico_btn);
         controlPanel.add(aggiungi_btn);
         controlPanel.add(elimina_btn);
         controlPanel.add(salva_btn);
@@ -124,8 +161,8 @@ public class GestioneEsami{
                 int row = applicazione.getTabella().getTable().rowAtPoint(e.getPoint());
                 int col = applicazione.getTabella().getTable().columnAtPoint(e.getPoint());
                 String tipologia_esame = String.valueOf(applicazione.getEsami().get(row).getClass());
-                // Verifica se è stato fatto clic sulla colonna "Voto"
-                if (col == 2) {
+                // Verifica se è stato fatto clic sulla colonna "Corso"
+                if (col == 3) {
                     if(tipologia_esame.contains("Semplice")){
                         EsameSemplice esameSemplice = (EsameSemplice) applicazione.getEsami().get(row);
 
@@ -409,7 +446,7 @@ public class GestioneEsami{
     public double calcolaMedia(Applicazione applicazione){
 
         int somma = 0;
-        int rowCount = applicazione.getTabella().getDefaultTableModel().getRowCount();
+        int rowCount = applicazione.getTabella().getTable().getRowCount();
 
         // Se non ci sono righe nella tabella, mostra una media di 0
         if (rowCount == 0) {
@@ -418,7 +455,7 @@ public class GestioneEsami{
 
         // Somma tutti i voti presenti nella colonna "Voti"
         for (int i = 0; i < rowCount; i++) {
-            int voto = (int) applicazione.getTabella().getDefaultTableModel().getValueAt(i, 3); // La colonna "Voti" è la colonna 3
+            int voto = Integer.parseInt((String) applicazione.getTabella().getTable().getValueAt(i, 4)); // La colonna "Voti" è la colonna 3
             somma += voto;
         }
 

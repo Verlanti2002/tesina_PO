@@ -2,7 +2,6 @@ package classi;
 
 import gui.Applicazione;
 import gui.Menu;
-import gui.Tabella;
 
 public class Main {
 
