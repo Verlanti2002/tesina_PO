@@ -32,7 +32,7 @@ public class GestioneEsami{
         mainFrame.setTitle("Gestione esami");
         mainFrame.setSize(800,500);
         /** Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
 
         /** Creazione del pannello principale */
         mainPanel = new JPanel(new GridLayout(2, 1));
@@ -80,7 +80,7 @@ public class GestioneEsami{
                     }
                 } else {
                     /** Chiude il frame se non ci sono modifiche non salvate */
-                    mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                 }
             }
         });
@@ -135,7 +135,7 @@ public class GestioneEsami{
         grafico_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Grafico datiStatistici = new Grafico(applicazione);
+                Grafico datiStatistici = new Grafico(applicazione);
             }
         });
 
@@ -170,10 +170,10 @@ public class GestioneEsami{
 
         mainFrame.add(mainPanel);
 
-        /** Imposta la generazione della frame principale al centro dello schermo */
+        /** Imposta la generazione del frame principale al centro dello schermo */
         mainFrame.setLocationRelativeTo(null);
 
-        /** Imposta visibile il frame principale */
+        /** Rende visibile il frame principale */
         mainFrame.setVisible(true);
 
         /** Ascoltatore degli eventi sul click di un campo della tabella */
@@ -193,15 +193,12 @@ public class GestioneEsami{
                         EsameSemplice esameSemplice = (EsameSemplice) applicazione.getEsami().get(row);
                         /** Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
                         jFrameInfo = new JFrame("Informazioni");
-                        /** Imposta le dimensioni del frame */
                         jFrameInfo.setSize(600, 250);
                         /** Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                         /** Creazione del pannello per contenere gli oggetti necessari a mostrare le informazioni relative all'esame selezionato */
                         jPanelInfo = new JPanel();
-                        /** Imposta il layout del pannello */
                         jPanelInfo.setLayout(null);
-                        /** Imposta le dimensioni del pannello */
                         jPanelInfo.setPreferredSize(new Dimension(600, 250));
 
                         /** Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
@@ -221,7 +218,6 @@ public class GestioneEsami{
                             }
                         });
 
-                        jPanelInfo.add(modifica_btn);
                         jFrameInfo.add(jPanelInfo);
                     }
 
@@ -232,7 +228,7 @@ public class GestioneEsami{
                         jFrameInfo = new JFrame("Informazioni");
                         jFrameInfo.setSize(600, 400);
                         /** Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                         jPanelInfo = new JPanel();
                         jPanelInfo.setLayout(null);
                         jPanelInfo.setPreferredSize(new Dimension(600, 400));
@@ -273,31 +269,29 @@ public class GestioneEsami{
                             /** Imposta il voto dell'i-esima prova parziale dell'esame composto selezioanto */
                             voto_prova_tf[i].setText(Integer.toString(esameComposto.getEsami_parziali().get(i).getVoto()));
 
-                            modifica_btn = new JButton("Modifca");
-                            modifica_btn.setBounds(230,320,140,25);
-
-                            /** Ascoltatore degli eventi sul click del bottone che permette di modificare le informazioni dell'esame composto selezionato*/
-                            modifica_btn.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    /** Richiama il metodo che modifica il record selezionato */
-                                    editEntry(applicazione, row);
-                                    /** Chiude il frame */
-                                    jFrameInfo.dispose();
-                                }
-                            });
-
                             jPanelInfo.add(tipologia_prova_l);
                             jPanelInfo.add(tipologia_prova_tf[i]);
                             jPanelInfo.add(peso_l);
                             jPanelInfo.add(peso_prova_tf[i]);
                             jPanelInfo.add(voto_l);
                             jPanelInfo.add(voto_prova_tf[i]);
-                            jPanelInfo.add(modifica_btn);
                         }
+
+                        modifica_btn = new JButton("Modifca");
+                        modifica_btn.setBounds(230,320,140,25);
+
+                        /** Ascoltatore degli eventi sul click del bottone che permette di modificare le informazioni dell'esame composto selezionato*/
+                        modifica_btn.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                /** Richiama il metodo che modifica il record selezionato */
+                                editEntry(applicazione, row);
+                                /** Chiude il frame */
+                                jFrameInfo.dispose();
+                            }
+                        });
                     }
                 }
-
                 jPanelInfo.add(modifica_btn);
                 jFrameInfo.add(jPanelInfo);
             }
@@ -316,7 +310,7 @@ public class GestioneEsami{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if(semplice_cb.isSelected()){ // Se la checkbox è settata su semplice...
-                                /** Richiama il metodo per l'aggiunta del record nella tabella */
+                                /** Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                                 addEntry(applicazione);
                                 /** Chiude il frame */
                                 jFrameSemplice.dispose();
@@ -348,7 +342,8 @@ public class GestioneEsami{
                             /** Creazione del frame per la registrazione di un esame composto */
                             jFrameComposto = new JFrame("Registrazione Esame Composto");
                             jFrameComposto.setSize(600, 300);
-                            jFrameComposto.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                            /** Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
+                            jFrameComposto.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                             jPanelComposto = new JPanel();
                             jPanelComposto.setLayout(null);
                             jPanelComposto.setPreferredSize(new Dimension(600, 300));
@@ -409,7 +404,8 @@ public class GestioneEsami{
                                         /** Creazione del frame per la registrazione delle prove parziali */
                                         jFrameProve = new JFrame("Registrazione Prove Parziali");
                                         jFrameProve.setSize(600, 300);
-                                        jFrameProve.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                                        /** Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
+                                        jFrameProve.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                                         jPanelProve = new JPanel();
                                         jPanelProve.setLayout(null);
                                         jPanelProve.setPreferredSize(new Dimension(600, 300));
@@ -417,17 +413,16 @@ public class GestioneEsami{
                                         /** Recupero il numero di prove parziali registrate */
                                         Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
 
-                                        /** Creo un array di classe TipologiaProva che andrà a contenere temporaneamente le prove parziali registrate */
+                                        /** Creazione di un array di classe TipologiaProva che andrà a contenere temporaneamente le prove parziali registrate */
                                         datiProve = new TipologiaProva[selectedValue];
 
-                                        /** Creo la combobox la form per l'inserimento delle informazioni relative ad una prova parziale */
+                                        /** Creazione degli oggetti per la form di inserimento dei dati relativi ad una prova parziale */
                                         String[] options = {"Scritta", "Orale", "Pratica"};
                                         tipologia_prova_cb = new JComboBox[3];
                                         peso_prova_tf = new JTextField[selectedValue];
                                         voto_prova_tf = new JTextField[selectedValue];
 
-
-
+                                        /** Itero gli oggetti per l'inserimento della prova parziale n_prove-volte */
                                         for (int i = 0, y = 20; i < selectedValue; i++, y = y + 50) {
                                             tipologia_prova_l = new JLabel("Tipologia prova:");
                                             tipologia_prova_l.setBounds(20, y, 100, 20);
@@ -453,17 +448,23 @@ public class GestioneEsami{
                                         registra_esame_btn = new JButton("Registra Esame");
                                         registra_esame_btn.setBounds(230, 170, 140, 25);
 
+                                        /** Ascoltatore degli eventi sul click del bottone per la registrazione di un esame composto */
                                         registra_esame_btn.addActionListener(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
+                                                /** Chiude il frame per la registrazione dell'esame composto */
                                                 jFrameComposto.dispose();
+                                                /** Recupera i dati dagli oggetti grafici */
                                                 for(int i=0; i<selectedValue; i++){
                                                     String nome = (String) tipologia_prova_cb[i].getSelectedItem();
                                                     int peso = Integer.parseInt(peso_prova_tf[i].getText());
                                                     int voto = Integer.parseInt(voto_prova_tf[i].getText());
+                                                    /** Salva i dati in questo array temporaneo */
                                                     datiProve[i] = new TipologiaProva(nome,peso,voto);
                                                 }
+                                                /** Chiude il frame per la registrazione delle prove parziali */
                                                 jFrameProve.dispose();
+                                                /** Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                                                 addEntry(applicazione);
                                             }
                                         });
@@ -472,7 +473,10 @@ public class GestioneEsami{
                                     jPanelProve.add(registra_esame_btn);
 
                                     jFrameProve.add(jPanelProve);
+
+                                    /** Imposta la generazione del frame per la registrazione delle prove parziali al centro dello schermo */
                                     jFrameProve.setLocationRelativeTo(null);
+                                    /** Rende visibile il frame per la registrazione delle prove parziali*/
                                     jFrameProve.setVisible(true);
                                 }
                             });
@@ -496,7 +500,9 @@ public class GestioneEsami{
                             jPanelComposto.add(n_prove_cb);
 
                             jFrameComposto.add(jPanelComposto);
+                            /** Imposta la generazione del frame per la registrazione di un esame composto al centro dello schermo */
                             jFrameComposto.setLocationRelativeTo(null);
+                            /** Rende visibile il frame per la registrazione di un esame composto */
                             jFrameComposto.setVisible(true);
                         }
                     });
@@ -504,20 +510,28 @@ public class GestioneEsami{
             }
         });
 
+        /** Ascoltatore degli eventi sul click del bottone che permette di eliminare un record dalla tabella */
         elimina_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == elimina_btn) {
-                    // Abilita/disabilita i campi per inserimento del voto finale in base al tipo di esame
+                if (e.getSource() == elimina_btn) { // Se viene premuto il bottone "elimina_btn"
+                    /** Richiama il metodo che permette di eliminare un record selezionato */
                     deleteEntry(applicazione);
                 }
             }
         });
     }
 
+    /**
+     * calcolaMedia
+     * Metodo che restituisce la media pesata dei voti in relazione ai record filtrati nella tabella
+     * @param applicazione permette di gestire gli archivi dati e la tabella
+     * @return media pesata dei voti
+     * */
     public double calcolaMedia(Applicazione applicazione){
 
         int somma = 0;
+        /** Recupero il numero di record filtrati nella tabella */
         int rowCount = applicazione.getTabella().getTable().getRowCount();
 
         // Se non ci sono righe nella tabella, mostra una media di 0
@@ -525,16 +539,21 @@ public class GestioneEsami{
             return 0.0;
         }
 
-        // Somma tutti i voti presenti nella colonna "Voti"
+        /** Somma tutti i voti presenti nella colonna "Voti" */
         for (int i = 0; i < rowCount; i++) {
-            int voto = Integer.parseInt((String) applicazione.getTabella().getTable().getValueAt(i, 4)); // La colonna "Voti" è la colonna 3
+            int voto = Integer.parseInt((String) applicazione.getTabella().getTable().getValueAt(i, 4)); // La colonna "Voti" è la colonna 4
             somma += voto;
         }
 
-        // Calcola la media arrotondando il numero
+        /** Restituisce la media arrotondando il numero */
         return  Math.round((double) somma / rowCount);
     }
 
+    /**
+     * getFormInfoExam
+     * Metodo che crea la parte grafica per la visualizzazione e/o modifica dei dati relativi ad un esame
+     * @param esame necessario per differenziare la form nel caso di esame semplice o composto
+     */
     public void getFormInfoExam(Esame esame){
 
         String tipologia_esame = String.valueOf(esame.getClass());
@@ -568,6 +587,8 @@ public class GestioneEsami{
         voto_tf = new JTextField();
         voto_tf.setBounds(80, 100, 100, 20);
         voto_tf.setText(Integer.toString(esame.getVoto()));
+        /** Se l'esame è composto nego la possibilità di modificare il voto
+         * in quanto esso viene calcolato automaticamente con l'inserimento delle prove parziali */
         if(tipologia_esame.contains("Composto")){
             voto_tf.setEditable(false);
             voto_tf.setEnabled(false);
@@ -600,16 +621,23 @@ public class GestioneEsami{
         jPanelInfo.add(cfu_l);
         jPanelInfo.add(cfu_tf);
 
+        /** Imposta la generazione del frame principale al centro dello schermo */
         jFrameInfo.setLocationRelativeTo(null);
+        /** Rende visibile il frame per la visualizzazione e/o modifica dei dati di un esame */
         jFrameInfo.setVisible(true);
     }
 
+    /**
+     * formSimpleExam
+     * Metodo che crea la parte grafica per la registrazione di un esame semplice
+     */
     public void formSimpleExam(){
 
         jFrameSemplice = new JFrame("Registrazione Esame Semplice");
         jFrameSemplice.setSize(600, 300);
         jPanelSemplice = new JPanel();
-        jFrameSemplice.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        /** Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
+        jFrameSemplice.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
         jFrameSemplice.setPreferredSize(new Dimension(600, 300));
         jPanelSemplice.setLayout(null);
 
@@ -619,6 +647,7 @@ public class GestioneEsami{
         semplice_cb.setBounds(250,20, 100, 20);
         composto_cb = new JCheckBox("Composto");
         composto_cb.setBounds(350,20, 100, 20);
+        /** Imposto la checkbox a true poichè il frame si apre direttamente con la form per l'inserimento di un esame semplice */
         semplice_cb.setSelected(true);
 
         /*if (semplice_cb.isSelected())
@@ -683,10 +712,20 @@ public class GestioneEsami{
 
         jFrameSemplice.add(jPanelSemplice);
 
+        /** Imposta la generazione del frame principale al centro dello schermo */
         jFrameSemplice.setLocationRelativeTo(null);
+        /** Rende visibile il frame per la registrazione di un esame semplice */
         jFrameSemplice.setVisible(true);
     }
 
+    /**
+     * adddEntry
+     * Metodo che permette di:
+     *  - aggiungere un nuovo record alla tabella
+     *  - aggiungere un nuovo studente nell'archivio studenti
+     *  - aggiungere un nuovo esame nell'archivio esami
+     * @param applicazione permette di gestire gli archivi dati e la tabella
+     * */
     public void addEntry(Applicazione applicazione){
         int matricola = Integer.parseInt(matricola_tf.getText());
         String nome = nome_tf.getText();
@@ -695,43 +734,64 @@ public class GestioneEsami{
         boolean lode = lode_cb.isSelected();
         int cfu = Integer.parseInt(cfu_tf.getText());
         Studente studente = new Studente(matricola, nome, cognome);
+        /** Se lo studente registrato non è già presente nell'archivio allora viene aggiunto*/
         if(!studente.equals(applicazione.ricercaStudente(matricola)))
             applicazione.getStudenti().add(studente);
-        if (semplice_cb.isSelected()) {
+        if (semplice_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame semplice
             int voto = Integer.parseInt(voto_tf.getText());
-            applicazione.getTabella().getDefaultTableModel().addRow(new Object[]{matricola, nome, cognome, corso, voto, lode, cfu});
+            /** Aggiunge l'esame semplice nell'archivio esami */
             applicazione.getEsami().add(new EsameSemplice(studente, corso, voto, lode, cfu));
+            /** Aggiunge il nuovo record nella tabella */
+            applicazione.getTabella().getDefaultTableModel().addRow(new Object[]{matricola, nome, cognome, corso, voto, lode, cfu});
         }
-        if(composto_cb.isSelected()) {
+        if(composto_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame composto
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
+            /** Recupero il numero di prove parziali */
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
 
+            /** Registro le prove parziali recuperandole dall'array temporaneo creato durante la loro registrazione */
             for(int i=0; i<selectedValue; i++){
                 esameComposto.getEsami_parziali().add(datiProve[i]);
             }
 
+            /** Calcolo il voto finale dell'esame composto da più prove parziali */
             esameComposto.voto();
+            /** Aggiunge l'esame composto nell'archivio esami */
             applicazione.getEsami().add(esameComposto);
+            /** Aggiunge il nuovo record nella tabella */
             applicazione.getTabella().getDefaultTableModel().addRow(new Object[]{matricola, nome, cognome, corso, esameComposto.getVoto(), lode, cfu});
         }
     }
 
+    /**
+     * editEntry
+     * Metodo che permette di:
+     *  - modificare i dati del record selezionato
+     *  - salvare le modifiche nei relativi archivi studenti e/o esame
+     * @param applicazione permette di gestire gli archivi dati e la tabella
+     * @param row riga selezionata
+     * */
     public void editEntry(Applicazione applicazione, int row){
 
         int voto = 0;
+        /** Recupera la tipologia dell'esame (record) selezionato */
         String tipologia_esame = String.valueOf(applicazione.getEsami().get(row).getClass());
 
-        if (row != -1) {
+        if (row != -1) { // Se la riga ha un indice valido
             int matricola = Integer.parseInt(matricola_tf.getText());
             String nome = nome_tf.getText();
             String cognome = cognome_tf.getText();
             String corso = corso_tf.getText();
+            /** Se l'esame è semplice recupero il voto, nel caso fosse composto esso non può essere modificato
+             * in quanto calcolato automaticamente con la registrazione delle prove parziali */
             if(tipologia_esame.contains("Semplice"))
                 voto = Integer.parseInt(voto_tf.getText());
             boolean lode = lode_cb.isSelected();
             int cfu = Integer.parseInt(cfu_tf.getText());
 
+            /** Recupera lo studente dall'archivio studenti attraverso il metodo ricercaStudente */
             Studente studente = applicazione.ricercaStudente(matricola);
+            /** Modifica i dati dello studente e del corrispettivo esame selezionato */
             studente.setMatricola(matricola);
             studente.setNome(nome);
             studente.setCognome(cognome);
@@ -740,20 +800,27 @@ public class GestioneEsami{
             applicazione.getEsami().get(row).setLode(lode);
             applicazione.getEsami().get(row).setCfu(cfu);
 
-            if(tipologia_esame.contains("Composto")){
+            if(tipologia_esame.contains("Composto")){ // Se l'esame è composto
+                /** Recupera il numero di prove parziali dell'esame (record) selezionato */
                 int n_prove = applicazione.getEsami().get(row).getEsami_parziali().size();
+                /** Recupero i dati delle prove parziali */
                 for(int i=0; i<n_prove; i++){
                     String tipologia_prova =  tipologia_prova_tf[i].getText();
                     int peso = Integer.parseInt(peso_prova_tf[i].getText());
                     int voto_prova = Integer.parseInt(voto_prova_tf[i].getText());
 
+                    /** Modifico i dati delle prove parziali */
                     applicazione.getEsami().get(row).getEsami_parziali().get(i).setNome(tipologia_prova);
                     applicazione.getEsami().get(row).getEsami_parziali().get(i).setPeso(peso);
                     applicazione.getEsami().get(row).getEsami_parziali().get(i).setVoto(voto_prova);
                 }
+                /** Ricalcolo il voto finale dell'esame composto appena modificato */
                 applicazione.getEsami().get(row).voto();
+                /** Salvo in una variabile il voto in modo tale da aggiornare il record della tabella a seconda del tipo
+                 *  di esame che è stato modificato */
                 voto = applicazione.getEsami().get(row).getVoto();
             }
+            /** Aggiorno i dati in tabella del record modificato */
             applicazione.getTabella().getDefaultTableModel().setValueAt(matricola, row, 0);
             applicazione.getTabella().getDefaultTableModel().setValueAt(nome, row, 1);
             applicazione.getTabella().getDefaultTableModel().setValueAt(cognome, row, 2);
@@ -764,15 +831,24 @@ public class GestioneEsami{
         }
     }
 
+    /**
+     * deleteEntry
+     * Metodo che permette di:
+     *  - eliminare un record della tabella
+     *  - eliminare un esame dall'archivio esami
+     *  - eliminare uno studente dall'archivio studenti
+     * @param applicazione permette di gestire gli archivi dati e la tabella
+     * */
     public void deleteEntry(Applicazione applicazione) {
-        // Elimina un'entry dalla tabella
+        /** Recupera la riga selezionata */
         int selectedRow = applicazione.getTabella().getTable().getSelectedRow();
-        // Recupero lo studente da eliminare
-        if (selectedRow != -1) {
-            // Rimuovo la riga
+        if (selectedRow != -1) { // Se la riga ha un valore valido
+            /** Rimuove il record selezionato dalla tabella */
             applicazione.getTabella().getDefaultTableModel().removeRow(selectedRow);
-            // Rimuovo l'esame specificato dal vettore
+            /** Rimuove l'esame del record selezionato dall'archivio esami */
             applicazione.getEsami().delete(applicazione.getEsami().get(selectedRow));
+            /** Rimuove lo studente del record selezionato dall'archivio studenti*/
+            applicazione.getStudenti().delete(applicazione.getStudenti().get(selectedRow));
         }
     }
 }
