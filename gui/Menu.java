@@ -3,6 +3,8 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -39,15 +41,62 @@ public class Menu {
 
         JButton gestione_esami_btn = new JButton("<html><h3>GESTIONE ESAMI</h3></html>");
         gestione_esami_btn.setFocusPainted(false);
+        gestione_esami_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Aggiungi bordo nero intorno al pulsante
+        gestione_esami_btn.addActionListener(e -> new GestioneEsami(applicazione));
+
+        // Aggiunge un MouseListener per gestire gli eventi del mouse
+        gestione_esami_btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Cambia il colore del pulsante quando il mouse entra
+                gestione_esami_btn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Ripristina il colore originale del pulsante quando il mouse esce
+                gestione_esami_btn.setBackground(null);
+            }
+        });
 
         JButton carica_esami_btn = new JButton("<html><h3>CARICAMENTO ESAMI</h3></html>");
         carica_esami_btn.setFocusPainted(false);
+        carica_esami_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        carica_esami_btn.addActionListener(e -> new CaricaEsami(mainFrame, applicazione));
+
+        // Aggiunge un MouseListener per gestire gli eventi del mouse
+        carica_esami_btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Cambia il colore del pulsante quando il mouse entra
+                carica_esami_btn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Ripristina il colore originale del pulsante quando il mouse esce
+                carica_esami_btn.setBackground(null);
+            }
+        });
 
         JButton stampa_tabella_btn = new JButton("<html><h3>STAMPA TABELLA DEGLI ESAMI</h3></html>");
         stampa_tabella_btn.setFocusPainted(false);
+        stampa_tabella_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        gestione_esami_btn.addActionListener(e -> new GestioneEsami(applicazione));
-        carica_esami_btn.addActionListener(e -> new CaricaEsami(mainFrame, applicazione));
+        // Aggiunge un MouseListener per gestire gli eventi del mouse
+        stampa_tabella_btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Cambia il colore del pulsante quando il mouse entra
+                stampa_tabella_btn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Ripristina il colore originale del pulsante quando il mouse esce
+                stampa_tabella_btn.setBackground(null);
+            }
+        });
 
         stampa_tabella_btn.addActionListener(new ActionListener() {
             @Override
@@ -105,52 +154,5 @@ public class Menu {
         mainFrame.add(mainPanel);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        /*JFrame mainFrame = new JFrame("Gestione Esami");
-        mainFrame.setSize(600,300);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(null);
-        mainPanel.setPreferredSize(new Dimension(600,300));
-
-        JLabel title_l = new JLabel("<html><h1><strong><i>Benvenuto nell'applicazione Gestione Esami!</i></strong></h1><hr></html>");
-        title_l.setBounds(35,10, 600,60);
-
-        JButton gestione_esami_btn = new JButton("Gestione degli esami");
-        gestione_esami_btn.setBounds(200,115, 200,25);
-        JButton carica_esami_btn = new JButton("Caricamento esami");
-        carica_esami_btn.setBounds(200,140, 200,25);
-        JButton stampa_tabella_btn = new JButton("Stampa tabella degli esami");
-        stampa_tabella_btn.setBounds(200,165, 200,25);
-
-        gestione_esami_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GestioneEsami gestioneEsami = new GestioneEsami(applicazione);
-            }
-        });
-
-        carica_esami_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CaricaEsami caricaEsami = new CaricaEsami(mainFrame, applicazione);
-            }
-        });
-
-
-
-        mainPanel.add(title_l);
-        mainPanel.add(gestione_esami_btn);
-        mainPanel.add(carica_esami_btn);
-        mainPanel.add(stampa_tabella_btn);
-
-        // Aggiunta del pannello principale al frame
-        mainFrame.add(mainPanel);
-
-        // Imposta la finestra al centro dello schermo
-        mainFrame.setLocationRelativeTo(null);
-
-        // Rendi la finestra visibile
-        mainFrame.setVisible(true);*/
     }
 }
