@@ -8,18 +8,19 @@ package classi;
  */
 public class Studente {
 
-    /** Attributo private di tipo int che rappresenta la matricola dello studente */
+    /** Matricola dello studente */
     private int matricola;
-    /** Attributo private di tipo String che rappresenta il nome dello studente */
+    /** Nome dello studente */
     private String nome;
-    /** Attributo private di tipo String che rappresenta il cognome dello studente */
+    /** Cognome dello studente */
     private String cognome;
 
     /**
+     * Studente
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
-     * @param matricola matricola dello studente
-     * @param nome nome dello studente
-     * @param cognome cognome dello studente
+     * @param matricola Matricola dello studente
+     * @param nome Nome dello studente
+     * @param cognome Cognome dello studente
      */
     public Studente(int matricola, String nome, String cognome){
 
@@ -28,69 +29,65 @@ public class Studente {
         this.cognome = cognome;
     }
 
-    /** Getter Methods */
-
-    /** Metodi necessari per accedere agli attributi dell'oggetto Studente in quanto privati
-     * in modo da garantirne l'incapsulamento
-    */
-
     /**
+     * getMatricola
      * Metodo getter che restituisce la matricola dello studente
-     * @return matricola dello studente
+     * @return Matricola dello studente
      */
     public int getMatricola() {
         return this.matricola;
     }
 
     /**
+     * getNome
      * Metodo getter che restituisce il nome dello studente
-     * @return nome dello studente
+     * @return Nome dello studente
      */
     public String getNome() {
         return this.nome;
     }
 
-    public void visualizza(){
-        System.out.println(getMatricola() + " " + getNome() + " " + getCognome());
-    }
-
     /**
+     * getCognome
      * Metodo getter che restituisce il cognome dello studente
-     * @return cognome dello studente
+     * @return Cognome dello studente
      */
     public String getCognome() {
         return this.cognome;
     }
 
-    /** Setter Methods */
-
-    /** Metodi necessari per poter accedere e modificare gli attributi dell'oggetto Studente in quanto privati
-     * in modo da garantirne l'incapsulamento
-    */
-
     /**
+     * setMatricola
      * Metodo setter che modifica la matricola dello studente 
-     * @param matricola nuova matricola dello studente
+     * @param matricola Nuova matricola dello studente
      */
     public void setMatricola(int matricola) {
         this.matricola = matricola;
     }
 
     /**
+     * setNome
      * Metodo setter che modifica il nome dello studente
-     * @param nome nuovo nome dello studente
+     * @param nome Nuovo nome dello studente
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     /**
+     * setCognome
      * Metodo setter che modifica il cognome dello studente
-     * @param cognome nuovo cognome dello studente
+     * @param cognome Nuovo cognome dello studente
      */
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
+    /**
+     * toString
+     * Metodo che restituisce una rappresentazione testuale dello studente come una stringa
+     * contenente il nome e il cognome dello studente separati da uno spazio
+     * @return Una stringa contenente il nome e il cognome dello studente
+     */
     public String toString(){ return nome + " " + cognome; }
 }

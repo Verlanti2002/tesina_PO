@@ -3,11 +3,23 @@ package classi;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Tabella
+ * Permette di rappresentare la tabella che gestirà gli esami
+ * @author Alessandro Verlanti
+ * @version java 21.0.1 2023-10-17 LTS
+ */
 public class Tabella {
+    /** Tabella grafica */
+    private final JTable jTable;
+    /** Modello di default della tabella */
+    private final DefaultTableModel defaultTableModel;
 
-    private JTable jTable;
-    private DefaultTableModel defaultTableModel;
-
+    /**
+     * Tabella
+     * Costruttore che crea una nuova istanza della tabella con le colonne specificate
+     * @param columnNames Un array di stringhe contenente i nomi delle colonne della tabella
+     */
     public Tabella(String[] columnNames){
         defaultTableModel = new DefaultTableModel();;
         for(int i=0; i< columnNames.length; i++){
@@ -16,10 +28,20 @@ public class Tabella {
         jTable = new JTable(defaultTableModel);
     }
 
+    /**
+     * getTable
+     * Metodo getter che restituisce l'oggetto JTable associato a questa Tabella
+     * @return La tabella grafica JTable.
+     */
     public JTable getTable() {
         return jTable;
     }
 
+    /**
+     * getDefaultTableModel
+     * Metodo getter che restituisce il modello di default della tabella.
+     * @return Il modello di default della tabella.
+     */
     public DefaultTableModel getDefaultTableModel() {
         return defaultTableModel;
     }
