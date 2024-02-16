@@ -1,16 +1,14 @@
 package gui;
 
-import classi.EsameComposto;
-import classi.EsameSemplice;
-import classi.Studente;
-import classi.EsameParziale;
+import classi.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
 /**
- * CaricaEsami
+ * <strong>CaricaEsami</strong>
+ * <br>
  * Classe che permette il caricamento di una tabella di esami da file
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -18,7 +16,8 @@ import java.io.*;
 public class CaricaEsami {
 
     /**
-     * CaricaEsami
+     * <strong>CaricaEsami</strong>
+     * <br>
      * Costruttore che permette il caricamento dei dati da un file
      * @param mainFrame Frame su cui aprire il gestore dei file
      * @param applicazione Permette di aggiornare gli archivi dati e la tabella
@@ -34,7 +33,10 @@ public class CaricaEsami {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             /* Ottiene il file selezionato dall'utente */
             File file = fileChooser.getSelectedFile();
-            /* Una volta selezionato il file, prima di caricare i dati dal file, elimino quelli precedenti */
+            /* Una volta selezionato il file, prima di caricare i dati dal file, creo una nuova istanza di applicazione
+            * in modo tale da inizializzare nuovamente la tabella e gli archivi dati */
+            applicazione.getArchivioStudenti().getStudenti().clear();
+            applicazione.getArchivioEsami().getEsami().clear();
             applicazione.getTabella().getDefaultTableModel().setRowCount(0);
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 /* Legge la prima riga del file che contiene i nomi delle colonne */
@@ -49,10 +51,10 @@ public class CaricaEsami {
                     /* Crea l'oggetto studente con i primi 3 campi (matricola, nome, cognome) prelevati dal file */
                     Studente studente = new Studente(Integer.parseInt(rowDataTable[0]), rowDataTable[1], rowDataTable[2]);
                     /* Aggiunge lo studente all'archivio studenti */
-                    applicazione.getStudenti().add(studente);
+                    applicazione.getArchivioStudenti().add(studente);
                     if(rowData.length == 7){ // allora è un esame semplice
                         /* Registrazione di un nuovo esame semplice */
-                        applicazione.getEsami().add(new EsameSemplice(studente, rowDataTable[3], Integer.parseInt(rowDataTable[4]), Boolean.parseBoolean(rowDataTable[5]), Integer.parseInt(rowDataTable[6])));
+                        applicazione.getArchivioEsami().add(new EsameSemplice(studente, rowDataTable[3], Integer.parseInt(rowDataTable[4]), Boolean.parseBoolean(rowDataTable[5]), Integer.parseInt(rowDataTable[6])));
                     } else{ // altrimenti è un esame composto
                         /* Registrazione di un nuovo esame composto */
                         EsameComposto esameComposto = new EsameComposto(studente, rowDataTable[3], Boolean.parseBoolean(rowDataTable[5]), Integer.parseInt(rowDataTable[6]));
@@ -70,13 +72,12 @@ public class CaricaEsami {
                         /* Calcola il voto finale dell'esame composto registrato */
                         esameComposto.voto();
                         /* Aggiunge l'esame all'archivio esami */
-                        applicazione.getEsami().add(esameComposto);
+                        applicazione.getArchivioEsami().add(esameComposto);
                     }
                 }
 
                 /* Mostra un messaggio di conferma del caricamento */
                 JOptionPane.showMessageDialog(mainFrame, "Tabella caricata con successo!");
-                GestioneEsami gestioneEsami = new GestioneEsami(applicazione);
             } catch (IOException e) {
                 /* Gestione di eventuali eccezioni di I*/
                 e.printStackTrace();

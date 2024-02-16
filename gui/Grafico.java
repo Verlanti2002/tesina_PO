@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Grafico
+ * <strong>Grafico</strong>
+ * <br>
  * Classe per la realizzazione del grafico sulle statistiche inerenti alle prove sostenute
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -20,7 +21,8 @@ import java.util.stream.Collectors;
 public class Grafico {
 
     /**
-     * Grafico
+     * <strong>Grafico</strong>
+     * <br>
      * Costruttore che si occupa della realizzazione del grafico statistico sui voti degli esami filtrati nella tabella
      * @param applicazione Per recuperare i dati dalla tabella
      * @param mainFrame Frame su cui aprire la finestra del grafico

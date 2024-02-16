@@ -5,7 +5,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
 /**
- * SalvaEsami
+ * <strong>SalvaEsami</strong>
+ * <br>
  * Classe per il salvataggio degli esami registrati su file
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -13,7 +14,8 @@ import java.io.*;
 public class SalvaEsami {
 
     /**
-     * SalvaEsami
+     * <strong>SalvaEsami</strong>
+     * <br>
      * Costruttore che permette il salvataggio degli esami, presenti nella tabella, su file
      * @param mainFrame Frame su cui visualizzare il gestore dei file
      * @param applicazione Permette di gestire gli archivi dati e la tabella
@@ -40,20 +42,20 @@ public class SalvaEsami {
             }
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 /* Scrive i dati della tabella su file */
-                for(int i=0; i<applicazione.getEsami().size(); i++){
-                    String tipologia_esame = String.valueOf(applicazione.getEsami().get(i).getClass());
-                    writer.write(applicazione.getEsami().get(i).getStudente().getMatricola() + "\t");
-                    writer.write(applicazione.getEsami().get(i).getStudente().getNome() + "\t");
-                    writer.write(applicazione.getEsami().get(i).getStudente().getCognome() + "\t");
-                    writer.write(applicazione.getEsami().get(i).getNome() + "\t");
-                    writer.write(applicazione.getEsami().get(i).getVoto() + "\t");
-                    writer.write(applicazione.getEsami().get(i).getLode() + "\t");
-                    writer.write(applicazione.getEsami().get(i).getCfu() + "\t");
+                for(int i = 0; i<applicazione.getArchivioEsami().size(); i++){
+                    String tipologia_esame = String.valueOf(applicazione.getArchivioEsami().get(i).getClass());
+                    writer.write(applicazione.getArchivioEsami().get(i).getStudente().getMatricola() + "\t");
+                    writer.write(applicazione.getArchivioEsami().get(i).getStudente().getNome() + "\t");
+                    writer.write(applicazione.getArchivioEsami().get(i).getStudente().getCognome() + "\t");
+                    writer.write(applicazione.getArchivioEsami().get(i).getNome() + "\t");
+                    writer.write(applicazione.getArchivioEsami().get(i).getVoto() + "\t");
+                    writer.write(applicazione.getArchivioEsami().get(i).getLode() + "\t");
+                    writer.write(applicazione.getArchivioEsami().get(i).getCfu() + "\t");
                     if(tipologia_esame.contains("Composto")){
-                        for(int j=0; j<applicazione.getEsami().get(i).getEsamiParziali().size(); j++){
-                            writer.write(applicazione.getEsami().get(i).getEsamiParziali().get(j).getNome() + "\t");
-                            writer.write(applicazione.getEsami().get(i).getEsamiParziali().get(j).getPeso() + "\t");
-                            writer.write(applicazione.getEsami().get(i).getEsamiParziali().get(j).getVoto() + "\t");
+                        for(int j = 0; j<applicazione.getArchivioEsami().get(i).getEsamiParziali().size(); j++){
+                            writer.write(applicazione.getArchivioEsami().get(i).getEsamiParziali().get(j).getNome() + "\t");
+                            writer.write(applicazione.getArchivioEsami().get(i).getEsamiParziali().get(j).getPeso() + "\t");
+                            writer.write(applicazione.getArchivioEsami().get(i).getEsamiParziali().get(j).getVoto() + "\t");
                         }
                     }
                     writer.write("\n");

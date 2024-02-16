@@ -21,7 +21,7 @@ public class EsameParziale {
     private int voto;
 
     /**
-     * EsameParziale
+     * <strong>EsameParziale</strong>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * @param nome Nome dell'esame parziale (scritto, orale, pratico)
      * @param peso Peso dell'esame parziale
@@ -34,7 +34,7 @@ public class EsameParziale {
     }
 
     /**
-     * getNome
+     * <strong>getNome</strong>
      * Metodo getter che restituisce il nome di un esame parziale
      * @return nome dell'esame parziale
      */
@@ -43,7 +43,7 @@ public class EsameParziale {
     }
 
     /**
-     * getPeso
+     * <strong>getPeso</strong>
      * Metodo getter che restituisce il peso di un esame parziale
      * @return peso dell'esame parziale
      */
@@ -52,7 +52,7 @@ public class EsameParziale {
     }
 
     /**
-     * getVoto
+     * <strong>getVoto</strong>
      * Metodo getter che restituisce il voto di un esame parziale
      * @return voto dell'esame parziale
      */
@@ -61,7 +61,7 @@ public class EsameParziale {
     }
 
     /**
-     * setNome
+     * <strong>setNome</strong>
      * Metodo setter che modifica il nome di un esame parziale
      * @param nome nuovo nome dell'esame parziale
      */
@@ -70,7 +70,7 @@ public class EsameParziale {
     }
 
     /**
-     * setPeso
+     * <strong>setPeso</strong>
      * Metodo setter che modifica il peso di un esame parziale
      * @param peso nuovo peso dell'esame parziale
      */
@@ -79,7 +79,7 @@ public class EsameParziale {
     }
 
     /**
-     * setVoto
+     * <strong>setVoto</strong>
      * Metodo setter che modifica il voto di un esame parziale
      * @param voto nuovo voto dell'esame parziale
      */

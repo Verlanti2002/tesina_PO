@@ -12,7 +12,8 @@ import java.awt.print.PrinterJob;
 import javax.swing.*;
 
 /**
- * Menu
+ * <strong>Menu</strong>
+ * <br>
  * Classe che rappresenta il menù principale dell'intera applicazione
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -20,14 +21,15 @@ import javax.swing.*;
 public class Menu {
 
     /**
-     * Menu
+     * <strong>Menu</strong>
+     * <br>
      * Costruttore che realizza l'intera finestra per la visualizzazione del menù
      * @param applicazione Permette di gestire gli archivi dati e la tabella
      * */
     public Menu(Applicazione applicazione){
 
         JFrame mainFrame = new JFrame("Gestione Esami");
-        mainFrame.setSize(600,300);
+        mainFrame.setSize(700,350);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -105,42 +107,10 @@ public class Menu {
                 if(applicazione.getTabella().getTable().getRowCount() == 0){
                     int result = JOptionPane.showConfirmDialog(mainFrame, "La tabella è vuota. Vuoi comunque stamparla?", "Informazione", JOptionPane.YES_NO_CANCEL_OPTION);
                     if(result == JOptionPane.YES_OPTION){
-                        // Ottengo un'istanza di PrinterJob, che rappresenta il lavoro di stampa
-                        PrinterJob printerJob = PrinterJob.getPrinterJob();
-
-                        // Imposta il lavoro di stampa utilizzando un oggetto Printable personalizzato
-                        printerJob.setPrintable(new Printable() {
-                            @Override
-                            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-                                // Controlla se pageIndex è maggiore di 0 (per gestire le pagine successive)
-                                if(pageIndex > 0)
-                                    return Printable.NO_SUCH_PAGE;
-
-                                // Ottieni un'istanza di Graphics2D dalla grafica fornita, per poter disegnare
-                                Graphics2D graphics2D = (Graphics2D) graphics;
-                                // Trasla il contesto grafico per adattarlo all'area stampabile della pagina
-                                graphics2D.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-                                // Stampa la tabella dell'applicazione utilizzando il metodo printAll() della tabella
-                                applicazione.getTabella().getTable().printAll(graphics2D);
-
-                                // Indica che la pagina è stata stampata con successo
-                                return Printable.PAGE_EXISTS;
-                            }
-                        });
-
-                        // Mostra il dialogo di stampa del sistema operativo e attendi che l'utente interagisca con esso
-                        if (printerJob.printDialog()) {
-                            try {
-                                // Se l'utente conferma la stampa, stampa il documento
-                                printerJob.print();
-                            } catch (PrinterException ex) {
-                                // Gestisci eventuali eccezioni di stampa
-                                ex.printStackTrace();
-                                // Mostra un messaggio di errore all'utente in caso di errore di stampa
-                                JOptionPane.showMessageDialog(mainFrame, "Errore durante la stampa.", "Errore", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
+                        stampaTabella(applicazione, mainFrame);
                     }
+                } else {
+                    stampaTabella(applicazione, mainFrame);
                 }
             }
         });
@@ -154,5 +124,50 @@ public class Menu {
         mainFrame.add(mainPanel);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+
+    /**
+     * <strong>stampaTabella</strong>
+     * <br>
+     * Metodo per stampare la tabella utilizzando il servizio di stampa del sistema operativo
+     * @param applicazione Permette l'accesso alla tabella da stampare
+     * @param mainFrame Il JFrame principale dell'applicazione, utilizzato per mostrare eventuali messaggi di errore
+     */
+    public void stampaTabella(Applicazione applicazione, JFrame mainFrame){
+        // Ottengo un'istanza di PrinterJob, che rappresenta il lavoro di stampa
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+        // Imposta il lavoro di stampa utilizzando un oggetto Printable personalizzato
+        printerJob.setPrintable(new Printable() {
+            @Override
+            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                // Controlla se pageIndex è maggiore di 0 (per gestire le pagine successive)
+                if(pageIndex > 0)
+                    return Printable.NO_SUCH_PAGE;
+
+                // Ottieni un'istanza di Graphics2D dalla grafica fornita, per poter disegnare
+                Graphics2D graphics2D = (Graphics2D) graphics;
+                // Trasla il contesto grafico per adattarlo all'area stampabile della pagina
+                graphics2D.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+                // Stampa la tabella dell'applicazione utilizzando il metodo printAll() della tabella
+                applicazione.getTabella().getTable().printAll(graphics2D);
+
+                // Indica che la pagina è stata stampata con successo
+                return Printable.PAGE_EXISTS;
+            }
+        });
+
+        // Mostra il dialogo di stampa del sistema operativo e attendi che l'utente interagisca con esso
+        if (printerJob.printDialog()) {
+            try {
+                // Se l'utente conferma la stampa, stampa il documento
+                printerJob.print();
+            } catch (PrinterException ex) {
+                // Gestisci eventuali eccezioni di stampa
+                ex.printStackTrace();
+                // Mostra un messaggio di errore all'utente in caso di errore di stampa
+                JOptionPane.showMessageDialog(mainFrame, "Errore durante la stampa.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }

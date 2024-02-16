@@ -3,7 +3,8 @@ package classi;
 import java.util.ArrayList;
 
 /**
- * ArchivioStudenti
+ * <strong>ArchivioStudenti</strong>
+ * <br>
  * Questa classe rappresenta un archivio di studenti
  * @param <E> Il tipo degli studenti memorizzati nell'archivio
  * @author Alessandro Verlanti
@@ -12,10 +13,11 @@ import java.util.ArrayList;
 public class ArchivioStudenti<E> {
 
     /** Lista che contiene gli studenti */
-    private ArrayList<E> studenti;
+    private final ArrayList<E> studenti;
 
     /**
-     * ArchivioStudenti
+     * <strong>ArchivioStudenti</strong>
+     * <br>
      * Costruttore per creare un nuovo archivio di studenti
      * Inizializza la lista degli studenti
      */
@@ -24,7 +26,17 @@ public class ArchivioStudenti<E> {
     }
 
     /**
-     * add
+     * <strong>getStudenti</strong>
+     * Restituisce l'elenco degli studenti presenti nell'ArrayList
+     * ArrayList contenente gli studenti
+     */
+    public ArrayList<E> getStudenti() {
+        return studenti;
+    }
+
+    /**
+     * <strong>add</strong>
+     * <br>
      * Metodo che aggiunge un nuovo studente all'archivio
      * @param studente Lo studente da aggiungere all'archivio
      */
@@ -33,7 +45,8 @@ public class ArchivioStudenti<E> {
     }
 
     /**
-     * delete
+     * <strong>delete</strong>
+     * <br>
      * Metodo che elimina uno studente dall'archivio
      * @param studente Lo studente da eliminare dall'archivio
      */
@@ -42,7 +55,8 @@ public class ArchivioStudenti<E> {
     }
 
     /**
-     * get
+     * <strong>get</strong>
+     * <br>
      * Metodo che ottiene uno studente dall'archivio in base all'indice specificato
      * @param index L'indice dello studente da ottenere
      * @return Lo studente corrispondente all'indice specificato
@@ -52,7 +66,8 @@ public class ArchivioStudenti<E> {
     }
 
     /**
-     * size
+     * <strong>size</strong>
+     * <br>
      * Metodo che restituisce il numero di studenti presenti nell'archivio
      * @return Il numero di studenti presenti nell'archivio
      */
@@ -61,12 +76,12 @@ public class ArchivioStudenti<E> {
     }
 
     /**
-     * isEmpty
+     * <strong>isEmpty</strong>
+     * <br>
      * Metodo che verifica se l'archivio degli studenti è vuoto
      * @return True se l'archivio è vuoto, false altrimenti
      */
     public boolean isEmpty(){
         return studenti.isEmpty();
     }
-
 }

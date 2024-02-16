@@ -3,7 +3,7 @@ package gui;
 import classi.*;
 
 /**
- * Applicazione
+ * <strong>Applicazione</strong>
  * Classe condivisa in ogni altra classe per la gestione degli archivi dati e della tabella
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -18,7 +18,7 @@ public class Applicazione {
     private final Tabella tabella;
 
     /**
-     * Applicazione
+     * <strong>Applicazione</strong>
      * Costruttore per inizializzare l'applicazione con una tabella
      * @param tabella La tabella da utilizzare per la visualizzazione dei dati
      */
@@ -29,25 +29,25 @@ public class Applicazione {
     }
 
     /**
-     * getEsami
+     * <strong>getEsami</strong>
      * Metodo che restituisce l'archivio degli esami
      * @return L'archivio degli esami
      */
-    public ArchivioEsami<Esame> getEsami(){
+    public ArchivioEsami<Esame> getArchivioEsami(){
         return archivioEsami;
     }
 
     /**
-     * getStudenti
+     * <strong>getStudenti</strong>
      * Metodo che restituisce l'archivio degli studenti
      * @return L'archivio degli studenti
      */
-    public ArchivioStudenti<Studente> getStudenti(){
+    public ArchivioStudenti<Studente> getArchivioStudenti(){
         return archivioStudenti;
     }
 
     /**
-     * getTabella
+     * <strong>getTabella</strong>
      * Metodo che restituisce la tabella utilizzata dall'applicazione
      * @return La tabella utilizzata dall'applicazione
      */
@@ -56,7 +56,7 @@ public class Applicazione {
     }
 
     /**
-     * ricercaStudente
+     * <strong>ricercaStudente</strong>
      * Cerca uno studente nell'archivio degli studenti utilizzando la matricola
      * @param matricola La matricola dello studente da cercare
      * @return Lo studente corrispondente alla matricola, o null se non trovato
@@ -70,17 +70,18 @@ public class Applicazione {
     }
 
     /**
-     * studentExist
-     * Verifica se uno studente con la matricola specificata esiste nell'archivio degli studenti
-     * @param matricola La matricola dello studente da cercare
-     * @return True se uno studente con la matricola specificata esiste, altrimenti false
-     */
-    public Studente studentExist(int matricola){
-        for(int i=0; i< archivioStudenti.size(); i++){
-            if(archivioStudenti.get(i).getMatricola() == matricola)
-                return archivioStudenti.get(i);
+     * <strong>verificaEsistenzaEsame</strong>
+     * Metodo che verifica se un esame è gia stato registrato o meno
+     * @param esame Esame da controllare
+     * */
+    public boolean verificaEsistenzaEsame(Esame esame){
+        for(int i=0; i< archivioEsami.size(); i++){
+            if(esame.getStudente().getMatricola() == archivioEsami.get(i).getStudente().getMatricola()) {
+                if (esame.getNome().equalsIgnoreCase(archivioEsami.get(i).getNome()))
+                    return true;
+            }
         }
-        return null;
+        return false;
     }
 }
 

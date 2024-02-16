@@ -3,7 +3,7 @@ package classi;
 import java.util.ArrayList;
 
 /**
- * EsameComposto
+ * <strong>EsameComposto</strong>
  * Sottoclasse derivata della superclasse Esame
  * Definisce gli esami composti da più prove 
  * @see Esame
@@ -17,10 +17,10 @@ public class EsameComposto extends Esame{
      * Necessario per memorizzare in ogni oggetto voto e peso
      * di un determinato esame parziale (scritto, orale o pratico) di un esame composto
      */
-    private ArrayList<EsameParziale> esami_parziali;
+    private final ArrayList<EsameParziale> esami_parziali;
 
     /**
-     * EsameComposto
+     * <strong>EsameComposto</strong>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * Viene richiamato il costruttore della superclasse Esame
      * @param studente Studente che ha conseguito l'esame
@@ -34,21 +34,24 @@ public class EsameComposto extends Esame{
     }
 
     /**
-     * getEsamiParziali
+     * <strong>getEsamiParziali</strong>
      * Metodo che restituisce l'array degli esami parziali di un determinato esame
      * @return Array contenente gli esami parziali
      * */
+    @Override
     public ArrayList<EsameParziale> getEsamiParziali() {
         return esami_parziali;
     }
 
     /**
-     * voto
+     * <strong>voto</strong>
+     * Implementazione del metodo astratto della classe Esame
      * Metodo che permette di calcolare il voto finale di un esame composto
      * Dati gli esami parziali, va a moltiplicare il voto dei singoli esami parziali
      * con i loro relativi pesi, somamndo poi voto per voto delle prove parziali
      * Infine, va a modificare direttamente il voto finale nella superclasse Esame
      */
+    @Override
     public void voto(){
 
         if (esami_parziali != null) {
@@ -61,8 +64,6 @@ public class EsameComposto extends Esame{
             }
 
             super.setVoto(voto_finale);
-        } else {
-            System.out.println("Non è stata registrata alcuna prova parziale");
         }
     }
 }

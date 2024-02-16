@@ -3,7 +3,8 @@ package classi;
 import java.util.ArrayList;
 
 /**
- * Esame
+ * <strong>Esame</strong>
+ * <br>
  * Classe principale che definisce l'entità Esame
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public abstract class Esame {
 
     /** Studente che ha sostenuto l'esame */
-    private Studente studente;
+    private final Studente studente;
     /** Nome dell'esame (o corso) */
     private String nome;
     /** Voto finale dell'esame */
@@ -22,7 +23,8 @@ public abstract class Esame {
     private int cfu;
 
     /**
-     * Esame
+     * <strong>Esame</strong>
+     * <br>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * @param studente Studente che ha conseguito l'esame
      * @param nome Nome del corso di cui si è sostenuto l'esame
@@ -37,7 +39,8 @@ public abstract class Esame {
     }
 
     /**
-     * getStudente
+     * <strong>getStudente</strong>
+     * <br>
      * Metodo getter che restituisce lo studente che ha conseguito l'esame
      * @return Oggetto Studente
      */
@@ -46,7 +49,8 @@ public abstract class Esame {
     }
 
     /**
-     * getNome
+     * <strong>getNome</strong>
+     * <br>
      * Metodo getter che restituisce il nome dell'esame
      * @return Nome dell'esame
      */
@@ -55,7 +59,8 @@ public abstract class Esame {
     }
 
     /**
-     * getVoto
+     * <strong>getVoto</strong>
+     * <br>
      * Metodo getter che restituisce il voto totale dell'esame
      * @return Voto finale
      */
@@ -64,7 +69,8 @@ public abstract class Esame {
     }
 
     /**
-     * getLode
+     * <strong>getLode</strong>
+     * <br>
      * Metodo getter che restituisce un valore booleano
      * @return True (se il voto finale è con lode) False (altrimenti)
      */
@@ -73,7 +79,8 @@ public abstract class Esame {
     }
 
     /**
-     * getCfu
+     * <strong>getCfu</strong>
+     * <br>
      * Metodo getter che restituisce il numero di cfu dell'esame
      * @return Cfu totali
      */
@@ -82,7 +89,8 @@ public abstract class Esame {
     }
 
     /**
-     * setNome
+     * <strong>setNome</strong>
+     * <br>
      * Metodo setter che modifica il nome dell'esame
      * @param nome Nuovo nome dell'esame
      */
@@ -91,7 +99,8 @@ public abstract class Esame {
     }
 
     /**
-     * setVoto
+     * <strong>setVoto</strong>
+     * <br>
      * Metodo setter che modifica il voto finale dell'esame
      * @param voto Nuovo voto dell'esame
      */
@@ -100,7 +109,8 @@ public abstract class Esame {
     }
 
     /**
-     * setLode
+     * <strong>setLode</strong>
+     * <br>
      * Metodo setter che modifica l'assegnazione della lode
      * @param lode Nuova assegnazione della lode
      */
@@ -109,7 +119,8 @@ public abstract class Esame {
     }
 
     /**
-     * setCfu
+     * <strong>setCfu</strong>
+     * <br>
      * Metodo setter che modifica il numero di cfu dell'esame
      * @param cfu Nuovo valore dei cfu dell'esame
      */
@@ -118,14 +129,16 @@ public abstract class Esame {
     }
 
     /**
-     * getEsamiParziali
+     * <strong>getEsamiParziali</strong>
      * Metodo astratto per ottenere l'array degli esami parziali di un determinato esame
+     * Le due sottoclassi di Esame implementeranno questo metodo
      */
     public abstract ArrayList<EsameParziale> getEsamiParziali();
 
     /**
-     * voto
+     * <strong>voto</strong>
      * Metodo astratto per il calcolo del voto finale
+     * Le due sottoclassi di Esame implementeranno questo metodo
      */
     public abstract void voto();
 }

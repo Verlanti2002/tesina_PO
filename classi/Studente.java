@@ -1,7 +1,7 @@
 package classi;
 
 /**
- * Studente
+ * <strong>Studente</strong>
  * Classe che definisce l'entità Studente
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -16,7 +16,7 @@ public class Studente {
     private String cognome;
 
     /**
-     * Studente
+     * <strong>Studente</strong>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * @param matricola Matricola dello studente
      * @param nome Nome dello studente
@@ -30,7 +30,7 @@ public class Studente {
     }
 
     /**
-     * getMatricola
+     * <strong>getMatricola</strong>
      * Metodo getter che restituisce la matricola dello studente
      * @return Matricola dello studente
      */
@@ -39,7 +39,7 @@ public class Studente {
     }
 
     /**
-     * getNome
+     * <strong>getNome</strong>
      * Metodo getter che restituisce il nome dello studente
      * @return Nome dello studente
      */
@@ -48,7 +48,7 @@ public class Studente {
     }
 
     /**
-     * getCognome
+     * <strong>getCognome</strong>
      * Metodo getter che restituisce il cognome dello studente
      * @return Cognome dello studente
      */
@@ -57,7 +57,7 @@ public class Studente {
     }
 
     /**
-     * setMatricola
+     * <strong>setMatricola</strong>
      * Metodo setter che modifica la matricola dello studente 
      * @param matricola Nuova matricola dello studente
      */
@@ -66,7 +66,7 @@ public class Studente {
     }
 
     /**
-     * setNome
+     * <strong>setNome</strong>
      * Metodo setter che modifica il nome dello studente
      * @param nome Nuovo nome dello studente
      */
@@ -75,7 +75,7 @@ public class Studente {
     }
 
     /**
-     * setCognome
+     * <strong>setCognome</strong>
      * Metodo setter che modifica il cognome dello studente
      * @param cognome Nuovo cognome dello studente
      */
@@ -84,7 +84,7 @@ public class Studente {
     }
 
     /**
-     * toString
+     * <strong>toString</strong>
      * Metodo che restituisce una rappresentazione testuale dello studente come una stringa
      * contenente il nome e il cognome dello studente separati da uno spazio
      * @return Una stringa contenente il nome e il cognome dello studente

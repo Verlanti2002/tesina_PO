@@ -3,7 +3,8 @@ package classi;
 import java.util.ArrayList;
 
 /**
- * ArchivioEsami
+ * <strong>ArchivioEsami</strong>
+ * <br>
  * Questa classe rappresenta un archivio di esami
  * @param <E> Il tipo degli esami memorizzati nell'archivio
  * @author Alessandro Verlanti
@@ -15,7 +16,8 @@ public class ArchivioEsami<E> {
     private ArrayList<E> esami;
 
     /**
-     * ArchivioEsami
+     * <strong>ArchivioEsami</strong>
+     * <br>
      * Costruttore per creare un nuovo archivio di esami
      * Inizializza la lista degli esami
      */
@@ -24,7 +26,18 @@ public class ArchivioEsami<E> {
     }
 
     /**
-     * add
+     * <strong>getEsami</strong>
+     * <br>
+     * Restituisce l'elenco degli esami presenti nell'ArrayList
+     * @return ArrayList contenente gli esami
+     */
+    public ArrayList<E> getEsami() {
+        return esami;
+    }
+
+    /**
+     * <strong>add</strong>
+     * <br>
      * Metodo che aggiunge un nuovo esame all'archivio
      * @param esame L'esame da aggiungere all'archivio
      */
@@ -33,7 +46,8 @@ public class ArchivioEsami<E> {
     }
 
     /**
-     * delete
+     * <strong>delete</strong>
+     * <br>
      * Metodo che elimina un esame dall'archivio
      * @param esame L'esame da eliminare dall'archivio
      */
@@ -42,7 +56,8 @@ public class ArchivioEsami<E> {
     }
 
     /**
-     * get
+     * <strong>get</strong>
+     * <br>
      * Metodo che ottiene un esame dall'archivio in base all'indice specificato
      * @param index L'indice dell'esame da ottenere
      * @return L'esame corrispondente all'indice specificato
@@ -52,20 +67,12 @@ public class ArchivioEsami<E> {
     }
 
     /**
-     * size
+     * <strong>size</strong>
+     * <br>
      * Metodo che restituisce il numero di esami presenti nell'archivio
      * @return Il numero di esami presenti nell'archivio
      */
     public int size(){
         return esami.size();
-    }
-
-    /**
-     * isEmpty
-     * Metodo che verifica se l'archivio degli esami è vuoto.
-     * @return True se l'archivio è vuoto, false altrimenti.
-     */
-    public boolean isEmpty(){
-        return esami.isEmpty();
     }
 }

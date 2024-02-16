@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class EsameSemplice extends Esame{
 
     /**
-     * EsameSemplice
+     * <strong>EsameSemplice</strong>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * Viene richiamato il costruttore della superclasse Esame
      * Viene settato l'attributo voto della superclasse Esame in quanto già voto finale dell'esame
@@ -29,17 +29,19 @@ public class EsameSemplice extends Esame{
     }
 
     /**
-     * getEsamiParziali
+     * <strong>getEsamiParziali</strong>
      * Restituisce l'array delle prove parziali di un esame composto
      * @return L'array di prove parziali, o null se non disponibile
      */
+    @Override
     public ArrayList<EsameParziale> getEsamiParziali() {
         return null;
     }
 
     /**
-     * voto
-     * Definzione del metodo astratto della classe Esame
+     * <strong>voto</strong>
+     * Implementazione del metodo astratto della classe Esame
      */
+    @Override
     public void voto() {}
 }
