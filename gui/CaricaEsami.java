@@ -78,6 +78,7 @@ public class CaricaEsami {
 
                 /* Mostra un messaggio di conferma del caricamento */
                 JOptionPane.showMessageDialog(mainFrame, "Tabella caricata con successo!");
+                GestioneEsami gestioneEsami = new GestioneEsami(applicazione);
             } catch (IOException e) {
                 /* Gestione di eventuali eccezioni di I*/
                 e.printStackTrace();

@@ -9,6 +9,10 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.text.MessageFormat;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.*;
 
 /**
@@ -107,10 +111,10 @@ public class Menu {
                 if(applicazione.getTabella().getTable().getRowCount() == 0){
                     int result = JOptionPane.showConfirmDialog(mainFrame, "La tabella è vuota. Vuoi comunque stamparla?", "Informazione", JOptionPane.YES_NO_CANCEL_OPTION);
                     if(result == JOptionPane.YES_OPTION){
-                        stampaTabella(applicazione, mainFrame);
+                        stampaTabella(applicazione);
                     }
                 } else {
-                    stampaTabella(applicazione, mainFrame);
+                    stampaTabella(applicazione);
                 }
             }
         });
@@ -131,43 +135,16 @@ public class Menu {
      * <br>
      * Metodo per stampare la tabella utilizzando il servizio di stampa del sistema operativo
      * @param applicazione Permette l'accesso alla tabella da stampare
-     * @param mainFrame Il JFrame principale dell'applicazione, utilizzato per mostrare eventuali messaggi di errore
      */
-    public void stampaTabella(Applicazione applicazione, JFrame mainFrame){
-        // Ottengo un'istanza di PrinterJob, che rappresenta il lavoro di stampa
-        PrinterJob printerJob = PrinterJob.getPrinterJob();
-
-        // Imposta il lavoro di stampa utilizzando un oggetto Printable personalizzato
-        printerJob.setPrintable(new Printable() {
-            @Override
-            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-                // Controlla se pageIndex è maggiore di 0 (per gestire le pagine successive)
-                if(pageIndex > 0)
-                    return Printable.NO_SUCH_PAGE;
-
-                // Ottieni un'istanza di Graphics2D dalla grafica fornita, per poter disegnare
-                Graphics2D graphics2D = (Graphics2D) graphics;
-                // Trasla il contesto grafico per adattarlo all'area stampabile della pagina
-                graphics2D.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-                // Stampa la tabella dell'applicazione utilizzando il metodo printAll() della tabella
-                applicazione.getTabella().getTable().printAll(graphics2D);
-
-                // Indica che la pagina è stata stampata con successo
-                return Printable.PAGE_EXISTS;
-            }
-        });
-
-        // Mostra il dialogo di stampa del sistema operativo e attendi che l'utente interagisca con esso
-        if (printerJob.printDialog()) {
-            try {
-                // Se l'utente conferma la stampa, stampa il documento
-                printerJob.print();
-            } catch (PrinterException ex) {
-                // Gestisci eventuali eccezioni di stampa
-                ex.printStackTrace();
-                // Mostra un messaggio di errore all'utente in caso di errore di stampa
-                JOptionPane.showMessageDialog(mainFrame, "Errore durante la stampa.", "Errore", JOptionPane.ERROR_MESSAGE);
-            }
+    public void stampaTabella(Applicazione applicazione){
+        MessageFormat header = new MessageFormat("Tabella degli esami registrati");
+        try {
+            PrintRequestAttributeSet set = new HashPrintRequestAttributeSet();
+            set.add(OrientationRequested.LANDSCAPE);
+            applicazione.getTabella().getTable().print(JTable.PrintMode.FIT_WIDTH, header, null, true, set, true);
+            JOptionPane.showMessageDialog(null, "\n" + "Printed Succefully");
+        }catch (java.awt.print.PrinterException e){
+            JOptionPane.showMessageDialog(null, "\n" + "Failed" + "\n" + e);
         }
     }
 }
