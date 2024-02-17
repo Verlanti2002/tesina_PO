@@ -1,10 +1,7 @@
 package gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -133,18 +130,27 @@ public class Menu {
     /**
      * <strong>stampaTabella</strong>
      * <br>
-     * Metodo per stampare la tabella utilizzando il servizio di stampa del sistema operativo
+     * Metodo per stampare la tabella utilizzando il servizio di stampa del sistema operativo Linux (WSL)
      * @param applicazione Permette l'accesso alla tabella da stampare
      */
     public void stampaTabella(Applicazione applicazione){
+        /* Creazione dell'intestazione per il documento stampato */
         MessageFormat header = new MessageFormat("Tabella degli esami registrati");
         try {
+            // Impostazione degli attributi di stampa, come l'orientamento della pagina
             PrintRequestAttributeSet set = new HashPrintRequestAttributeSet();
             set.add(OrientationRequested.LANDSCAPE);
-            applicazione.getTabella().getTable().print(JTable.PrintMode.FIT_WIDTH, header, null, true, set, true);
-            JOptionPane.showMessageDialog(null, "\n" + "Printed Succefully");
+            /* Stampa della tabella utilizzando la modalità FIT_WIDTH
+                FIT_WIDTH fa in modo che la tabella venga adattata alla larghezza della pagina
+                header: l'intestazione per ogni pagina
+                null: il footer per ogni pagina (che non è specificato in questo caso)
+                true: showPrintDialog - se true, mostra il dialogo di stampa del sistema
+                set: gli attributi di stampa aggiuntivi, come l'orientamento
+                true: interactive - se false, non mostra un dialogo di conferma dopo la stampa */
+            if(applicazione.getTabella().getTable().print(JTable.PrintMode.FIT_WIDTH, header, null, true, set, false))
+                JOptionPane.showMessageDialog(null, "\n" + "Printed Succefully");
         }catch (java.awt.print.PrinterException e){
-            JOptionPane.showMessageDialog(null, "\n" + "Failed" + "\n" + e);
+            JOptionPane.showMessageDialog(null, "Errore: " + e);
         }
     }
 }
