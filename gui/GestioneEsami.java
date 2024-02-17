@@ -31,7 +31,7 @@ public class GestioneEsami{
     /** Checkbox per l'inserimento della lode e la scelta sulla tipologia di esame da registrare */
     private JCheckBox lode_cb, semplice_cb, composto_cb;
     /** Bottoni per la modifica dei dati, la registrazione degli esami e il reset dei campi di testo */
-    private JButton modifica_btn, reset_btn, registra_esame_btn;
+    private JButton modifica_btn, reset_btn, elimina_btn, registra_esame_btn;
     /** ComboBox per l'inserimento del numero di prove parziali di un esame composto */
     private JComboBox<Integer> n_prove_cb;
     /** Array di Combobox per registrare le varie tipologie degli esami parziali registrati  */
@@ -173,8 +173,6 @@ public class GestioneEsami{
 
         /* Creazione del bottone per aggiungere un nuovo record alla tabella */
         JButton aggiungi_btn = new JButton("Aggiungi");
-        /* Creazione del bottone per eliminare un record dalla tabella */
-        JButton elimina_btn = new JButton("Elimina");
         /* Creazione del bottone per salvare i record della tabella su file */
         JButton salva_btn = new JButton("Salva");
 
@@ -205,7 +203,6 @@ public class GestioneEsami{
         controlPanel.add(media_btn);
         controlPanel.add(grafico_btn);
         controlPanel.add(aggiungi_btn);
-        controlPanel.add(elimina_btn);
         controlPanel.add(salva_btn);
 
         mainPanel.add(jScrollPane);
@@ -230,154 +227,169 @@ public class GestioneEsami{
                 /* Recupera la classe dell'esame selezionato (semplice o composto) */
                 String tipologia_esame = String.valueOf(applicazione.getArchivioEsami().get(row).getClass());
 
-                if (col == 3) { // Verifica se è stato fatto clic sulla colonna "Corso"
-                    if (tipologia_esame.contains("Semplice")) { // Se la classe dell'esame selezionato è Semplice...
-                        /* Recupera l'esame semplice selezionato */
-                        EsameSemplice esameSemplice = (EsameSemplice) applicazione.getArchivioEsami().get(row);
-                        /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
-                        jFrameInfo = new JFrame("Informazioni");
-                        jFrameInfo.setSize(700, 300);
-                        /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
-                        /* Creazione del pannello per contenere gli oggetti necessari a mostrare le informazioni relative all'esame selezionato */
-                        jPanelInfo = new JPanel();
-                        jPanelInfo.setLayout(null);
-                        jPanelInfo.setPreferredSize(new Dimension(700, 300));
+                if (tipologia_esame.contains("Semplice")) { // Se la classe dell'esame selezionato è Semplice...
+                    /* Recupera l'esame semplice selezionato */
+                    EsameSemplice esameSemplice = (EsameSemplice) applicazione.getArchivioEsami().get(row);
+                    /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
+                    jFrameInfo = new JFrame("Informazioni");
+                    jFrameInfo.setSize(700, 300);
+                    /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
+                    jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
+                    /* Creazione del pannello per contenere gli oggetti necessari a mostrare le informazioni relative all'esame selezionato */
+                    jPanelInfo = new JPanel();
+                    jPanelInfo.setLayout(null);
+                    jPanelInfo.setPreferredSize(new Dimension(700, 300));
 
-                        /* Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
-                        getFormInfoExam(esameSemplice, applicazione);
+                    /* Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
+                    getFormInfoExam(esameSemplice, applicazione);
 
-                        modifica_btn = new JButton("Modifca");
-                        modifica_btn.setBounds(160, 150, 140, 25);
+                    modifica_btn = new JButton("Modifca");
+                    modifica_btn.setBounds(100, 150, 140, 25);
+                    elimina_btn = new JButton("Elimina");
+                    elimina_btn.setBounds(250,150,140,25);
+                    reset_btn = new JButton("Reset");
+                    reset_btn.setBounds(400, 150, 140, 25);
 
-                        reset_btn = new JButton("Reset");
-                        reset_btn.setBounds(340, 150, 140, 25);
-
-                        /* Ascoltatore degli eventi sul click del bottone che permette di modificare i dati di un esame semplice */
-                        modifica_btn.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
-                                if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                                    JOptionPane.showMessageDialog(jFrameComposto, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                                } else {
-                                    /* Richiama il metodo per la modifica del record della tabella */
-                                    editEntry(applicazione, row);
-                                    /* Chiude il frame */
-                                    jFrameInfo.dispose();
-                                }
+                    /* Ascoltatore degli eventi sul click del bottone che permette di modificare i dati di un esame semplice */
+                    modifica_btn.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
+                            if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(jFrameSemplice, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                /* Richiama il metodo per la modifica del record della tabella */
+                                editEntry(applicazione, row);
+                                /* Chiude il frame */
+                                jFrameInfo.dispose();
                             }
-                        });
-
-                        /* Ascoltatore degli eventi sul click del bottone che permette di resettare i dati di un esame selezionato */
-                        reset_btn.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                resetEntries(esameSemplice);
-                            }
-                        });
-
-                        jFrameInfo.add(jPanelInfo);
-                    }
-
-                    if (tipologia_esame.contains("Composto")) { // Se la classe dell'esame selezionato è Composto...
-                        /* Recupera l'esame semplice selezionato */
-                        EsameComposto esameComposto = (EsameComposto) applicazione.getArchivioEsami().get(row);
-                        /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
-                        jFrameInfo = new JFrame("Informazioni");
-                        jFrameInfo.setSize(700, 450);
-                        /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-                        jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
-                        jPanelInfo = new JPanel();
-                        jPanelInfo.setLayout(null);
-                        jPanelInfo.setPreferredSize(new Dimension(700, 400));
-
-                        /* Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
-                        getFormInfoExam(esameComposto, applicazione);
-
-                        /* Recupero il numero di prove parziali dell'esame selezionato */
-                        int n_prove = esameComposto.getEsamiParziali().size();
-                        /* Creo l'array di campi di testo per l'inserimento della tipologia delle n_prove parziali relative all'esame composto selezionato */
-                        tipologia_prova_cb = new JComboBox[n_prove];
-                        /* Creo l'array di campi di testo per l'inserimento dei pesi delle n_prove parziali relative all'esame composto selezionato*/
-                        peso_prova_tf = new JTextField[n_prove];
-                        /* Creo l'array di campi di testo per l'inserimento dei voti delle n_prove parziali relative all'esame composto selezionato */
-                        voto_prova_tf = new JTextField[n_prove];
-
-                        /* Itero le n_prove per la visualizzazione e/o modifica delle informazioni relative agli esami parziali dell'esame composto selezionato */
-                        for (int i = 0, y = 170; i < n_prove; i++, y = y + 50) {
-
-                            JLabel tipologia_prova_l = new JLabel("Tipologia prova:");
-                            tipologia_prova_l.setBounds(20, y, 150, 20);
-                            /* Creazione dell'i-esimo campo di testo per la visualizzazione della tipologia della i-esima prova intermedia */
-                            String nome_tipologia = esameComposto.getEsamiParziali().get(i).getNome();
-                            /* Mette come prima opzione quella scelta durante la registrazione dell'esame */
-                            tipologia_prova_cb[i] = new JComboBox<>(generaOpzioniComboBox(nome_tipologia));
-                            tipologia_prova_cb[i].setBounds(150, y, 100, 20);
-
-                            JLabel peso_l = new JLabel("Peso:");
-                            peso_l.setBounds(280, y, 100, 20);
-                            /* Creazione dell'i-esimo campo di testo per la visualizzazione del peso della i-esima prova intermedia */
-                            peso_prova_tf[i] = new JTextField();
-                            peso_prova_tf[i].setBounds(330, y, 100, 20);
-                            /* Imposta il peso dell'i-esima prova parziale dell'esame composto selezioanto */
-                            peso_prova_tf[i].setText(Integer.toString(esameComposto.getEsamiParziali().get(i).getPeso()));
-
-                            JLabel voto_l = new JLabel("Voto:");
-                            voto_l.setBounds(450, y, 100, 20);
-                            /* Creazione dell'i-esimo campo di testo per la visualizzazione del voto della i-esima prova intermedia */
-                            voto_prova_tf[i] = new JTextField();
-                            voto_prova_tf[i].setBounds(500, y, 100, 20);
-                            /* Imposta il voto dell'i-esima prova parziale dell'esame composto selezioanto */
-                            voto_prova_tf[i].setText(Integer.toString(esameComposto.getEsamiParziali().get(i).getVoto()));
-
-                            jPanelInfo.add(tipologia_prova_l);
-                            jPanelInfo.add(tipologia_prova_cb[i]);
-                            jPanelInfo.add(peso_l);
-                            jPanelInfo.add(peso_prova_tf[i]);
-                            jPanelInfo.add(voto_l);
-                            jPanelInfo.add(voto_prova_tf[i]);
                         }
+                    });
 
-                        modifica_btn = new JButton("Modifca");
-                        reset_btn = new JButton("Reset");
-
-                        /* Per gestire la posizione dei bottoni a seconda del numero di prove parziali dell'esame composto */
-                        if (n_prove == 2) {
-                            modifica_btn.setBounds(160, 270, 140, 25);
-                            reset_btn.setBounds(340, 270, 140, 25);
-                        } else {
-                            modifica_btn.setBounds(160, 320, 140, 25);
-                            reset_btn.setBounds(340, 320, 140, 25);
+                    /* Ascoltatore degli eventi sul click del bottone che permette di resettare i dati di un esame selezionato */
+                    reset_btn.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            resetEntries(esameSemplice);
                         }
+                    });
 
-                        /* Ascoltatore degli eventi sul click del bottone che permette di modificare le informazioni dell'esame composto selezionato */
-                        modifica_btn.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-
-                                /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
-                                if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !controlloCampiProveParziali(n_prove)) {
-                                    JOptionPane.showMessageDialog(jFrameComposto, "Per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                                } else {
-                                    /* Richiama il metodo per la modifica del record della tabella */
-                                    editEntry(applicazione, row);
-                                    /* Chiude il frame */
-                                    jFrameInfo.dispose();
-                                }
-                            }
-                        });
-
-                        /* Ascoltatore degli eventi sul click del bottone che permette di resettare le informazioni dell'esame composto selezionato */
-                        reset_btn.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                resetEntries(esameComposto);
-                            }
-                        });
-                    }
+                    jFrameInfo.add(jPanelInfo);
                 }
+
+                if (tipologia_esame.contains("Composto")) { // Se la classe dell'esame selezionato è Composto...
+                    /* Recupera l'esame semplice selezionato */
+                    EsameComposto esameComposto = (EsameComposto) applicazione.getArchivioEsami().get(row);
+                    /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
+                    jFrameInfo = new JFrame("Informazioni");
+                    jFrameInfo.setSize(700, 450);
+                    /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
+                    jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
+                    jPanelInfo = new JPanel();
+                    jPanelInfo.setLayout(null);
+                    jPanelInfo.setPreferredSize(new Dimension(700, 400));
+
+                    /* Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
+                    getFormInfoExam(esameComposto, applicazione);
+
+                    /* Recupero il numero di prove parziali dell'esame selezionato */
+                    int n_prove = esameComposto.getEsamiParziali().size();
+                    /* Creo l'array di campi di testo per l'inserimento della tipologia delle n_prove parziali relative all'esame composto selezionato */
+                    tipologia_prova_cb = new JComboBox[n_prove];
+                    /* Creo l'array di campi di testo per l'inserimento dei pesi delle n_prove parziali relative all'esame composto selezionato*/
+                    peso_prova_tf = new JTextField[n_prove];
+                    /* Creo l'array di campi di testo per l'inserimento dei voti delle n_prove parziali relative all'esame composto selezionato */
+                    voto_prova_tf = new JTextField[n_prove];
+
+                    /* Itero le n_prove per la visualizzazione e/o modifica delle informazioni relative agli esami parziali dell'esame composto selezionato */
+                    for (int i = 0, y = 170; i < n_prove; i++, y = y + 50) {
+
+                        JLabel tipologia_prova_l = new JLabel("Tipologia prova:");
+                        tipologia_prova_l.setBounds(20, y, 150, 20);
+                        /* Creazione dell'i-esimo campo di testo per la visualizzazione della tipologia della i-esima prova intermedia */
+                        String nome_tipologia = esameComposto.getEsamiParziali().get(i).getNome();
+                        /* Mette come prima opzione quella scelta durante la registrazione dell'esame */
+                        tipologia_prova_cb[i] = new JComboBox<>(generaOpzioniComboBox(nome_tipologia));
+                        tipologia_prova_cb[i].setBounds(150, y, 100, 20);
+
+                        JLabel peso_l = new JLabel("Peso:");
+                        peso_l.setBounds(280, y, 100, 20);
+                        /* Creazione dell'i-esimo campo di testo per la visualizzazione del peso della i-esima prova intermedia */
+                        peso_prova_tf[i] = new JTextField();
+                        peso_prova_tf[i].setBounds(330, y, 100, 20);
+                        /* Imposta il peso dell'i-esima prova parziale dell'esame composto selezioanto */
+                        peso_prova_tf[i].setText(Integer.toString(esameComposto.getEsamiParziali().get(i).getPeso()));
+
+                        JLabel voto_l = new JLabel("Voto:");
+                        voto_l.setBounds(450, y, 100, 20);
+                        /* Creazione dell'i-esimo campo di testo per la visualizzazione del voto della i-esima prova intermedia */
+                        voto_prova_tf[i] = new JTextField();
+                        voto_prova_tf[i].setBounds(500, y, 100, 20);
+                        /* Imposta il voto dell'i-esima prova parziale dell'esame composto selezioanto */
+                        voto_prova_tf[i].setText(Integer.toString(esameComposto.getEsamiParziali().get(i).getVoto()));
+
+                        jPanelInfo.add(tipologia_prova_l);
+                        jPanelInfo.add(tipologia_prova_cb[i]);
+                        jPanelInfo.add(peso_l);
+                        jPanelInfo.add(peso_prova_tf[i]);
+                        jPanelInfo.add(voto_l);
+                        jPanelInfo.add(voto_prova_tf[i]);
+                    }
+
+                    modifica_btn = new JButton("Modifca");
+                    elimina_btn = new JButton("Elimina");
+                    reset_btn = new JButton("Reset");
+
+                    /* Per gestire la posizione dei bottoni a seconda del numero di prove parziali dell'esame composto */
+                    if (n_prove == 2) {
+                        modifica_btn.setBounds(100, 280, 140, 25);
+                        elimina_btn.setBounds(250,280,140,25);
+                        reset_btn.setBounds(400, 280, 140, 25);
+                    } else {
+                        modifica_btn.setBounds(100, 310, 140, 25);
+                        elimina_btn.setBounds(250,310,140,25);
+                        reset_btn.setBounds(400, 310, 140, 25);
+                    }
+
+                    /* Ascoltatore degli eventi sul click del bottone che permette di modificare le informazioni dell'esame composto selezionato */
+                    modifica_btn.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
+                            if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !checkCampiProveParziali(n_prove)) {
+                                JOptionPane.showMessageDialog(jFrameComposto, "Per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                /* Richiama il metodo per la modifica del record della tabella */
+                                editEntry(applicazione, row);
+                                /* Chiude il frame */
+                                jFrameInfo.dispose();
+                            }
+                        }
+                    });
+
+                    /* Ascoltatore degli eventi sul click del bottone che permette di resettare le informazioni dell'esame composto selezionato */
+                    reset_btn.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            resetEntries(esameComposto);
+                        }
+                    });
+                }
+
+                /* Ascoltatore degli eventi sul click del bottone che permette di eliminare un esame */
+                elimina_btn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        /* Richiama il metodo per l'eliminazione di un esame */
+                        deleteEntry(applicazione);
+                        /* Chiude il frame */
+                        jFrameInfo.dispose();
+                    }
+                });
+
                 jPanelInfo.add(modifica_btn);
+                jPanelInfo.add(elimina_btn);
                 jPanelInfo.add(reset_btn);
                 jFrameInfo.add(jPanelInfo);
             }
@@ -391,35 +403,21 @@ public class GestioneEsami{
                 formSimpleExam(applicazione);
             }
         });
-
-        /* Ascoltatore degli eventi sul click del bottone che permette di eliminare un record dalla tabella */
-        elimina_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (applicazione.getTabella().getTable().getRowCount() != 0) {
-                    /* Richiama il metodo che permette di eliminare un record selezionato */
-                    deleteEntry(applicazione);
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Per eliminare un record è necessario registrare almeno un esame", "Tabella vuota", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
     }
 
     /**
      * <strong>controlloLode</strong>
      * <br>
-     * Metodo che permette di controllare la corretta assegnazione della lode in un esame composto
+     * Metodo che permette di controllare la corretta assegnazione della lode in un esame composto <br>
      * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
      * @param n_prove Numero di prove parziali
-     * @return True se l'assegnazione è accettabile, false altrimenti
+     * @return True se l'assegnazione della lode è ottenibile, false altrimenti
      */
-    public boolean controlloLode(int n_prove){
-        for(int i=0; i<n_prove; i++){
-            if(datiProve[i].getVoto() != 30)
-                return false;
-        }
-        return true;
+    public boolean checkLode(int n_prove){
+        int somma = 0;
+        for(int i=0; i<n_prove; i++)
+            somma += datiProve[i].getVoto();
+        return somma == 59 || somma == 89; // somma dei voti che permette di ottenere la lode rispettivamente con 2 o 3 prove
     }
 
     /**
@@ -488,12 +486,12 @@ public class GestioneEsami{
     }
 
     /**
-     * <strong>controlloCampiProveParziali</strong>
+     * <strong>checkCampiProveParziali</strong>
      * <br>
      * Metodo che controlla il corretto inserimento dei dati delle prove parziali
      * @param n_prove Numero di prove parziali
      */
-    public boolean controlloCampiProveParziali(int n_prove){
+    public boolean checkCampiProveParziali(int n_prove){
         for(int i=0; i<n_prove; i++){
             if(peso_prova_tf[i].getText().isEmpty() || voto_prova_tf[i].getText().isEmpty())
                 return false;
@@ -506,13 +504,30 @@ public class GestioneEsami{
     }
 
     /**
-     * <strong>controlloInserimentiNumerici</strong>
+     * <strong>checkInserimentiNumerici</strong>
      * <br>
      * Metodo che verifica il corretto inserimento dei campi di testo numerici
      * @return True se i campi sono validi, False altrimenti
      */
-    public boolean controlloInserimentiNumerici(){
+    public boolean checkInserimentiNumerici(){
         return Integer.parseInt(cfu_tf.getText()) >= 1 && (Integer.parseInt(voto_tf.getText()) >= 18 && Integer.parseInt(voto_tf.getText()) <= 30);
+    }
+
+    /**
+     * <strong>checkTextField</strong>
+     * <br>
+     * Metodo che controlla il corretto inserimento dei campi di testo
+     */
+    public void checkTextField(JTextField jTextField){
+        String input = jTextField.getText();
+        if (!input.isEmpty()) { // Controlla se il campo non è vuoto
+            try {
+                Integer.parseInt(input); // Tentativo di conversione in intero
+            } catch (NumberFormatException ex) {
+                // Il testo inserito non è un numero, mostra il messaggio di errore
+                JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -653,7 +668,7 @@ public class GestioneEsami{
         matricola_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkMatricola();
+                checkTextField(matricola_tf);
             }
 
             @Override
@@ -663,18 +678,6 @@ public class GestioneEsami{
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // Non necessario per campi di testo non formattati come JTextField
-            }
-
-            private void checkMatricola() {
-                String input = matricola_tf.getText();
-                if (!input.isEmpty()) { // Controlla se il campo non è vuoto
-                    try {
-                        Integer.parseInt(input); // Tentativo di conversione in intero
-                    } catch (NumberFormatException ex) {
-                        // Il testo inserito non è un numero, mostra il messaggio di errore
-                        JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
             }
         });
 
@@ -715,7 +718,7 @@ public class GestioneEsami{
         voto_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkVoto();
+                checkTextField(voto_tf);
             }
 
             @Override
@@ -725,18 +728,6 @@ public class GestioneEsami{
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // Non necessario per campi di testo non formattati come JTextField
-            }
-
-            private void checkVoto() {
-                String input = voto_tf.getText();
-                if (!input.isEmpty()) { // Controlla se il campo non è vuoto
-                    try {
-                        Integer.parseInt(input); // Tentativo di conversione in intero
-                    } catch (NumberFormatException ex) {
-                        // Il testo inserito non è un numero, mostra il messaggio di errore
-                        JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
             }
         });
 
@@ -764,7 +755,7 @@ public class GestioneEsami{
         cfu_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkCfu();
+                checkTextField(cfu_tf);
             }
 
             @Override
@@ -775,18 +766,6 @@ public class GestioneEsami{
             public void changedUpdate(DocumentEvent e) {
                 // Non necessario per campi di testo non formattati come JTextField
             }
-
-            private void checkCfu() {
-                String input = cfu_tf.getText();
-                if (!input.isEmpty()) { // Controlla se il campo non è vuoto
-                    try {
-                        Integer.parseInt(input); // Tentativo di conversione in intero
-                    } catch (NumberFormatException ex) {
-                        // Il testo inserito non è un numero, mostra il messaggio di errore
-                        JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
         });
 
         registra_esame_btn = new JButton("Registra Esame");
@@ -796,7 +775,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(jFrameComposto, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                 } else {
                     /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                     addEntry(applicazione);
@@ -834,7 +813,7 @@ public class GestioneEsami{
     /**
      * <strong>formComposedExam</strong>
      * <br>
-     * Metodo che si occupa di generare e gestire la form di inserimento di un esame composto
+     * Metodo che crea la parte grafica per la registrazione di un esame composto
      * @param applicazione Permette di gestire gli archivi dati e la tabella
      */
     public void formComposedExam(Applicazione applicazione){
@@ -872,7 +851,7 @@ public class GestioneEsami{
         matricola_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkMatricola();
+                checkTextField(matricola_tf);
             }
 
             @Override
@@ -882,18 +861,6 @@ public class GestioneEsami{
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // Non necessario per campi di testo non formattati come JTextField
-            }
-
-            private void checkMatricola() {
-                String input = matricola_tf.getText();
-                if (!input.isEmpty()) { // Controlla se il campo non è vuoto
-                    try {
-                        Integer.parseInt(input); // Tentativo di conversione in intero
-                    } catch (NumberFormatException ex) {
-                        // Il testo inserito non è un numero, mostra il messaggio di errore
-                        JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
             }
         });
 
@@ -938,7 +905,7 @@ public class GestioneEsami{
         cfu_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkCfu();
+                checkTextField(cfu_tf);
             }
 
             @Override
@@ -948,18 +915,6 @@ public class GestioneEsami{
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // Non necessario per campi di testo non formattati come JTextField
-            }
-
-            private void checkCfu() {
-                String input = cfu_tf.getText();
-                if (!input.isEmpty()) { // Controlla se il campo non è vuoto
-                    try {
-                        Integer.parseInt(input); // Tentativo di conversione in intero
-                    } catch (NumberFormatException ex) {
-                        // Il testo inserito non è un numero, mostra il messaggio di errore
-                        JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
             }
         });
 
@@ -1034,6 +989,7 @@ public class GestioneEsami{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             boolean campi_compilati = true;
+                            /* Verifica se i campi relatvi alle prove parziali sono stati compilati o meno */
                             for(int i=0; i<selectedValue; i++){
                                 if(peso_prova_tf[i].getText().isEmpty() && voto_prova_tf[i].getText().isEmpty())
                                     campi_compilati = false;
@@ -1060,7 +1016,6 @@ public class GestioneEsami{
                     });
 
                     jPanelProve.add(registra_esame_btn);
-
                     jFrameProve.add(jPanelProve);
 
                     /* Imposta la generazione del frame per la registrazione delle prove parziali al centro dello schermo */
@@ -1122,7 +1077,7 @@ public class GestioneEsami{
         }
         if (semplice_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame semplice
             int voto = Integer.parseInt(voto_tf.getText());
-            if(controlloInserimentiNumerici()){
+            if(checkInserimentiNumerici()){
                 EsameSemplice esameSemplice = new EsameSemplice(studente, corso, voto, lode, cfu);
                 /* Verifico se l'esame appena compilato è gia stato registrato o meno */
                 if(applicazione.verificaEsistenzaEsame(esameSemplice)){
@@ -1143,7 +1098,7 @@ public class GestioneEsami{
             /* Recupero il numero di prove parziali */
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
             /* Controlla se l'assegnazione della lode è coerente con i voti delle prove parziali */
-            if (!controlloLode(selectedValue)){
+            if (!checkLode(selectedValue)){
                 lode = !lode;
             }
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
@@ -1152,7 +1107,7 @@ public class GestioneEsami{
             if(applicazione.verificaEsistenzaEsame(esameComposto)){
                 JOptionPane.showMessageDialog(jFrameComposto, "Questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
             } else{
-                if (controlloCampiProveParziali(selectedValue) && cfu > 1) {
+                if (checkCampiProveParziali(selectedValue) && cfu > 1) {
                     /* Registro le prove parziali recuperandole dall'array temporaneo creato durante la loro registrazione */
                     for (int i = 0; i < selectedValue; i++) {
                         esameComposto.getEsamiParziali().add(datiProve[i]);
@@ -1199,7 +1154,7 @@ public class GestioneEsami{
             int cfu = Integer.parseInt(cfu_tf.getText());
 
             /* Controlla se il voto e i cfu hanno un valore valido */
-            if(controlloInserimentiNumerici()){
+            if(checkInserimentiNumerici()){
                 /* Recupera lo studente dall'archivio studenti attraverso il metodo ricercaStudente */
                 Studente studente = applicazione.ricercaStudente(matricola);
                 /* Modifica i dati dello studente e del corrispettivo esame selezionato */
@@ -1217,8 +1172,8 @@ public class GestioneEsami{
             if(tipologia_esame.contains("Composto")) { // Se l'esame è composto
                 /* Recupera il numero di prove parziali dell'esame (record) selezionato */
                 int n_prove = applicazione.getArchivioEsami().get(row).getEsamiParziali().size();
-                if (controlloCampiProveParziali(n_prove) && cfu > 0) {
-                    if (!controlloLode(n_prove)){
+                if (checkCampiProveParziali(n_prove) && cfu > 0) {
+                    if (!checkLode(n_prove)){
                         lode = !lode;
                     }
                     /* Recupero i dati delle prove parziali */
@@ -1265,13 +1220,15 @@ public class GestioneEsami{
     public void deleteEntry(Applicazione applicazione) {
         /* Recupera la riga selezionata */
         int selectedRow = applicazione.getTabella().getTable().getSelectedRow();
+        String tipologia_esame = String.valueOf(applicazione.getArchivioEsami().get(selectedRow).getClass());
         if (selectedRow != -1) { // Se la riga ha un valore valido
             /* Rimuove il record selezionato dalla tabella */
             applicazione.getTabella().getDefaultTableModel().removeRow(selectedRow);
             /* Rimuove l'esame del record selezionato dall'archivio esami */
             applicazione.getArchivioEsami().delete(applicazione.getArchivioEsami().get(selectedRow));
-            /* Rimuove lo studente del record selezionato dall'archivio studenti*/
-            applicazione.getArchivioStudenti().delete(applicazione.getArchivioStudenti().get(selectedRow));
+            /* Se l'esame è composto vengono eliminate anche tutte le sue prove parziali */
+            if(tipologia_esame.contains("Composto"))
+                applicazione.getArchivioEsami().get(selectedRow).getEsamiParziali().clear();
         }
     }
 
@@ -1292,7 +1249,7 @@ public class GestioneEsami{
         cfu_tf.setText("");
         if (tipologia_esame.contains("Composto")) {
             for (int i = 0; i < esame.getEsamiParziali().size(); i++) {
-                tipologia_prova_cb[i] = new JComboBox<>(new String[]{"Scritta", "Orale", "Pratica"});
+                tipologia_prova_cb[i].setSelectedItem("Scritta");
                 peso_prova_tf[i].setText("");
                 voto_prova_tf[i].setText("");
             }

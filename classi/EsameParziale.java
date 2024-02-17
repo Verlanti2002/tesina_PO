@@ -2,16 +2,17 @@ package classi;
 
 /**
 * EsameParziale
-* Classe che permette di definire gli esami parziali di un esame composto
-* (prova scritta, prova orale, prova pratica) 
+ * <br>
+* Classe che permette di definire gli esami parziali di un esame composto <br>
+* Esempi: prova scritta, prova orale, prova pratica
 * @author Alessandro Verlanti
 * @version java 21.0.1 2023-10-17 LTS
 */
 public class EsameParziale {
 
     /**
-     * Nome dell'esame parziale
-     * Dominio dell'attributo: scritto, orale, pratico
+     * Nome dell'esame parziale <br>
+     * Dominio dell'attributo: scritto, orale, pratico <br>
      * Attributo facoltativo (non strettamente necessario)
      */
     private String nome;
@@ -22,6 +23,7 @@ public class EsameParziale {
 
     /**
      * <strong>EsameParziale</strong>
+     * <br>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * @param nome Nome dell'esame parziale (scritto, orale, pratico)
      * @param peso Peso dell'esame parziale
@@ -35,6 +37,7 @@ public class EsameParziale {
 
     /**
      * <strong>getNome</strong>
+     * <br>
      * Metodo getter che restituisce il nome di un esame parziale
      * @return nome dell'esame parziale
      */
@@ -44,6 +47,7 @@ public class EsameParziale {
 
     /**
      * <strong>getPeso</strong>
+     * <br>
      * Metodo getter che restituisce il peso di un esame parziale
      * @return peso dell'esame parziale
      */
@@ -53,6 +57,7 @@ public class EsameParziale {
 
     /**
      * <strong>getVoto</strong>
+     * <br>
      * Metodo getter che restituisce il voto di un esame parziale
      * @return voto dell'esame parziale
      */
@@ -62,6 +67,7 @@ public class EsameParziale {
 
     /**
      * <strong>setNome</strong>
+     * <br>
      * Metodo setter che modifica il nome di un esame parziale
      * @param nome nuovo nome dell'esame parziale
      */
@@ -71,6 +77,7 @@ public class EsameParziale {
 
     /**
      * <strong>setPeso</strong>
+     * <br>
      * Metodo setter che modifica il peso di un esame parziale
      * @param peso nuovo peso dell'esame parziale
      */
@@ -80,6 +87,7 @@ public class EsameParziale {
 
     /**
      * <strong>setVoto</strong>
+     * <br>
      * Metodo setter che modifica il voto di un esame parziale
      * @param voto nuovo voto dell'esame parziale
      */

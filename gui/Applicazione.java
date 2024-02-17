@@ -4,6 +4,7 @@ import classi.*;
 
 /**
  * <strong>Applicazione</strong>
+ * <br>
  * Classe condivisa in ogni altra classe per la gestione degli archivi dati e della tabella
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -19,6 +20,7 @@ public class Applicazione {
 
     /**
      * <strong>Applicazione</strong>
+     * <br>
      * Costruttore per inizializzare l'applicazione con una tabella
      * @param tabella La tabella da utilizzare per la visualizzazione dei dati
      */
@@ -30,6 +32,7 @@ public class Applicazione {
 
     /**
      * <strong>getEsami</strong>
+     * <br>
      * Metodo che restituisce l'archivio degli esami
      * @return L'archivio degli esami
      */
@@ -39,6 +42,7 @@ public class Applicazione {
 
     /**
      * <strong>getStudenti</strong>
+     * <br>
      * Metodo che restituisce l'archivio degli studenti
      * @return L'archivio degli studenti
      */
@@ -48,6 +52,7 @@ public class Applicazione {
 
     /**
      * <strong>getTabella</strong>
+     * <br>
      * Metodo che restituisce la tabella utilizzata dall'applicazione
      * @return La tabella utilizzata dall'applicazione
      */
@@ -57,6 +62,7 @@ public class Applicazione {
 
     /**
      * <strong>ricercaStudente</strong>
+     * <br>
      * Cerca uno studente nell'archivio degli studenti utilizzando la matricola
      * @param matricola La matricola dello studente da cercare
      * @return Lo studente corrispondente alla matricola, o null se non trovato
@@ -71,6 +77,7 @@ public class Applicazione {
 
     /**
      * <strong>verificaEsistenzaEsame</strong>
+     * <br>
      * Metodo che verifica se un esame è gia stato registrato o meno
      * @param esame Esame da controllare
      * */

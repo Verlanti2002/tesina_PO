@@ -13,13 +13,12 @@ import java.util.ArrayList;
 public class ArchivioEsami<E> {
 
     /** Lista che contiene gli esami */
-    private ArrayList<E> esami;
+    private final ArrayList<E> esami;
 
     /**
      * <strong>ArchivioEsami</strong>
      * <br>
-     * Costruttore per creare un nuovo archivio di esami
-     * Inizializza la lista degli esami
+     * Costruttore che istanzia l'archivio degli esami
      */
     public ArchivioEsami(){
         esami = new ArrayList<>();
@@ -28,7 +27,7 @@ public class ArchivioEsami<E> {
     /**
      * <strong>getEsami</strong>
      * <br>
-     * Restituisce l'elenco degli esami presenti nell'ArrayList
+     * Restituisce l'elenco degli esami presenti nell'archivio
      * @return ArrayList contenente gli esami
      */
     public ArrayList<E> getEsami() {

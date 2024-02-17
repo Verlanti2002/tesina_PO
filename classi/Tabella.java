@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * <strong>Tabella</strong>
+ * <br>
  * Permette di rappresentare la tabella che gestirà gli esami
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
@@ -17,6 +18,7 @@ public class Tabella {
 
     /**
      * <strong>Tabella</strong>
+     * <br>
      * Costruttore che crea una nuova istanza della tabella con le colonne specificate
      * @param columnNames Un array di stringhe contenente i nomi delle colonne della tabella
      */
@@ -30,8 +32,9 @@ public class Tabella {
 
     /**
      * <strong>getTable</strong>
+     * <br>
      * Metodo getter che restituisce l'oggetto JTable associato a questa Tabella
-     * @return La tabella grafica JTable.
+     * @return La tabella grafica JTable
      */
     public JTable getTable() {
         return jTable;
@@ -39,8 +42,9 @@ public class Tabella {
 
     /**
      * <strong>getDefaultTableModel</strong>
-     * Metodo getter che restituisce il modello di default della tabella.
-     * @return Il modello di default della tabella.
+     * <br>
+     * Metodo getter che restituisce il modello di default della tabella
+     * @return Il modello di default della tabella
      */
     public DefaultTableModel getDefaultTableModel() {
         return defaultTableModel;

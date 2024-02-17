@@ -18,8 +18,7 @@ public class ArchivioStudenti<E> {
     /**
      * <strong>ArchivioStudenti</strong>
      * <br>
-     * Costruttore per creare un nuovo archivio di studenti
-     * Inizializza la lista degli studenti
+     * Costruttore che istanzia l'archvio degli studenti
      */
     public ArchivioStudenti(){
         studenti = new ArrayList<>();
@@ -27,8 +26,9 @@ public class ArchivioStudenti<E> {
 
     /**
      * <strong>getStudenti</strong>
-     * Restituisce l'elenco degli studenti presenti nell'ArrayList
-     * ArrayList contenente gli studenti
+     * <br>
+     * Restituisce l'elenco degli studenti presenti nell'archivio <br>
+     * @return ArrayList contenente gli studenti
      */
     public ArrayList<E> getStudenti() {
         return studenti;
@@ -73,15 +73,5 @@ public class ArchivioStudenti<E> {
      */
     public int size(){
         return studenti.size();
-    }
-
-    /**
-     * <strong>isEmpty</strong>
-     * <br>
-     * Metodo che verifica se l'archivio degli studenti è vuoto
-     * @return True se l'archivio è vuoto, false altrimenti
-     */
-    public boolean isEmpty(){
-        return studenti.isEmpty();
     }
 }

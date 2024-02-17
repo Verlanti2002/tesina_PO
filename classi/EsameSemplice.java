@@ -3,8 +3,8 @@ package classi;
 import java.util.ArrayList;
 
 /**
- * EsameSemplice
- * Sottoclasse derivata della superclasse Esame
+ * EsameSemplice <br>
+ * Sottoclasse derivata della superclasse Esame <br>
  * Definisce gli esami semplici (ossia composti da una singola prova) 
  * @see Esame
  * @author Alessandro Verlanti
@@ -14,8 +14,8 @@ public class EsameSemplice extends Esame{
 
     /**
      * <strong>EsameSemplice</strong>
-     * Costruttore che inizializza gli attributi con i valori passati dall'utente
-     * Viene richiamato il costruttore della superclasse Esame
+     * Costruttore che inizializza gli attributi con i valori passati dall'utente <br>
+     * Viene richiamato il costruttore della superclasse Esame <br>
      * Viene settato l'attributo voto della superclasse Esame in quanto già voto finale dell'esame
      * @param studente Studente che ha conseguito l'esame
      * @param voto Voto finale dell'esame
@@ -41,6 +41,8 @@ public class EsameSemplice extends Esame{
     /**
      * <strong>voto</strong>
      * Implementazione del metodo astratto della classe Esame
+     * Metodo in Override con corpo vuoto in quanto il voto finale di un Esame Semplice è determinato
+     * da un'unica prova
      */
     @Override
     public void voto() {}

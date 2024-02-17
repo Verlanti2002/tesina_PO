@@ -130,6 +130,7 @@ public abstract class Esame {
 
     /**
      * <strong>getEsamiParziali</strong>
+     * <br>
      * Metodo astratto per ottenere l'array degli esami parziali di un determinato esame
      * Le due sottoclassi di Esame implementeranno questo metodo
      */
@@ -137,6 +138,7 @@ public abstract class Esame {
 
     /**
      * <strong>voto</strong>
+     * <br>
      * Metodo astratto per il calcolo del voto finale
      * Le due sottoclassi di Esame implementeranno questo metodo
      */

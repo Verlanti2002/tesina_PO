@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * <strong>EsameComposto</strong>
+ * <br>
  * Sottoclasse derivata della superclasse Esame
  * Definisce gli esami composti da più prove 
  * @see Esame
@@ -14,6 +15,7 @@ public class EsameComposto extends Esame{
 
     /**
      * Array di classe TipologiaProva
+     * <br>
      * Necessario per memorizzare in ogni oggetto voto e peso
      * di un determinato esame parziale (scritto, orale o pratico) di un esame composto
      */
@@ -21,6 +23,7 @@ public class EsameComposto extends Esame{
 
     /**
      * <strong>EsameComposto</strong>
+     * <br>
      * Costruttore che inizializza gli attributi con i valori passati dall'utente
      * Viene richiamato il costruttore della superclasse Esame
      * @param studente Studente che ha conseguito l'esame
@@ -35,7 +38,9 @@ public class EsameComposto extends Esame{
 
     /**
      * <strong>getEsamiParziali</strong>
-     * Metodo che restituisce l'array degli esami parziali di un determinato esame
+     * <br>
+     * Implementazione del metodo astratto della classe Esame <br>
+     * Metodo in Override che restituisce l'array degli esami parziali di un determinato esame
      * @return Array contenente gli esami parziali
      * */
     @Override
@@ -45,10 +50,11 @@ public class EsameComposto extends Esame{
 
     /**
      * <strong>voto</strong>
-     * Implementazione del metodo astratto della classe Esame
-     * Metodo che permette di calcolare il voto finale di un esame composto
+     * <br>
+     * Implementazione del metodo astratto della classe Esame <br>
+     * Metodo in Override che permette di calcolare il voto finale di un esame composto <br>
      * Dati gli esami parziali, va a moltiplicare il voto dei singoli esami parziali
-     * con i loro relativi pesi, somamndo poi voto per voto delle prove parziali
+     * con i loro relativi pesi, somamndo poi voto per voto delle prove parziali <br>
      * Infine, va a modificare direttamente il voto finale nella superclasse Esame
      */
     @Override
@@ -62,7 +68,6 @@ public class EsameComposto extends Esame{
                     voto_finale += (esameParziale.getVoto() * esameParziale.getPeso()) / 100;
                 }
             }
-
             super.setVoto(voto_finale);
         }
     }
