@@ -9,6 +9,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <strong>GestioneEsami</strong>
@@ -119,7 +122,7 @@ public class GestioneEsami{
                     JOptionPane.showMessageDialog(mainFrame, "Media pesata dei voti: " + calcolaMedia(applicazione), "Informazione", JOptionPane.INFORMATION_MESSAGE);
                 else
                     /* Mostra un messaggio d'errore */
-                    JOptionPane.showMessageDialog(mainFrame, "Per ottenere la media è necessario registare almeno un esame", "Tabella vuota", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(mainFrame, "Errore: per ottenere la media è necessario registare almeno un esame", "Tabella vuota", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -256,7 +259,7 @@ public class GestioneEsami{
                         public void actionPerformed(ActionEvent e) {
                             /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
                             if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                                JOptionPane.showMessageDialog(jFrameSemplice, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 editEntry(applicazione, row);
@@ -358,7 +361,7 @@ public class GestioneEsami{
 
                             /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
                             if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !checkCampiProveParziali(n_prove)) {
-                                JOptionPane.showMessageDialog(jFrameComposto, "Per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 editEntry(applicazione, row);
@@ -414,10 +417,10 @@ public class GestioneEsami{
      * @return True se l'assegnazione della lode è ottenibile, false altrimenti
      */
     public boolean checkLode(int n_prove){
-        int somma = 0;
         for(int i=0; i<n_prove; i++)
-            somma += datiProve[i].getVoto();
-        return somma == 59 || somma == 89; // somma dei voti che permette di ottenere la lode rispettivamente con 2 o 3 prove
+            if(datiProve[i].getVoto() < 30)
+                return false;
+        return true;
     }
 
     /**
@@ -514,9 +517,26 @@ public class GestioneEsami{
     }
 
     /**
+     * <strong>checkTextField2</strong>
+     * <br>
+     * Metodo che controlla il corretto inserimento dei campi di testo letterali
+     * @param jTextField Campo di testo da controllare
+     */
+    public void checkTextField2(JTextField jTextField){
+        String text = jTextField.getText();
+        Pattern pattern = Pattern.compile("\\d");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            // Se il testo contiene un numero, genera un errore
+            JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri letterali", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
      * <strong>checkTextField</strong>
      * <br>
-     * Metodo che controlla il corretto inserimento dei campi di testo
+     * Metodo che controlla il corretto inserimento dei campi di testo numerici
+     * @param jTextField Campo di testo da controllare
      */
     public void checkTextField(JTextField jTextField){
         String input = jTextField.getText();
@@ -525,7 +545,7 @@ public class GestioneEsami{
                 Integer.parseInt(input); // Tentativo di conversione in intero
             } catch (NumberFormatException ex) {
                 // Il testo inserito non è un numero, mostra il messaggio di errore
-                JOptionPane.showMessageDialog(null, "Il valore inserito non è valido", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri numerici", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -555,11 +575,9 @@ public class GestioneEsami{
         nome_tf.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                try {
+                if(!Objects.equals(matricola_tf.getText(), "")) {
                     int matricola = Integer.parseInt(matricola_tf.getText());
                     riempimentoAutomatico(applicazione, matricola);
-                }catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(null, "I valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -686,11 +704,29 @@ public class GestioneEsami{
         nome_tf = new JTextField();
         nome_tf.setBounds(80, 100, 100, 20);
 
+        nome_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField2(nome_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
+
         nome_tf.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                int matricola = Integer.parseInt(matricola_tf.getText());
-                riempimentoAutomatico(applicazione, matricola);
+                if(!Objects.equals(matricola_tf.getText(), "")) {
+                    int matricola = Integer.parseInt(matricola_tf.getText());
+                    riempimentoAutomatico(applicazione, matricola);
+                }
             }
 
             @Override
@@ -703,6 +739,22 @@ public class GestioneEsami{
         cognome_l.setBounds(200, 100, 100, 20);
         cognome_tf = new JTextField();
         cognome_tf.setBounds(280, 100, 100, 20);
+
+        cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField2(nome_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
 
         JLabel corso_l = new JLabel("Corso:");
         corso_l.setBounds(390, 100, 100, 20);
@@ -740,7 +792,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30){
-                    JOptionPane.showMessageDialog(jFrameSemplice, "Non si può assegnare la lode ad un voto inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Errore: non è possibile assegnare la lode con un voto inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
                     lode_cb.setSelected(false);
                 }
             }
@@ -775,7 +827,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(jFrameSemplice, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                 } else {
                     /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                     addEntry(applicazione);
@@ -869,10 +921,29 @@ public class GestioneEsami{
         nome_tf = new JTextField();
         nome_tf.setBounds(80, 100, 100, 20);
 
+        nome_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField2(nome_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
+
         nome_tf.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                riempimentoAutomatico(applicazione, Integer.parseInt(matricola_tf.getText()));
+                if(!Objects.equals(matricola_tf.getText(), "")) {
+                    int matricola = Integer.parseInt(matricola_tf.getText());
+                    riempimentoAutomatico(applicazione, matricola);
+                }
             }
 
             @Override
@@ -885,6 +956,22 @@ public class GestioneEsami{
         cognome_l.setBounds(200, 100, 100, 20);
         cognome_tf = new JTextField();
         cognome_tf.setBounds(280, 100, 100, 20);
+
+        cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField2(nome_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
 
         JLabel corso_l = new JLabel("Corso:");
         corso_l.setBounds(400, 100, 100, 20);
@@ -931,7 +1018,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(jFrameComposto, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                 } else{
                     /* Creazione del frame per la registrazione delle prove parziali */
                     jFrameProve = new JFrame("Registrazione Prove Parziali");
@@ -989,14 +1076,18 @@ public class GestioneEsami{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             boolean campi_compilati = true;
+                            int somma = 0;
                             /* Verifica se i campi relatvi alle prove parziali sono stati compilati o meno */
                             for(int i=0; i<selectedValue; i++){
+                                somma += Integer.parseInt(peso_prova_tf[i].getText());
                                 if(peso_prova_tf[i].getText().isEmpty() && voto_prova_tf[i].getText().isEmpty())
                                     campi_compilati = false;
                             }
-                            if (!campi_compilati) {
-                                JOptionPane.showMessageDialog(jFrameProve, "Per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                            } else{
+                            if (!campi_compilati)
+                                JOptionPane.showMessageDialog(jFrameProve, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
+                            else if (somma > 100)
+                                JOptionPane.showMessageDialog(jFrameProve, "Errore: la somma dei pesi inseriti non è valida", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                            else{
                                 /* Chiude il frame per la registrazione dell'esame composto */
                                 jFrameComposto.dispose();
                                 /* Recupera i dati dagli oggetti grafici */
@@ -1007,8 +1098,6 @@ public class GestioneEsami{
                                     /* Salva i dati in questo array temporaneo */
                                     datiProve[i] = new EsameParziale(nome,peso,voto);
                                 }
-                                /* Chiude il frame per la registrazione delle prove parziali */
-                                jFrameProve.dispose();
                                 /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                                 addEntry(applicazione);
                             }
@@ -1073,16 +1162,17 @@ public class GestioneEsami{
         studente = applicazione.ricercaStudente(matricola);
         if(studente == null){
             studente = new Studente(matricola, nome, cognome);
-            applicazione.getArchivioStudenti().add(studente);
         }
         if (semplice_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame semplice
             int voto = Integer.parseInt(voto_tf.getText());
             if(checkInserimentiNumerici()){
                 EsameSemplice esameSemplice = new EsameSemplice(studente, corso, voto, lode, cfu);
                 /* Verifico se l'esame appena compilato è gia stato registrato o meno */
-                if(applicazione.verificaEsistenzaEsame(esameSemplice)){
-                    JOptionPane.showMessageDialog(jFrameSemplice, "Questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
+                if(applicazione.checkEsistenzaEsame(esameSemplice)){
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Errore: questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
                 } else{
+                    /* Aggiunge lo studente nell'archivio studenti */
+                    applicazione.getArchivioStudenti().add(studente);
                     /* Aggiunge l'esame semplice nell'archivio esami */
                     applicazione.getArchivioEsami().add(esameSemplice);
                     /* Aggiunge il nuovo record nella tabella */
@@ -1091,7 +1181,7 @@ public class GestioneEsami{
                     jFrameSemplice.dispose();
                 }
             } else{
-                JOptionPane.showMessageDialog(jFrameSemplice, "I valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
             }
         }
         if(composto_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame composto
@@ -1104,8 +1194,8 @@ public class GestioneEsami{
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
 
             /* Verifico se l'esame appena compilato è gia stato registrato o meno */
-            if(applicazione.verificaEsistenzaEsame(esameComposto)){
-                JOptionPane.showMessageDialog(jFrameComposto, "Questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
+            if(applicazione.checkEsistenzaEsame(esameComposto)){
+                JOptionPane.showMessageDialog(jFrameProve, "Errore: questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
             } else{
                 if (checkCampiProveParziali(selectedValue) && cfu > 1) {
                     /* Registro le prove parziali recuperandole dall'array temporaneo creato durante la loro registrazione */
@@ -1114,14 +1204,16 @@ public class GestioneEsami{
                     }
                     /* Calcolo il voto finale dell'esame composto da più prove parziali */
                     esameComposto.voto();
+                    /* Aggiunge lo studente nell'archivio studenti */
+                    applicazione.getArchivioStudenti().add(studente);
                     /* Aggiunge l'esame composto nell'archivio esami */
                     applicazione.getArchivioEsami().add(esameComposto);
                     /* Aggiunge il nuovo record nella tabella */
                     applicazione.getTabella().getDefaultTableModel().addRow(new Object[]{matricola, nome, cognome, corso, esameComposto.getVoto(), lode, cfu});
                     /* Chiude il frame */
-                    jFrameComposto.dispose();
+                    jFrameProve.dispose();
                 } else{
-                    JOptionPane.showMessageDialog(jFrameComposto, "I valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameComposto, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -1166,7 +1258,7 @@ public class GestioneEsami{
                 applicazione.getArchivioEsami().get(row).setLode(lode);
                 applicazione.getArchivioEsami().get(row).setCfu(cfu);
             } else{
-                JOptionPane.showMessageDialog(jFrameSemplice, "I valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
             }
 
             if(tipologia_esame.contains("Composto")) { // Se l'esame è composto
@@ -1192,19 +1284,18 @@ public class GestioneEsami{
                     /* Salvo in una variabile il voto in modo tale da aggiornare il record della tabella a seconda del tipo
                      *  di esame che è stato modificato */
                     voto = applicazione.getArchivioEsami().get(row).getVoto();
-
-                    /* Aggiorno i dati in tabella del record modificato */
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(matricola, row, 0);
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(nome, row, 1);
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(cognome, row, 2);
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(corso, row, 3);
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(voto, row, 4);
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(lode, row, 5);
-                    applicazione.getTabella().getDefaultTableModel().setValueAt(cfu, row, 6);
                 } else {
-                    JOptionPane.showMessageDialog(jFrameSemplice, "I valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            /* Aggiorno i dati in tabella del record modificato */
+            applicazione.getTabella().getDefaultTableModel().setValueAt(matricola, row, 0);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(nome, row, 1);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(cognome, row, 2);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(corso, row, 3);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(voto, row, 4);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(lode, row, 5);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(cfu, row, 6);
         }
     }
 
@@ -1226,6 +1317,9 @@ public class GestioneEsami{
             applicazione.getTabella().getDefaultTableModel().removeRow(selectedRow);
             /* Rimuove l'esame del record selezionato dall'archivio esami */
             applicazione.getArchivioEsami().delete(applicazione.getArchivioEsami().get(selectedRow));
+            /* Verifica se posso eliminare anche lo studente */
+            if(applicazione.checkEliminaStudente(selectedRow))
+                applicazione.getArchivioStudenti().delete(applicazione.getArchivioStudenti().get(selectedRow));
             /* Se l'esame è composto vengono eliminate anche tutte le sue prove parziali */
             if(tipologia_esame.contains("Composto"))
                 applicazione.getArchivioEsami().get(selectedRow).getEsamiParziali().clear();

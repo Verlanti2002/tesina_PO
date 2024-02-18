@@ -76,12 +76,28 @@ public class Applicazione {
     }
 
     /**
-     * <strong>verificaEsistenzaEsame</strong>
+     * <strong>checkEliminaStudente</strong>
+     * <br>
+     * Metodo che verifica se è possibile eliminare l'utente quando si vuole eliminare un esame <br>
+     * Controlla se lo studente ha sostenuto altri esami oltre a quello che si vuole eliminare
+     * @param selectedRow Indice dello studente da controllare
+     * @return True se lo studente non ha sostenuto altri esami (quindi eliminabile), false altrimenti
+     */
+    public boolean checkEliminaStudente(int selectedRow){
+        for(int i=0; i<getArchivioEsami().size(); i++){
+            if(getArchivioEsami().get(i).getStudente().getMatricola() == getArchivioEsami().get(selectedRow).getStudente().getMatricola())
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * <strong>checkEsistenzaEsame</strong>
      * <br>
      * Metodo che verifica se un esame è gia stato registrato o meno
      * @param esame Esame da controllare
      * */
-    public boolean verificaEsistenzaEsame(Esame esame){
+    public boolean checkEsistenzaEsame(Esame esame){
         for(int i=0; i< archivioEsami.size(); i++){
             if(esame.getStudente().getMatricola() == archivioEsami.get(i).getStudente().getMatricola()) {
                 if (esame.getNome().equalsIgnoreCase(archivioEsami.get(i).getNome()))
