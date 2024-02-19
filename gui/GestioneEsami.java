@@ -522,6 +522,10 @@ public class GestioneEsami{
         if (matcher.find()) {
             // Se il testo contiene un numero, genera un errore
             JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri letterali", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+            SwingUtilities.invokeLater(() -> {
+                if(!text.isEmpty())
+                    jTextField.setText(text.substring(0, text.length() - 1));
+            });
         }
     }
 
@@ -532,13 +536,16 @@ public class GestioneEsami{
      * @param jTextField Campo di testo da controllare
      */
     public void checkTextField(JTextField jTextField){
-        String input = jTextField.getText();
-        if (!input.isEmpty()) { // Controlla se il campo non è vuoto
+        String text = jTextField.getText();
+        if (!text.isEmpty()) { // Controlla se il campo non è vuoto
             try {
-                Integer.parseInt(input); // Tentativo di conversione in intero
+                Integer.parseInt(text); // Tentativo di conversione in intero
             } catch (NumberFormatException ex) {
                 // Il testo inserito non è un numero, mostra il messaggio di errore
                 JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri numerici", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                SwingUtilities.invokeLater(() -> {
+                    jTextField.setText(text.substring(0, text.length() - 1));
+                });
             }
         }
     }
@@ -816,6 +823,7 @@ public class GestioneEsami{
             @Override
             public void focusGained(FocusEvent e) {
                 if(!Objects.equals(matricola_tf.getText(), "")) {
+                    // Il testo inserito non è un numero, mostra il messaggio di errore
                     int matricola = Integer.parseInt(matricola_tf.getText());
                     riempimentoAutomatico(applicazione, matricola);
                 }
