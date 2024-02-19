@@ -26,10 +26,10 @@ public class Menu {
      * <br>
      * Costruttore che realizza l'intera finestra per la visualizzazione del menù
      * @param applicazione Permette di gestire gli archivi dati e la tabella
-     * */
+     */
     public Menu(Applicazione applicazione){
 
-        JFrame mainFrame = new JFrame("Gestione Esami");
+        JFrame mainFrame = new JFrame("Gestione degli esami universitari");
         mainFrame.setSize(700,350);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -148,7 +148,7 @@ public class Menu {
                 set: gli attributi di stampa aggiuntivi, come l'orientamento
                 true: interactive - se false, non mostra un dialogo di conferma dopo la stampa */
             if(applicazione.getTabella().getTable().print(JTable.PrintMode.FIT_WIDTH, header, null, true, set, false))
-                JOptionPane.showMessageDialog(null, "\n" + "Printed Succefully");
+                JOptionPane.showMessageDialog(null, "Tabella stampata con successo!");
         }catch (java.awt.print.PrinterException e){
             JOptionPane.showMessageDialog(null, "Errore: " + e);
         }

@@ -61,6 +61,21 @@ public class Applicazione {
         return tabella;
     }
 
+    public void visualizzaStudenti(){
+        for(int i=0; i< archivioStudenti.size(); i++){
+            System.out.println(archivioStudenti.get(i).getMatricola());
+            System.out.println(archivioStudenti.get(i).getNome());
+            System.out.println(archivioStudenti.get(i).getCognome());
+        }
+    }
+
+    public void visualizzaEsami(){
+        for(int i=0; i< archivioEsami.size(); i++){
+            System.out.println(archivioEsami.get(i).getStudente().getMatricola());
+            System.out.println(archivioEsami.get(i).getNome());
+        }
+    }
+
     /**
      * <strong>ricercaStudente</strong>
      * <br>
@@ -107,6 +122,19 @@ public class Applicazione {
             }
         }
         return false;
+    }
+
+    public void caricaTabella(){
+
+        for(int i=0; i< archivioEsami.size(); i++){
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getStudente().getMatricola(), i, 0);
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getStudente().getNome(), i, 1);
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getStudente().getCognome(), i, 2);
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getNome(), i, 3);
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getVoto(), i, 4);
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getLode(), i, 5);
+            tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getCfu(), i, 6);
+        }
     }
 }
 

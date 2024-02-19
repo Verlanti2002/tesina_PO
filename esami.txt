@@ -6,7 +6,7 @@
 184254	Mario	Verdi	Fisica	22	false	6	
 179234	Mauro	Gallo	Architettura dei Calcolatori	30	true	9	Scritta	50	30	Orale	50	30	
 185240	Laura	Costa	Algoritmi e Strutture Dati	26	false	9	
-176214	Alessandro 	Bianchi	Algebra Lineare	24	false	9	
+175469	Alessandro 	Bianchi	Algebra Lineare	24	false	9
 192543	Giulia	Esposito	Programmazione 2	30	true	9	Scritta	70	30	Pratica	30	30	
 179234	Mauro	Gallo	Fisica	28	false	6	
 172364	Camilla	Ferrari	Algebra Lineare	25	false	9	

@@ -77,12 +77,6 @@ public class GestioneEsami{
         /* Creazione del bottone per generare un grafico sui record filtrati */
         JButton grafico_btn = new JButton("Grafico");
 
-        /* Aggiungo un listener per tracciare le modifiche sulla tabella
-         *  Il listener è definito tramite una lambda expression che imposta la variabile booleana modificheNonSalvate
-         * su true ogni volta che viene rilevata una modifica al modello della tabella
-         */
-        applicazione.getTabella().getDefaultTableModel().addTableModelListener(e -> modificheNonSalvate = true);
-
         /* Ascoltatore degli eventi di finestra sulla chiusura del frame principale dell'applicazione */
         menuFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -226,6 +220,11 @@ public class GestioneEsami{
         applicazione.getTabella().getTable().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                jFrameInfo = new JFrame("Informazioni");
+                /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
+                jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
+                jPanelInfo = new JPanel();
+                jPanelInfo.setLayout(null);
                 /* Recupera la riga del campo selezionato */
                 int row = applicazione.getTabella().getTable().rowAtPoint(e.getPoint());
                 /* Recupera la classe dell'esame selezionato (semplice o composto) */
@@ -235,15 +234,9 @@ public class GestioneEsami{
                     /* Recupera l'esame semplice selezionato */
                     EsameSemplice esameSemplice = (EsameSemplice) applicazione.getArchivioEsami().get(row);
                     /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
-                    jFrameInfo = new JFrame("Informazioni");
                     jFrameInfo.setSize(700, 300);
-                    /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-                    jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                     /* Creazione del pannello per contenere gli oggetti necessari a mostrare le informazioni relative all'esame selezionato */
-                    jPanelInfo = new JPanel();
-                    jPanelInfo.setLayout(null);
                     jPanelInfo.setPreferredSize(new Dimension(700, 300));
-
                     /* Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
                     getFormInfoExam(esameSemplice, applicazione);
 
@@ -264,6 +257,7 @@ public class GestioneEsami{
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 editEntry(applicazione, row);
+                                modificheNonSalvate = true;
                                 /* Chiude il frame */
                                 jFrameInfo.dispose();
                             }
@@ -285,13 +279,8 @@ public class GestioneEsami{
                     /* Recupera l'esame composto selezionato */
                     EsameComposto esameComposto = (EsameComposto) applicazione.getArchivioEsami().get(row);
                     /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
-                    jFrameInfo = new JFrame("Informazioni");
                     jFrameInfo.setSize(700, 450);
-                    /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
-                    jFrameInfo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
-                    jPanelInfo = new JPanel();
-                    jPanelInfo.setLayout(null);
-                    jPanelInfo.setPreferredSize(new Dimension(700, 400));
+                    jPanelInfo.setPreferredSize(new Dimension(700, 450));
 
                     /* Richiama il metodo per la visualizzazione e/o modifica delle informazioni dell'esame passato */
                     getFormInfoExam(esameComposto, applicazione);
@@ -366,6 +355,7 @@ public class GestioneEsami{
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 editEntry(applicazione, row);
+                                modificheNonSalvate = true;
                                 /* Chiude il frame */
                                 jFrameInfo.dispose();
                             }
@@ -934,6 +924,7 @@ public class GestioneEsami{
                 } else {
                     /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                     addEntry(applicazione);
+                    modificheNonSalvate = true;
                 }
             }
         });
@@ -1209,6 +1200,7 @@ public class GestioneEsami{
                                 }
                                 /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                                 addEntry(applicazione);
+                                modificheNonSalvate = true;
                             }
                         }
                     });
@@ -1271,6 +1263,8 @@ public class GestioneEsami{
         studente = applicazione.ricercaStudente(matricola);
         if(studente == null){ // Nel caso in cui non lo fosse
             studente = new Studente(matricola, nome, cognome);
+            /* Aggiunge lo studente nell'archivio studenti */
+            applicazione.getArchivioStudenti().add(studente);
         }
         if (semplice_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame semplice
             int voto = Integer.parseInt(voto_tf.getText());
@@ -1281,8 +1275,6 @@ public class GestioneEsami{
                 if(applicazione.checkEsistenzaEsame(esameSemplice)){
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
                 } else{
-                    /* Aggiunge lo studente nell'archivio studenti */
-                    applicazione.getArchivioStudenti().add(studente);
                     /* Aggiunge l'esame semplice nell'archivio esami */
                     applicazione.getArchivioEsami().add(esameSemplice);
                     /* Aggiunge il nuovo record nella tabella */
@@ -1357,12 +1349,14 @@ public class GestioneEsami{
 
             /* Controlla se il voto e i cfu hanno un valore valido */
             if(checkInserimentiNumerici()){
-                /* Recupera lo studente dall'archivio studenti attraverso il metodo ricercaStudente */
-                Studente studente = applicazione.ricercaStudente(matricola);
+                /* Recupera lo studente dall'archivio attraverso il metodo ricercaStudente */
+                Studente studente_da_modificare = applicazione.ricercaStudente(applicazione.getArchivioEsami().get(row).getStudente().getMatricola());
+
                 /* Modifica i dati dello studente e del corrispettivo esame selezionato */
-                studente.setMatricola(matricola);
-                studente.setNome(nome);
-                studente.setCognome(cognome);
+                studente_da_modificare.setMatricola(matricola);
+                studente_da_modificare.setNome(nome);
+                studente_da_modificare.setCognome(cognome);
+
                 applicazione.getArchivioEsami().get(row).setNome(corso);
                 applicazione.getArchivioEsami().get(row).setVoto(voto);
                 applicazione.getArchivioEsami().get(row).setLode(lode);
@@ -1377,6 +1371,7 @@ public class GestioneEsami{
                 if (checkCampiProveParziali(n_prove) && cfu > 0) {
                     if (!checkLode(n_prove)){
                         lode = !lode;
+                        applicazione.getArchivioEsami().get(row).setLode(lode);
                     }
                     /* Recupero i dati delle prove parziali */
                     for (int i = 0; i < n_prove; i++) {
@@ -1399,13 +1394,14 @@ public class GestioneEsami{
                 }
             }
             /* Aggiorno i dati in tabella del record modificato */
-            applicazione.getTabella().getDefaultTableModel().setValueAt(matricola, row, 0);
+            /*applicazione.getTabella().getDefaultTableModel().setValueAt(matricola, row, 0);
             applicazione.getTabella().getDefaultTableModel().setValueAt(nome, row, 1);
             applicazione.getTabella().getDefaultTableModel().setValueAt(cognome, row, 2);
             applicazione.getTabella().getDefaultTableModel().setValueAt(corso, row, 3);
             applicazione.getTabella().getDefaultTableModel().setValueAt(voto, row, 4);
             applicazione.getTabella().getDefaultTableModel().setValueAt(lode, row, 5);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(cfu, row, 6);
+            applicazione.getTabella().getDefaultTableModel().setValueAt(cfu, row, 6);*/
+            applicazione.caricaTabella();
         }
     }
 

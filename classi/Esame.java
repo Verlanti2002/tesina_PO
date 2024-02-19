@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public abstract class Esame {
 
     /** Studente che ha sostenuto l'esame */
-    private final Studente studente;
+    private Studente studente;
     /** Nome dell'esame (o corso) */
     private String nome;
     /** Voto finale dell'esame */
@@ -126,6 +126,10 @@ public abstract class Esame {
      */
     public void setCfu(int cfu) {
         this.cfu = cfu;
+    }
+
+    public void setStudente(Studente studente){
+        this.studente = studente;
     }
 
     /**

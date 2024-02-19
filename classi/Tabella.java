@@ -1,5 +1,7 @@
 package classi;
 
+import gui.Applicazione;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,7 +27,7 @@ public class Tabella {
      */
     public Tabella(){
         columnNames = new String[]{"Matricola", "Nome", "Cognome", "Corso", "Voto", "Lode", "CFU"};
-        defaultTableModel = new DefaultTableModel();;
+        defaultTableModel = new DefaultTableModel();
         for(int i=0; i< columnNames.length; i++){
             defaultTableModel.addColumn(columnNames[i]);
         }
@@ -35,7 +37,7 @@ public class Tabella {
     /**
      * <strong>getTable</strong>
      * <br>
-     * Metodo getter che restituisce l'oggetto JTable associato a questa Tabella
+     * Metodo getter che restituisce l'oggetto grafico della tabella
      * @return La tabella grafica JTable
      */
     public JTable getTable() {

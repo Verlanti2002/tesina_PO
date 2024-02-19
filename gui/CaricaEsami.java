@@ -51,10 +51,15 @@ public class CaricaEsami {
                     System.arraycopy(rowData, 0, rowDataTable, 0, columnSize);
                     /* Carica la nuova tabella con i dati prelevati dal file */
                     applicazione.getTabella().getDefaultTableModel().addRow(rowDataTable); // Aggiunge una nuova riga alla tabella con i dati letti dal file
-                    /* Crea l'oggetto studente con i primi 3 campi (matricola, nome, cognome) prelevati dal file */
-                    Studente studente = new Studente(Integer.parseInt(rowDataTable[0]), rowDataTable[1], rowDataTable[2]);
-                    /* Aggiunge lo studente all'archivio studenti */
-                    applicazione.getArchivioStudenti().add(studente);
+                    Studente studente;
+                    /* Verifica se lo studente è gia registrato */
+                    studente = applicazione.ricercaStudente(Integer.parseInt(rowDataTable[0]));
+                    if(studente == null){ // Nel caso in cui non lo fosse
+                        /* Crea il nuovo studente */
+                        studente = new Studente(Integer.parseInt(rowDataTable[0]), rowDataTable[1], rowDataTable[2]);
+                        /* Aggiunge lo studente all'archivio studenti */
+                        applicazione.getArchivioStudenti().add(studente);
+                    }
                     if(rowData.length == columnSize){ // allora è un esame semplice
                         /* Registrazione di un nuovo esame semplice */
                         applicazione.getArchivioEsami().add(new EsameSemplice(studente, rowDataTable[3], Integer.parseInt(rowDataTable[4]), Boolean.parseBoolean(rowDataTable[5]), Integer.parseInt(rowDataTable[6])));
@@ -78,10 +83,8 @@ public class CaricaEsami {
                         applicazione.getArchivioEsami().add(esameComposto);
                     }
                 }
-
                 /* Mostra un messaggio di conferma del caricamento */
                 JOptionPane.showMessageDialog(mainFrame, "Tabella caricata con successo!");
-                GestioneEsami gestioneEsami = new GestioneEsami(mainFrame, applicazione);
             } catch (IOException e) {
                 /* Gestione di eventuali eccezioni di I*/
                 e.printStackTrace();
