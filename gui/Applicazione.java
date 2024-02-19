@@ -76,6 +76,14 @@ public class Applicazione {
         }
     }
 
+    public void visualizzaEsamiParziali(){
+        for(int i=0; i< archivioEsami.size(); i++){
+            for(int j=0; j<archivioEsami.get(i).getEsamiParziali().size(); j++){
+                System.out.println(archivioEsami.get(i).getEsamiParziali().get(j).getNome());
+            }
+        }
+    }
+
     /**
      * <strong>ricercaStudente</strong>
      * <br>
@@ -96,15 +104,16 @@ public class Applicazione {
      * <br>
      * Metodo che verifica se è possibile eliminare l'utente quando si vuole eliminare un esame <br>
      * Controlla se lo studente ha sostenuto altri esami oltre a quello che si vuole eliminare
-     * @param selectedRow Indice dello studente da controllare
+     * @param matricola Matricola dello studente da controllare
      * @return True se lo studente non ha sostenuto altri esami (quindi eliminabile), false altrimenti
      */
-    public boolean checkEliminaStudente(int selectedRow){
+    public boolean checkEliminaStudente(int matricola){
+        int counter = 0;
         for(int i=0; i<getArchivioEsami().size(); i++){
-            if(getArchivioEsami().get(i).getStudente().getMatricola() == getArchivioEsami().get(selectedRow).getStudente().getMatricola())
-                return false;
+            if(getArchivioEsami().get(i).getStudente().getMatricola() == matricola)
+                counter++;
         }
-        return true;
+        return counter == 1;
     }
 
     /**
@@ -125,7 +134,6 @@ public class Applicazione {
     }
 
     public void caricaTabella(){
-
         for(int i=0; i< archivioEsami.size(); i++){
             tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getStudente().getMatricola(), i, 0);
             tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getStudente().getNome(), i, 1);

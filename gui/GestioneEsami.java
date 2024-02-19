@@ -377,6 +377,7 @@ public class GestioneEsami{
                     public void actionPerformed(ActionEvent e) {
                         /* Richiama il metodo per l'eliminazione di un esame */
                         deleteEntry(applicazione);
+                        modificheNonSalvate = true;
                         /* Chiude il frame */
                         jFrameInfo.dispose();
                     }
@@ -1393,14 +1394,6 @@ public class GestioneEsami{
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            /* Aggiorno i dati in tabella del record modificato */
-            /*applicazione.getTabella().getDefaultTableModel().setValueAt(matricola, row, 0);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(nome, row, 1);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(cognome, row, 2);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(corso, row, 3);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(voto, row, 4);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(lode, row, 5);
-            applicazione.getTabella().getDefaultTableModel().setValueAt(cfu, row, 6);*/
             applicazione.caricaTabella();
         }
     }
@@ -1417,18 +1410,15 @@ public class GestioneEsami{
     public void deleteEntry(Applicazione applicazione) {
         /* Recupera la riga selezionata */
         int selectedRow = applicazione.getTabella().getTable().getSelectedRow();
-        String tipologia_esame = String.valueOf(applicazione.getArchivioEsami().get(selectedRow).getClass());
         if (selectedRow != -1) { // Se la riga ha un valore valido
-            /* Rimuove il record selezionato dalla tabella */
-            applicazione.getTabella().getDefaultTableModel().removeRow(selectedRow);
+            /* Verifica se posso eliminare anche lo studente */
+            if(applicazione.checkEliminaStudente(applicazione.getArchivioEsami().get(selectedRow).getStudente().getMatricola()))
+                applicazione.getArchivioStudenti().delete(applicazione.getArchivioStudenti().get(selectedRow));
             /* Rimuove l'esame del record selezionato dall'archivio esami */
             applicazione.getArchivioEsami().delete(applicazione.getArchivioEsami().get(selectedRow));
-            /* Verifica se posso eliminare anche lo studente */
-            if(applicazione.checkEliminaStudente(selectedRow))
-                applicazione.getArchivioStudenti().delete(applicazione.getArchivioStudenti().get(selectedRow));
-            /* Se l'esame è composto vengono eliminate anche tutte le sue prove parziali */
-            if(tipologia_esame.contains("Composto"))
-                applicazione.getArchivioEsami().get(selectedRow).getEsamiParziali().clear();
+            /* Rimuove il record selezionato dalla tabella */
+            applicazione.getTabella().getDefaultTableModel().removeRow(selectedRow);
+
         }
     }
 
