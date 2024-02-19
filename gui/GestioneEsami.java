@@ -43,16 +43,15 @@ public class GestioneEsami{
     private EsameParziale[] datiProve;
     /** Variabile necessaria per tenere traccia dell'ultima modifica effettuata sulla tabella */
     private boolean modificheNonSalvate;
-    /** Oggetto necessario per il salvataggio degli esami su file */
-    private SalvaEsami salvaEsami;
 
     /**
      * <strong>GestioneEsami</strong>
      * <br>
      * Costruttore che gestisce completamente l'intera sezione per la gestione degli esami
      * @param applicazione Permette di gestire gli archivi dati e la tabella
+     * @param menuFrame Frame di avvio dell'applicazione
      */
-    public GestioneEsami(Applicazione applicazione) {
+    public GestioneEsami(JFrame menuFrame, Applicazione applicazione) {
 
         /* Creazione del frame principale per la finestra "Gestione Esami" */
         mainFrame = new JFrame();
@@ -80,34 +79,36 @@ public class GestioneEsami{
 
         /* Aggiungo un listener per tracciare le modifiche sulla tabella
          *  Il listener è definito tramite una lambda expression che imposta la variabile booleana modificheNonSalvate
-         * su true ogni volta che viene rilevata una modifica al modello di tabella
+         * su true ogni volta che viene rilevata una modifica al modello della tabella
          */
         applicazione.getTabella().getDefaultTableModel().addTableModelListener(e -> modificheNonSalvate = true);
 
-        /* Ascoltatore degli eventi di finestra per il frame principale */
-        mainFrame.addWindowListener(new WindowAdapter() {
+        /* Ascoltatore degli eventi di finestra sulla chiusura del frame principale dell'applicazione */
+        menuFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (modificheNonSalvate) { // Se non sono state salvate le modifiche già effettuate...
-                    /* Mostra un messaggio di conferma per avvisare l'utente che ci sono modifiche non salvate prima di chiudere il frame principale */
-                    int result = JOptionPane.showConfirmDialog(mainFrame, "Ci sono modifiche non salvate. Vuoi salvarle prima di chiudere?", "Modifiche non salvate", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (modificheNonSalvate) { // Se non sono state salvate le modifiche effettuate...
+                    /* Mostra un messaggio di conferma per avvisare l'utente che ci sono modifiche non salvate */
+                    int result = JOptionPane.showConfirmDialog(menuFrame, "Ci sono modifiche non salvate. Vuoi salvarle prima di chiudere?", "Modifiche non salvate", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (result == JOptionPane.YES_OPTION) { // Se decide di salvare le modifiche...
                         /* Salvataggio delle modifiche */
-                        salvaEsami = new SalvaEsami(mainFrame, applicazione);
-                        /* Imposta a false la variabile "modificheNonSalvate" */
-                        modificheNonSalvate = false;
-                        /* Chiude il frame */
-                        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        SalvaEsami salvaEsami = new SalvaEsami(menuFrame, applicazione);
+                        if(salvaEsami.getIsSaved()) { // Se il salvataggio è avvenuto con successo
+                            /* Imposta a false la variabile "modificheNonSalvate" */
+                            modificheNonSalvate = false;
+                            /* Chiude il frame */
+                            menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        }
                     } else if (result == JOptionPane.NO_OPTION) { // Se decide di non salvare le modifiche...
                         /* Chiude il frame principale senza salvare le modifiche */
-                        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     } else {
                         /* Annulla la chiusura del frame */
-                        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                        menuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                     }
                 } else {
                     /* Chiude il frame se non ci sono modifiche non salvate */
-                    mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
+                    menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
                 }
             }
         });
@@ -117,7 +118,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 /* Chiamata della funzione per il calcolo della media dei voti sui record filtrati */
-                if (applicazione.getTabella().getTable().getRowCount() != 0) // Se il campo di testo del filtro non è vuoto...
+                if (applicazione.getTabella().getTable().getRowCount() != 0) // Se il campo di testo del filtro non è vuoto
                     /* Mostra la media attraverso un messaggio informativo */
                     JOptionPane.showMessageDialog(mainFrame, "Media pesata dei voti: " + calcolaMedia(applicazione), "Informazione", JOptionPane.INFORMATION_MESSAGE);
                 else
@@ -186,16 +187,18 @@ public class GestioneEsami{
 
                 if (applicazione.getTabella().getTable().getRowCount() != 0) {
                     /* Salvataggio degli esami su file */
-                    salvaEsami = new SalvaEsami(mainFrame, applicazione);
-                    /* Imposta a false la variabile "modificheNonSalvate" */
-                    modificheNonSalvate = false;
+                    SalvaEsami salvaEsami = new SalvaEsami(mainFrame, applicazione);
+                    if(salvaEsami.getIsSaved()) // Se il salvataggio è avvenuto con successo
+                        /* Imposta a false la variabile "modificheNonSalvate" */
+                        modificheNonSalvate = false;
                 } else {
                     int result = JOptionPane.showConfirmDialog(mainFrame, "La tabella è vuota. Vuoi comunque salvarla?", "Informazione", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (result == JOptionPane.YES_OPTION) {
                         /* Salvataggio degli esami su file */
-                        salvaEsami = new SalvaEsami(mainFrame, applicazione);
-                        /* Imposta a false la variabile "modificheNonSalvate" */
-                        modificheNonSalvate = false;
+                        SalvaEsami salvaEsami = new SalvaEsami(mainFrame, applicazione);
+                        if(salvaEsami.getIsSaved()) // Se il salvataggio è avvenuto con successo
+                            /* Imposta a false la variabile "modificheNonSalvate" */
+                            modificheNonSalvate = false;
                     }
                 }
             }
@@ -225,8 +228,6 @@ public class GestioneEsami{
             public void mouseClicked(MouseEvent e) {
                 /* Recupera la riga del campo selezionato */
                 int row = applicazione.getTabella().getTable().rowAtPoint(e.getPoint());
-                /* Recupera la colonna del campo selezionato */
-                int col = applicazione.getTabella().getTable().columnAtPoint(e.getPoint());
                 /* Recupera la classe dell'esame selezionato (semplice o composto) */
                 String tipologia_esame = String.valueOf(applicazione.getArchivioEsami().get(row).getClass());
 
@@ -280,8 +281,8 @@ public class GestioneEsami{
                     jFrameInfo.add(jPanelInfo);
                 }
 
-                if (tipologia_esame.contains("Composto")) { // Se la classe dell'esame selezionato è Composto...
-                    /* Recupera l'esame semplice selezionato */
+                if (tipologia_esame.contains("Composto")) { // Se la classe dell'esame selezionato è Composto
+                    /* Recupera l'esame composto selezionato */
                     EsameComposto esameComposto = (EsameComposto) applicazione.getArchivioEsami().get(row);
                     /* Crea un nuovo frame per mostrare le informazioni relative all'esame selezionato */
                     jFrameInfo = new JFrame("Informazioni");
@@ -414,7 +415,7 @@ public class GestioneEsami{
      * Metodo che permette di controllare la corretta assegnazione della lode in un esame composto <br>
      * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
      * @param n_prove Numero di prove parziali
-     * @return True se l'assegnazione della lode è ottenibile, false altrimenti
+     * @return True se l'assegnazione della lode è legittima, false altrimenti
      */
     public boolean checkLode(int n_prove){
         for(int i=0; i<n_prove; i++)
@@ -493,6 +494,7 @@ public class GestioneEsami{
      * <br>
      * Metodo che controlla il corretto inserimento dei dati delle prove parziali
      * @param n_prove Numero di prove parziali
+     * @return True se i campi sono compilati correttamente, false altrimenti
      */
     public boolean checkCampiProveParziali(int n_prove){
         for(int i=0; i<n_prove; i++){
@@ -566,12 +568,46 @@ public class GestioneEsami{
         matricola_tf.setBounds(280,20,100,20);
         matricola_tf.setText(Integer.toString(esame.getStudente().getMatricola()));
 
+        /* Verifica se il campo di testo della matricola è composto solo ed esclusivamente da numeri */
+        matricola_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField(matricola_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
+
         JLabel nome_l = new JLabel("Nome:");
         nome_l.setBounds(20, 60, 100, 20);
         nome_tf = new JTextField();
         nome_tf.setBounds(70, 60, 100, 20);
         nome_tf.setText(esame.getStudente().getNome());
 
+        /* Verifica che il nome dello studente non contenga numeri */
+        nome_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField2(nome_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
+
+        /* Gestisce ed effettua, se possibile, il riempimento automatico del nome dello studente  */
         nome_tf.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -593,6 +629,23 @@ public class GestioneEsami{
         cognome_tf.setBounds(280, 60, 100, 20);
         cognome_tf.setText(esame.getStudente().getCognome());
 
+        /* Verifica che il cognome dello studente non contenga numeri */
+        cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField2(nome_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
+
         JLabel corso_l = new JLabel("Corso:");
         corso_l.setBounds(410, 60, 100, 20);
         corso_tf = new JTextField();
@@ -604,6 +657,24 @@ public class GestioneEsami{
         voto_tf = new JTextField();
         voto_tf.setBounds(70, 100, 100, 20);
         voto_tf.setText(Integer.toString(esame.getVoto()));
+
+        /* Verifica che il campo di testo del voto sia composto solo ed esclusivamente da numeri */
+        voto_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField(voto_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
+
         /* Se l'esame è composto nego la possibilità di modificare il voto
          * in quanto esso viene calcolato automaticamente con l'inserimento delle prove parziali */
         if(tipologia_esame.contains("Composto")){
@@ -617,11 +688,39 @@ public class GestioneEsami{
         lode_cb.setBounds(280, 100, 100, 20);
         lode_cb.setSelected(esame.getLode());
 
+        /* Verifica se l'assegnazione della lode è legittima o meno */
+        lode_cb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30){
+                    JOptionPane.showMessageDialog(jFrameInfo, "Errore: non è possibile assegnare la lode con un voto inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                    lode_cb.setSelected(false);
+                }
+            }
+        });
+
         JLabel cfu_l = new JLabel("CFU:");
         cfu_l.setBounds(410, 100, 100, 20);
         cfu_tf = new JTextField();
         cfu_tf.setBounds(490, 100, 100, 20);
         cfu_tf.setText(Integer.toString(esame.getCfu()));
+
+        /* Verifica se il campo di testo dei cfu è composto solo ed esclusivamente da numeri */
+        cfu_tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkTextField(cfu_tf);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Non necessario per campi di testo non formattati come JTextField
+            }
+        });
 
         jPanelInfo.add(matricola_l);
         jPanelInfo.add(matricola_tf);
@@ -669,6 +768,7 @@ public class GestioneEsami{
         /* Imposto la checkbox a true poichè il frame si apre direttamente con la form per l'inserimento di un esame semplice */
         semplice_cb.setSelected(true);
 
+        /* Gestisce lo scambio di form (da semplice a composto) */
         composto_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -682,7 +782,7 @@ public class GestioneEsami{
         matricola_tf = new JTextField();
         matricola_tf.setBounds(280,60,100,20);
 
-        /* Verifico se il campo di testo della matricola è composto solo ed esclusivamente da numeri */
+        /* Verifica se il campo di testo della matricola è composto solo ed esclusivamente da numeri */
         matricola_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -695,7 +795,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -704,6 +803,7 @@ public class GestioneEsami{
         nome_tf = new JTextField();
         nome_tf.setBounds(80, 100, 100, 20);
 
+        /* Verifica che il nome dello studente non contenga numeri */
         nome_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -720,6 +820,7 @@ public class GestioneEsami{
             }
         });
 
+        /* Gestisce ed effettua, se possibile, il riempimento automatico del nome dello studente  */
         nome_tf.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -740,6 +841,7 @@ public class GestioneEsami{
         cognome_tf = new JTextField();
         cognome_tf.setBounds(280, 100, 100, 20);
 
+        /* Verifica che il cognome dello studente non contenga numeri */
         cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -766,7 +868,7 @@ public class GestioneEsami{
         voto_tf = new JTextField();
         voto_tf.setBounds(80, 140, 100, 20);
 
-        /* Verifico se il campo di testo del voto è composto solo ed esclusivamente da numeri */
+        /* Verifica che il campo di testo del voto contenga solo ed esclusivamente numeri  */
         voto_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -788,6 +890,7 @@ public class GestioneEsami{
         lode_cb = new JCheckBox();
         lode_cb.setBounds(280, 140, 100, 20);
 
+        /* Verifica se l'assegnazione della lode è legittima o meno */
         lode_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -803,7 +906,7 @@ public class GestioneEsami{
         cfu_tf = new JTextField();
         cfu_tf.setBounds(440, 140, 100, 20);
 
-        /* Verifico se il campo di testo dei cfu è composto solo ed esclusivamente da numeri */
+        /* Verifica che il campo di testo dei cfu sia composto solo ed esclusivamente da numeri */
         cfu_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -886,6 +989,7 @@ public class GestioneEsami{
         composto_cb.setBounds(380, 20, 100, 20);
         composto_cb.setSelected(true);
 
+        /* Gestisce lo scambio di form (da composto a semplice) */
         semplice_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -921,6 +1025,7 @@ public class GestioneEsami{
         nome_tf = new JTextField();
         nome_tf.setBounds(80, 100, 100, 20);
 
+        /* Verifica che il nome dello studente non contenga numeri */
         nome_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -937,6 +1042,7 @@ public class GestioneEsami{
             }
         });
 
+        /* Gestisce ed effettua, se possibile, il riempimento automatico del nome dello studente  */
         nome_tf.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -957,6 +1063,7 @@ public class GestioneEsami{
         cognome_tf = new JTextField();
         cognome_tf.setBounds(280, 100, 100, 20);
 
+        /* Verifica che il cognome dello studente non contenga numeri */
         cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -1017,6 +1124,7 @@ public class GestioneEsami{
         n_prove_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /* Verifica che non ci siano campi vuoti */
                 if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                 } else{
@@ -1066,6 +1174,7 @@ public class GestioneEsami{
                     }
 
                     registra_esame_btn = new JButton("Registra Esame");
+                    /* Per gestire la posizione dei bottoni a seconda del numero di prove parziali dell'esame composto */
                     if(selectedValue == 2)
                         registra_esame_btn.setBounds(260, 130, 150, 25);
                     else
@@ -1151,7 +1260,6 @@ public class GestioneEsami{
      */
     public void addEntry(Applicazione applicazione){
         Studente studente;
-
         int matricola = Integer.parseInt(matricola_tf.getText());
         String nome = nome_tf.getText();
         String cognome = cognome_tf.getText();
@@ -1159,12 +1267,14 @@ public class GestioneEsami{
         boolean lode = lode_cb.isSelected();
         int cfu = Integer.parseInt(cfu_tf.getText());
 
+        /* Verifica se lo studente è gia registrato */
         studente = applicazione.ricercaStudente(matricola);
-        if(studente == null){
+        if(studente == null){ // Nel caso in cui non lo fosse
             studente = new Studente(matricola, nome, cognome);
         }
         if (semplice_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame semplice
             int voto = Integer.parseInt(voto_tf.getText());
+            /* Verifica il corretto inserimento dei campi numerici */
             if(checkInserimentiNumerici()){
                 EsameSemplice esameSemplice = new EsameSemplice(studente, corso, voto, lode, cfu);
                 /* Verifico se l'esame appena compilato è gia stato registrato o meno */

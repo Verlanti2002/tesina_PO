@@ -33,7 +33,7 @@ public class Grafico {
         int rowCount = applicazione.getTabella().getTable().getRowCount();
 
         if(rowCount == 0){
-            JOptionPane.showMessageDialog(mainFrame, "Per ottenere il grafico è necessario registrare almeno un esame", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainFrame, "Errore: per ottenere il grafico è necessario registrare almeno un esame", "Errore", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

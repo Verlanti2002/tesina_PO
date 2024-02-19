@@ -45,7 +45,7 @@ public class Menu {
         JButton gestione_esami_btn = new JButton("<html><h3>GESTIONE ESAMI</h3></html>");
         gestione_esami_btn.setFocusPainted(false);
         gestione_esami_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Aggiungi bordo nero intorno al pulsante
-        gestione_esami_btn.addActionListener(e -> new GestioneEsami(applicazione));
+        gestione_esami_btn.addActionListener(e -> new GestioneEsami(mainFrame, applicazione));
 
         // Aggiunge un MouseListener per gestire gli eventi del mouse
         gestione_esami_btn.addMouseListener(new MouseAdapter() {

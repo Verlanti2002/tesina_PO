@@ -39,7 +39,7 @@ public class EsameParziale {
      * <strong>getNome</strong>
      * <br>
      * Metodo getter che restituisce il nome di un esame parziale
-     * @return nome dell'esame parziale
+     * @return Nome dell'esame parziale
      */
     public String getNome() {
         return this.nome;
@@ -49,7 +49,7 @@ public class EsameParziale {
      * <strong>getPeso</strong>
      * <br>
      * Metodo getter che restituisce il peso di un esame parziale
-     * @return peso dell'esame parziale
+     * @return Peso dell'esame parziale
      */
     public int getPeso() {
         return this.peso;
@@ -59,7 +59,7 @@ public class EsameParziale {
      * <strong>getVoto</strong>
      * <br>
      * Metodo getter che restituisce il voto di un esame parziale
-     * @return voto dell'esame parziale
+     * @return Voto dell'esame parziale
      */
     public int getVoto() {
         return this.voto;
@@ -69,7 +69,7 @@ public class EsameParziale {
      * <strong>setNome</strong>
      * <br>
      * Metodo setter che modifica il nome di un esame parziale
-     * @param nome nuovo nome dell'esame parziale
+     * @param nome Nuovo nome dell'esame parziale
      */
     public void setNome(String nome) {
         this.nome = nome;
@@ -79,7 +79,7 @@ public class EsameParziale {
      * <strong>setPeso</strong>
      * <br>
      * Metodo setter che modifica il peso di un esame parziale
-     * @param peso nuovo peso dell'esame parziale
+     * @param peso Nuovo peso dell'esame parziale
      */
     public void setPeso(int peso) {
         this.peso = peso;
@@ -89,7 +89,7 @@ public class EsameParziale {
      * <strong>setVoto</strong>
      * <br>
      * Metodo setter che modifica il voto di un esame parziale
-     * @param voto nuovo voto dell'esame parziale
+     * @param voto Nuovo voto dell'esame parziale
      */
     public void setVoto(int voto) {
         this.voto = voto;

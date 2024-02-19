@@ -17,7 +17,7 @@ public abstract class Esame {
     private String nome;
     /** Voto finale dell'esame */
     private int voto;
-    /** Attribuzione o meno della lode */
+    /** Attribuzione della lode */
     private boolean lode;
     /** Numero di cfu totali dell'esame */
     private int cfu;
@@ -72,7 +72,7 @@ public abstract class Esame {
      * <strong>getLode</strong>
      * <br>
      * Metodo getter che restituisce un valore booleano
-     * @return True (se il voto finale è con lode) False (altrimenti)
+     * @return True se il voto finale è con lode, False altrimenti
      */
     public boolean getLode() {
         return this.lode;
@@ -82,7 +82,7 @@ public abstract class Esame {
      * <strong>getCfu</strong>
      * <br>
      * Metodo getter che restituisce il numero di cfu dell'esame
-     * @return Cfu totali
+     * @return Cfu totali dell'esame
      */
     public int getCfu() {
         return this.cfu;
@@ -131,8 +131,8 @@ public abstract class Esame {
     /**
      * <strong>getEsamiParziali</strong>
      * <br>
-     * Metodo astratto per ottenere l'array degli esami parziali di un determinato esame
-     * Le due sottoclassi di Esame implementeranno questo metodo
+     * Metodo astratto per accedere all'array degli esami parziali di un determinato esame
+     * Le due sottoclassi di Esame implementano questo metodo in quanto astratto
      */
     public abstract ArrayList<EsameParziale> getEsamiParziali();
 
@@ -140,7 +140,7 @@ public abstract class Esame {
      * <strong>voto</strong>
      * <br>
      * Metodo astratto per il calcolo del voto finale
-     * Le due sottoclassi di Esame implementeranno questo metodo
+     * Le due sottoclassi di Esame implementano questo metodo in quanto astratto
      */
     public abstract void voto();
 }

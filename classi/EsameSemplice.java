@@ -20,7 +20,7 @@ public class EsameSemplice extends Esame{
      * @param studente Studente che ha conseguito l'esame
      * @param voto Voto finale dell'esame
      * @param nome Nome del corso di cui si è sostenuto l'esame
-     * @param lode Assegnazione o meno della lode
+     * @param lode Valore della lode
      * @param cfu Numero di cfu totali dell'esame
      */
     public EsameSemplice(Studente studente, String nome, int voto, boolean lode, int cfu) {

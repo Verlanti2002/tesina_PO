@@ -13,6 +13,8 @@ import java.io.*;
  */
 public class SalvaEsami {
 
+    private boolean isSaved;
+
     /**
      * <strong>SalvaEsami</strong>
      * <br>
@@ -21,6 +23,7 @@ public class SalvaEsami {
      * @param applicazione Permette di gestire gli archivi dati e la tabella
      */
     public SalvaEsami(JFrame mainFrame, Applicazione applicazione){
+        isSaved = false;
         /* Crea un nuovo oggetto JFileChooser, che permette all'utente di navigare attraverso il filesystem */
         JFileChooser fileChooser = new JFileChooser();
         /* Imposta il filtro per i tipi di file */
@@ -62,12 +65,24 @@ public class SalvaEsami {
                 }
                 /* Mostra un messaggio di conferma del salvataggio */
                 JOptionPane.showMessageDialog(mainFrame, "Tabella salvata con successo!");
+                isSaved = true;
             } catch (IOException e) {
                 /* Gestione di eventuali eccezioni di IO */
                 e.printStackTrace();
                 /* Mostra un messaggio di errore se si verifica un problema durante il salvataggio */
-                JOptionPane.showMessageDialog(mainFrame, "Si è verificato un errore durante il salvataggio della tabella.", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainFrame, "Errore: si è verificato un problema durante il salvataggio della tabella.", "Errore", JOptionPane.ERROR_MESSAGE);
+                isSaved = false;
             }
         }
+    }
+
+    /**
+     * <strong>getIsSaved</strong>
+     * <br>
+     * Metodo getter per accedere allo stato di salvataggio del file
+     * @return True se il salvataggio è andato a buon fine, false altrimenti
+     */
+    public boolean getIsSaved() {
+        return isSaved;
     }
 }

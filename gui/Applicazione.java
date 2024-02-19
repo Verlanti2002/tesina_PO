@@ -5,14 +5,15 @@ import classi.*;
 /**
  * <strong>Applicazione</strong>
  * <br>
- * Classe condivisa in ogni altra classe per la gestione degli archivi dati e della tabella
+ * Classe che permette la gestione della tabella e degli archivi dati <br>
+ * Viene condivisa alle classi che utilizzano la tabella e/o gli archivi dati
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
  */
 public class Applicazione {
 
     /** Archivio degli studenti */
-    private final ArchivioStudenti<Studente> archivioStudenti;
+    private final ArchivioStudenti archivioStudenti;
     /** Archivio degli studenti */
     private final ArchivioEsami<Esame> archivioEsami;
     /** Tabella per la visualizzazione dei dati */
@@ -21,11 +22,11 @@ public class Applicazione {
     /**
      * <strong>Applicazione</strong>
      * <br>
-     * Costruttore per inizializzare l'applicazione con una tabella
+     * Costruttore che inizializza la tabella e gli archivi dati
      * @param tabella La tabella da utilizzare per la visualizzazione dei dati
      */
     public Applicazione(Tabella tabella){
-        archivioStudenti = new ArchivioStudenti<>();
+        archivioStudenti = new ArchivioStudenti();
         archivioEsami = new ArchivioEsami<>();
         this.tabella = tabella;
     }
@@ -46,7 +47,7 @@ public class Applicazione {
      * Metodo che restituisce l'archivio degli studenti
      * @return L'archivio degli studenti
      */
-    public ArchivioStudenti<Studente> getArchivioStudenti(){
+    public ArchivioStudenti getArchivioStudenti(){
         return archivioStudenti;
     }
 
@@ -96,6 +97,7 @@ public class Applicazione {
      * <br>
      * Metodo che verifica se un esame è gia stato registrato o meno
      * @param esame Esame da controllare
+     * @return True se l'esame è gia stato registrato, false altrimenti
      * */
     public boolean checkEsistenzaEsame(Esame esame){
         for(int i=0; i< archivioEsami.size(); i++){

@@ -15,14 +15,16 @@ public class Tabella {
     private final JTable jTable;
     /** Modello di default della tabella */
     private final DefaultTableModel defaultTableModel;
+    /** Nomi delle colonne della tabella */
+    private final String[] columnNames;
 
     /**
      * <strong>Tabella</strong>
      * <br>
      * Costruttore che crea una nuova istanza della tabella con le colonne specificate
-     * @param columnNames Un array di stringhe contenente i nomi delle colonne della tabella
      */
-    public Tabella(String[] columnNames){
+    public Tabella(){
+        columnNames = new String[]{"Matricola", "Nome", "Cognome", "Corso", "Voto", "Lode", "CFU"};
         defaultTableModel = new DefaultTableModel();;
         for(int i=0; i< columnNames.length; i++){
             defaultTableModel.addColumn(columnNames[i]);
@@ -48,5 +50,14 @@ public class Tabella {
      */
     public DefaultTableModel getDefaultTableModel() {
         return defaultTableModel;
+    }
+
+    /**
+     * <strong>getColumnNames</strong>
+     * Metodo getter che restituisce il nome delle colonne della tabella
+     * @return Array di stringhe con i nomi delle colonne
+     */
+    public String[] getColumnNames() {
+        return columnNames;
     }
 }

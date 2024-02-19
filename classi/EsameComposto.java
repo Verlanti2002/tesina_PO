@@ -24,12 +24,12 @@ public class EsameComposto extends Esame{
     /**
      * <strong>EsameComposto</strong>
      * <br>
-     * Costruttore che inizializza gli attributi con i valori passati dall'utente
+     * Costruttore che inizializza gli attributi con i valori passati dall'utente <br>
      * Viene richiamato il costruttore della superclasse Esame
      * @param studente Studente che ha conseguito l'esame
      * @param nome Nome del corso di cui si è sostenuto l'esame
+     * @param lode Valore della lode
      * @param cfu Numero di cfu totali dell'esame
-     * L'attributo relativo alla lode è settato a false in quanto esame di tipo composto
      */
     public EsameComposto(Studente studente, String nome, boolean lode, int cfu) {
         super(studente, nome, lode, cfu);
@@ -40,9 +40,9 @@ public class EsameComposto extends Esame{
      * <strong>getEsamiParziali</strong>
      * <br>
      * Implementazione del metodo astratto della classe Esame <br>
-     * Metodo in Override che restituisce l'array degli esami parziali di un determinato esame
+     * Metodo in Override che restituisce l'array degli esami parziali di un determinato esame composto
      * @return Array contenente gli esami parziali
-     * */
+     */
     @Override
     public ArrayList<EsameParziale> getEsamiParziali() {
         return esami_parziali;

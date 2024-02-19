@@ -5,7 +5,8 @@ import java.util.ArrayList;
 /**
  * <strong>ArchivioEsami</strong>
  * <br>
- * Questa classe rappresenta un archivio di esami
+ * Questa classe rappresenta un archivio di esami <br>
+ * Realizzata con l'utilizzo dei Generics
  * @param <E> Il tipo degli esami memorizzati nell'archivio
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS

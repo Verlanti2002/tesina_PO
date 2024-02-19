@@ -6,14 +6,13 @@ import java.util.ArrayList;
  * <strong>ArchivioStudenti</strong>
  * <br>
  * Questa classe rappresenta un archivio di studenti
- * @param <E> Il tipo degli studenti memorizzati nell'archivio
  * @author Alessandro Verlanti
  * @version java 21.0.1 2023-10-17 LTS
  */
-public class ArchivioStudenti<E> {
+public class ArchivioStudenti {
 
     /** Lista che contiene gli studenti */
-    private final ArrayList<E> studenti;
+    private final ArrayList<Studente> studenti;
 
     /**
      * <strong>ArchivioStudenti</strong>
@@ -30,7 +29,7 @@ public class ArchivioStudenti<E> {
      * Restituisce l'elenco degli studenti presenti nell'archivio <br>
      * @return ArrayList contenente gli studenti
      */
-    public ArrayList<E> getStudenti() {
+    public ArrayList<Studente> getStudenti() {
         return studenti;
     }
 
@@ -40,7 +39,7 @@ public class ArchivioStudenti<E> {
      * Metodo che aggiunge un nuovo studente all'archivio
      * @param studente Lo studente da aggiungere all'archivio
      */
-    public void add(E studente){
+    public void add(Studente studente){
         studenti.add(studente);
     }
 
@@ -50,7 +49,7 @@ public class ArchivioStudenti<E> {
      * Metodo che elimina uno studente dall'archivio
      * @param studente Lo studente da eliminare dall'archivio
      */
-    public void delete(E studente){
+    public void delete(Studente studente){
         studenti.remove(studente);
     }
 
@@ -61,7 +60,7 @@ public class ArchivioStudenti<E> {
      * @param index L'indice dello studente da ottenere
      * @return Lo studente corrispondente all'indice specificato
      */
-    public E get(int index){
+    public Studente get(int index){
         return studenti.get(index);
     }
 
