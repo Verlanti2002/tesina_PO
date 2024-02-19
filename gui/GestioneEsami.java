@@ -520,8 +520,9 @@ public class GestioneEsami{
         Pattern pattern = Pattern.compile("\\d");
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
-            // Se il testo contiene un numero, genera un errore
+            /* Se il testo contiene un numero, genera un errore */
             JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri letterali", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+            /* Per eseguire il codice in modo sicuro e thread-safe (per prevenire problemi di concorrenza) */
             SwingUtilities.invokeLater(() -> {
                 if(!text.isEmpty())
                     jTextField.setText(text.substring(0, text.length() - 1));
@@ -532,7 +533,8 @@ public class GestioneEsami{
     /**
      * <strong>checkTextField</strong>
      * <br>
-     * Metodo che controlla il corretto inserimento dei campi di testo numerici
+     * Metodo che controlla il corretto inserimento dei campi di testo numerici <br>
+     * Elimina il carattere che ha generato l'errore
      * @param jTextField Campo di testo da controllare
      */
     public void checkTextField(JTextField jTextField){
@@ -541,8 +543,9 @@ public class GestioneEsami{
             try {
                 Integer.parseInt(text); // Tentativo di conversione in intero
             } catch (NumberFormatException ex) {
-                // Il testo inserito non è un numero, mostra il messaggio di errore
+                /* Il testo inserito non è un numero, mostra il messaggio di errore */
                 JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri numerici", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                /* Per eseguire il codice in modo sicuro e thread-safe (per prevenire problemi di concorrenza) */
                 SwingUtilities.invokeLater(() -> {
                     jTextField.setText(text.substring(0, text.length() - 1));
                 });
