@@ -92,10 +92,12 @@ public class GestioneEsami{
                             modificheNonSalvate = false;
                             /* Chiude il frame */
                             menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            System.exit(0);
                         }
                     } else if (result == JOptionPane.NO_OPTION) { // Se decide di non salvare le modifiche...
                         /* Chiude il frame principale senza salvare le modifiche */
                         menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        System.exit(0);
                     } else {
                         /* Annulla la chiusura del frame */
                         menuFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -103,6 +105,7 @@ public class GestioneEsami{
                 } else {
                     /* Chiude il frame se non ci sono modifiche non salvate */
                     menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Viene chiuso solo questo frame
+                    System.exit(0);
                 }
             }
         });
