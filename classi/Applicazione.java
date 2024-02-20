@@ -136,7 +136,7 @@ public class Applicazione {
     /**
      * <strong>caricaTabella</strong>
      * <br>
-     * Metodo che ricarica la tabella ad ogni sua modifica
+     * Metodo che ricarica la tabella ogni volta che viene modificata
      */
     public void caricaTabella(){
         for(int i=0; i< archivioEsami.size(); i++){

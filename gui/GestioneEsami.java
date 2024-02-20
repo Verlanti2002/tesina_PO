@@ -793,9 +793,9 @@ public class GestioneEsami{
         });
 
         JLabel matricola_l = new JLabel("Matricola:");
-        matricola_l.setBounds(200, 60, 100,20);
+        matricola_l.setBounds(230, 60, 100,20);
         matricola_tf = new JTextField();
-        matricola_tf.setBounds(280,60,100,20);
+        matricola_tf.setBounds(310,60,100,20);
 
         /* Verifica se il campo di testo della matricola è composto solo ed esclusivamente da numeri */
         matricola_tf.getDocument().addDocumentListener(new DocumentListener() {
@@ -814,9 +814,9 @@ public class GestioneEsami{
         });
 
         JLabel nome_l = new JLabel("Nome:");
-        nome_l.setBounds(30, 100, 100, 20);
+        nome_l.setBounds(60, 100, 100, 20);
         nome_tf = new JTextField();
-        nome_tf.setBounds(80, 100, 100, 20);
+        nome_tf.setBounds(110, 100, 100, 20);
 
         /* Verifica che il nome dello studente non contenga numeri */
         nome_tf.getDocument().addDocumentListener(new DocumentListener() {
@@ -851,9 +851,9 @@ public class GestioneEsami{
         });
 
         JLabel cognome_l = new JLabel("Cognome:");
-        cognome_l.setBounds(200, 100, 100, 20);
+        cognome_l.setBounds(230, 100, 100, 20);
         cognome_tf = new JTextField();
-        cognome_tf.setBounds(280, 100, 100, 20);
+        cognome_tf.setBounds(310, 100, 100, 20);
 
         /* Verifica che il cognome dello studente non contenga numeri */
         cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
@@ -872,14 +872,14 @@ public class GestioneEsami{
         });
 
         JLabel corso_l = new JLabel("Corso:");
-        corso_l.setBounds(390, 100, 100, 20);
+        corso_l.setBounds(420, 100, 100, 20);
         corso_tf = new JTextField();
-        corso_tf.setBounds(440, 100, 100, 20);
+        corso_tf.setBounds(470, 100, 100, 20);
 
         JLabel voto_l = new JLabel("Voto:");
-        voto_l.setBounds(30, 140, 100, 20);
+        voto_l.setBounds(60, 140, 100, 20);
         voto_tf = new JTextField();
-        voto_tf.setBounds(80, 140, 100, 20);
+        voto_tf.setBounds(110, 140, 100, 20);
 
         /* Verifica che il campo di testo del voto contenga solo ed esclusivamente numeri  */
         voto_tf.getDocument().addDocumentListener(new DocumentListener() {
@@ -899,9 +899,9 @@ public class GestioneEsami{
         });
 
         JLabel lode_l = new JLabel("Lode:");
-        lode_l.setBounds(200, 140, 100, 20);
+        lode_l.setBounds(230, 140, 100, 20);
         lode_cb = new JCheckBox();
-        lode_cb.setBounds(280, 140, 100, 20);
+        lode_cb.setBounds(310, 140, 100, 20);
 
         /* Verifica se l'assegnazione della lode è legittima o meno */
         lode_cb.addActionListener(new ActionListener() {
@@ -915,9 +915,9 @@ public class GestioneEsami{
         });
 
         JLabel cfu_l = new JLabel("CFU:");
-        cfu_l.setBounds(390, 140, 100, 20);
+        cfu_l.setBounds(420, 140, 100, 20);
         cfu_tf = new JTextField();
-        cfu_tf.setBounds(440, 140, 100, 20);
+        cfu_tf.setBounds(470, 140, 100, 20);
 
         /* Verifica che il campo di testo dei cfu sia composto solo ed esclusivamente da numeri */
         cfu_tf.getDocument().addDocumentListener(new DocumentListener() {
@@ -1415,8 +1415,8 @@ public class GestioneEsami{
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            applicazione.caricaTabella();
         }
+        applicazione.caricaTabella();
     }
 
     /**

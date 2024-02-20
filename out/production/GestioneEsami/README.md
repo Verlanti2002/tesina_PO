@@ -15,13 +15,24 @@ Il progetto mira all'implementazione di uno strumento per la gestione statistica
    
    ``` https://github.com/Verlanti2002/tesina_PO.git  ```
 
-2. Compila il progetto utilizzando il tuo IDE preferito:
+
+2. Se hai un SO GNU/Linux:
+    - Installa i seguenti pacchetti:
+
+      ``` sudo apt install cups-bsd cups-pdf ```
+    - Esegui questo comando:
+   
+      ``` sudo service cups restart ```
+
+
+3. Compila il progetto utilizzando il tuo IDE preferito:
    
    ``` javac -Xlint -cp ./lib/*.jar ./classi/*.java ./gui/*.java -d ./build/  ```
 
-3. Esegui il file JAR generato:
+
+5. Esegui il file .jar generato:
    
-   ``` bash java -jar out/artifacts/GestioneEsami_jar/GestioneEsami.jar  ```
+   ``` java -jar out/artifacts/GestioneEsami_jar/GestioneEsami.jar  ```
 
 ### Versioni utilizzate:
 - **Compilatore Java:**
