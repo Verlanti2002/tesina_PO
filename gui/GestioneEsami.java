@@ -864,7 +864,7 @@ public class GestioneEsami{
         cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkTextField2(nome_tf);
+                checkTextField2(cognome_tf);
             }
 
             @Override
@@ -1085,7 +1085,7 @@ public class GestioneEsami{
         cognome_tf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                checkTextField2(nome_tf);
+                checkTextField2(cognome_tf);
             }
 
             @Override
