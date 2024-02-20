@@ -256,10 +256,11 @@ public class GestioneEsami{
                                 JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
-                                editEntry(applicazione, row);
-                                modificheNonSalvate = true;
-                                /* Chiude il frame */
-                                jFrameInfo.dispose();
+                                if(editEntry(applicazione, row)) {
+                                    modificheNonSalvate = true;
+                                    /* Chiude il frame */
+                                    jFrameInfo.dispose();
+                                }
                             }
                         }
                     });
@@ -354,10 +355,11 @@ public class GestioneEsami{
                                 JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
-                                editEntry(applicazione, row);
-                                modificheNonSalvate = true;
-                                /* Chiude il frame */
-                                jFrameInfo.dispose();
+                                if(editEntry(applicazione, row)){
+                                    modificheNonSalvate = true;
+                                    /* Chiude il frame */
+                                    jFrameInfo.dispose();
+                                }
                             }
                         }
                     });
@@ -406,7 +408,7 @@ public class GestioneEsami{
      * Metodo che permette di controllare la corretta assegnazione della lode durante la creazione di un esame composto <br>
      * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
      * @param n_prove Numero di prove parziali
-     * @return True se l'assegnazione della lode è legittima, false altrimenti
+     * @return True se l'assegnazione della lode è legittima, False altrimenti
      */
     public boolean checkLodeAddEntry(int n_prove){
         for(int i=0; i<n_prove; i++)
@@ -421,7 +423,7 @@ public class GestioneEsami{
      * Metodo che permette di controllare la corretta assegnazione della lode durante la modifica di un esame composto <br>
      * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
      * @param esame Esame da controllare
-     * @return True se l'assegnazione della lode è legittima, false altrimenti
+     * @return True se l'assegnazione della lode è legittima, False altrimenti
      */
     public boolean checkLodeEditEntry(Esame esame){
         for(int i=0; i<esame.getEsamiParziali().size(); i++)
@@ -500,7 +502,7 @@ public class GestioneEsami{
      * <br>
      * Metodo che controlla il corretto inserimento dei dati delle prove parziali
      * @param n_prove Numero di prove parziali
-     * @return True se i campi sono compilati correttamente, false altrimenti
+     * @return True se i campi sono compilati correttamente, False altrimenti
      */
     public boolean checkCampiProveParziali(int n_prove){
         for(int i=0; i<n_prove; i++){
@@ -946,8 +948,10 @@ public class GestioneEsami{
                     JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
                 } else {
                     /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
-                    addEntry(applicazione);
-                    modificheNonSalvate = true;
+                    if(addEntry(applicazione))
+                        modificheNonSalvate = true;
+                    else
+                        jFrameSemplice.dispose();
                 }
             }
         });
@@ -1206,8 +1210,6 @@ public class GestioneEsami{
                             else if (somma > 100)
                                 JOptionPane.showMessageDialog(jFrameProve, "Errore: la somma dei pesi inseriti non è valida", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                             else{
-                                /* Chiude il frame per la registrazione dell'esame composto */
-                                jFrameComposto.dispose();
                                 /* Recupera i dati dagli oggetti grafici */
                                 for(int i=0; i<selectedValue; i++){
                                     String nome = (String) tipologia_prova_cb[i].getSelectedItem();
@@ -1217,8 +1219,12 @@ public class GestioneEsami{
                                     datiProve[i] = new EsameParziale(nome,peso,voto);
                                 }
                                 /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
-                                addEntry(applicazione);
-                                modificheNonSalvate = true;
+                                if(addEntry(applicazione))
+                                    modificheNonSalvate = true;
+                                else{
+                                    jFrameComposto.dispose();
+                                    jFrameProve.dispose();
+                                }
                             }
                         }
                     });
@@ -1267,8 +1273,9 @@ public class GestioneEsami{
      *  - aggiungere un nuovo studente nell'archivio studenti <br>
      *  - aggiungere un nuovo esame nell'archivio esami
      * @param applicazione Permette di gestire gli archivi dati e la tabella
+     * @return True se la registrazione è andata a buon fine, False altrimenti
      */
-    public void addEntry(Applicazione applicazione){
+    public boolean addEntry(Applicazione applicazione){
         Studente studente;
         int matricola = Integer.parseInt(matricola_tf.getText());
         String nome = nome_tf.getText();
@@ -1292,6 +1299,7 @@ public class GestioneEsami{
                 /* Verifico se l'esame appena compilato è gia stato registrato o meno */
                 if(applicazione.checkEsistenzaEsame(esameSemplice)){
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
+                    return false;
                 } else{
                     /* Aggiunge l'esame semplice nell'archivio esami */
                     applicazione.getArchivioEsami().add(esameSemplice);
@@ -1302,6 +1310,7 @@ public class GestioneEsami{
                 }
             } else{
                 JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
         }
         if(composto_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame composto
@@ -1317,6 +1326,7 @@ public class GestioneEsami{
             /* Verifico se l'esame appena compilato è gia stato registrato o meno */
             if(applicazione.checkEsistenzaEsame(esameComposto)){
                 JOptionPane.showMessageDialog(jFrameProve, "Errore: questo esame è già stato registrato", "Errore", JOptionPane.ERROR_MESSAGE);
+                return false;
             } else{
                 if (checkCampiProveParziali(selectedValue) && cfu > 1) {
                     /* Registro le prove parziali recuperandole dall'array temporaneo creato durante la loro registrazione */
@@ -1331,13 +1341,16 @@ public class GestioneEsami{
                     applicazione.getArchivioEsami().add(esameComposto);
                     /* Aggiunge il nuovo record nella tabella */
                     applicazione.getTabella().getDefaultTableModel().addRow(new Object[]{matricola, nome, cognome, corso, esameComposto.getVoto(), lode, cfu});
-                    /* Chiude il frame */
+                    /* Chiusura dei frame */
+                    jFrameComposto.dispose();
                     jFrameProve.dispose();
                 } else{
                     JOptionPane.showMessageDialog(jFrameComposto, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    return false;
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -1348,8 +1361,9 @@ public class GestioneEsami{
      *  - salvare le modifiche nei relativi archivi studenti e/o esame
      * @param applicazione Permette di gestire gli archivi dati e la tabella
      * @param row Riga selezionata
+     * @return True se la modifica dei dati è amdata a buon fine, False altrimenti
      */
-    public void editEntry(Applicazione applicazione, int row){
+    public boolean editEntry(Applicazione applicazione, int row){
         int voto = 0;
         /* Recupera la tipologia dell'esame (record) selezionato */
         String tipologia_esame = String.valueOf(applicazione.getArchivioEsami().get(row).getClass());
@@ -1382,6 +1396,7 @@ public class GestioneEsami{
                 applicazione.getArchivioEsami().get(row).setCfu(cfu);
             } else{
                 JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
 
             if(tipologia_esame.contains("Composto")) { // Se l'esame è composto
@@ -1408,15 +1423,14 @@ public class GestioneEsami{
 
                     /* Ricalcola il voto finale dell'esame composto appena modificato */
                     applicazione.getArchivioEsami().get(row).voto();
-                    /* Salva in una variabile il voto in modo tale da aggiornare il record della tabella a seconda del tipo
-                     *  di esame che è stato modificato */
-                    voto = applicazione.getArchivioEsami().get(row).getVoto();
                 } else {
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                    return false;
                 }
             }
         }
         applicazione.caricaTabella();
+        return true;
     }
 
     /**

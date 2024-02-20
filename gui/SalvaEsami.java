@@ -82,7 +82,7 @@ public class SalvaEsami {
      * <strong>getIsSaved</strong>
      * <br>
      * Metodo getter per accedere allo stato di salvataggio del file
-     * @return True se il salvataggio è andato a buon fine, false altrimenti
+     * @return True se il salvataggio è andato a buon fine, False altrimenti
      */
     public boolean getIsSaved() {
         return isSaved;

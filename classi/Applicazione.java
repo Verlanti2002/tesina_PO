@@ -105,7 +105,7 @@ public class Applicazione {
      * Metodo che verifica se è possibile eliminare l'utente quando si vuole eliminare un esame <br>
      * Controlla se lo studente ha sostenuto altri esami oltre a quello che si vuole eliminare
      * @param matricola Matricola dello studente da controllare
-     * @return True se lo studente non ha sostenuto altri esami (quindi eliminabile), false altrimenti
+     * @return True se lo studente non ha sostenuto altri esami (quindi eliminabile), False altrimenti
      */
     public boolean checkEliminaStudente(int matricola){
         int counter = 0;
@@ -121,7 +121,7 @@ public class Applicazione {
      * <br>
      * Metodo che verifica se un esame è gia stato registrato o meno
      * @param esame Esame da controllare
-     * @return True se l'esame è gia stato registrato, false altrimenti
+     * @return True se l'esame è gia stato registrato, False altrimenti
      */
     public boolean checkEsistenzaEsame(Esame esame){
         for(int i=0; i< archivioEsami.size(); i++){

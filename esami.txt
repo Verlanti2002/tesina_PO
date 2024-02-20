@@ -15,3 +15,4 @@
 172364	Camilla	Ferrari	Analisi Matematica	30	true	9	Scritta	50	30	Orale	50	30	
 177845	Alberto	Romano	Statistica ed Elementi di Probabilità	25	false	6	
 185240	Laura	Costa	Fisica	25	false	6	
+180384	Giulia 	Bellelli	Algebra Lineare	29	false	9	
