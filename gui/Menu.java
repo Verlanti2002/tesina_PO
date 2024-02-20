@@ -45,7 +45,7 @@ public class Menu {
         gestione_esami_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Aggiungi bordo nero intorno al pulsante
         gestione_esami_btn.addActionListener(e -> new GestioneEsami(mainFrame, applicazione));
 
-        // Aggiunge un MouseListener per gestire gli eventi del mouse
+        /* Aggiunge un MouseListener per gestire gli eventi del mouse */
         gestione_esami_btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -65,7 +65,7 @@ public class Menu {
         carica_esami_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         carica_esami_btn.addActionListener(e -> new CaricaEsami(mainFrame, applicazione));
 
-        // Aggiunge un MouseListener per gestire gli eventi del mouse
+        /* Aggiunge un MouseListener per gestire gli eventi del mouse */
         carica_esami_btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -84,7 +84,7 @@ public class Menu {
         stampa_tabella_btn.setFocusPainted(false);
         stampa_tabella_btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        // Aggiunge un MouseListener per gestire gli eventi del mouse
+        /* Aggiunge un MouseListener per gestire gli eventi del mouse */
         stampa_tabella_btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -99,10 +99,10 @@ public class Menu {
             }
         });
 
+        /* Aggiunge un Listener sul click del bottone che permette di stampare la tabella utilizzando il servizio di stampa del SO */
         stampa_tabella_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if(applicazione.getTabella().getTable().getRowCount() == 0){
                     int result = JOptionPane.showConfirmDialog(mainFrame, "La tabella è vuota. Vuoi comunque stamparla?", "Informazione", JOptionPane.YES_NO_CANCEL_OPTION);
                     if(result == JOptionPane.YES_OPTION){
@@ -135,7 +135,7 @@ public class Menu {
         /* Creazione dell'intestazione per il documento stampato */
         MessageFormat header = new MessageFormat("Tabella degli esami registrati");
         try {
-            // Impostazione degli attributi di stampa, come l'orientamento della pagina
+            /* Impostazione degli attributi di stampa, come l'orientamento della pagina */
             PrintRequestAttributeSet set = new HashPrintRequestAttributeSet();
             set.add(OrientationRequested.LANDSCAPE);
             /* Stampa della tabella utilizzando la modalità FIT_WIDTH

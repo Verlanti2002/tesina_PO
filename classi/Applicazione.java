@@ -61,6 +61,7 @@ public class Applicazione {
         return tabella;
     }
 
+    /** Metodo per il debugging del codice **/
     public void visualizzaStudenti(){
         for(int i=0; i< archivioStudenti.size(); i++){
             System.out.println(archivioStudenti.get(i).getMatricola());
@@ -69,6 +70,7 @@ public class Applicazione {
         }
     }
 
+    /** Metodo per il debugging del codice **/
     public void visualizzaEsami(){
         for(int i=0; i< archivioEsami.size(); i++){
             System.out.println(archivioEsami.get(i).getStudente().getMatricola());
@@ -76,6 +78,7 @@ public class Applicazione {
         }
     }
 
+    /** Metodo per il debugging del codice **/
     public void visualizzaEsamiParziali(){
         for(int i=0; i< archivioEsami.size(); i++){
             for(int j=0; j<archivioEsami.get(i).getEsamiParziali().size(); j++){
