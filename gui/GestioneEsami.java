@@ -145,7 +145,7 @@ public class GestioneEsami{
              * <br>
              * Metodo per applicare il filtro alla tabella
              * @param applicazione Permette di gestire gli archivi dati e la tabella
-             * @param query        Stringa da filtrare
+             * @param query Stringa da filtrare
              */
             private void filterTable(Applicazione applicazione, String query) {
                 /* Creazione di un oggetto di classe TableRowSorter per ordinare e filtrare le righe della tabella */
@@ -268,7 +268,7 @@ public class GestioneEsami{
                     reset_btn.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            resetEntries(esameSemplice);
+                            resetTextField(esameSemplice);
                         }
                     });
 
@@ -366,7 +366,7 @@ public class GestioneEsami{
                     reset_btn.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            resetEntries(esameComposto);
+                            resetTextField(esameComposto);
                         }
                     });
                 }
@@ -395,22 +395,37 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 /* Richiama il metodo per l'inserimento delle informazioni di un esame semplice */
-                formSimpleExam(applicazione);
+                getFormSimpleExam(applicazione);
             }
         });
     }
 
     /**
-     * <strong>controlloLode</strong>
+     * <strong>checkLodeAddEntry</strong>
      * <br>
-     * Metodo che permette di controllare la corretta assegnazione della lode in un esame composto <br>
+     * Metodo che permette di controllare la corretta assegnazione della lode durante la creazione di un esame composto <br>
      * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
      * @param n_prove Numero di prove parziali
      * @return True se l'assegnazione della lode è legittima, false altrimenti
      */
-    public boolean checkLode(int n_prove){
+    public boolean checkLodeAddEntry(int n_prove){
         for(int i=0; i<n_prove; i++)
             if(datiProve[i].getVoto() < 30)
+                return false;
+        return true;
+    }
+
+    /**
+     * <strong>checkLodeEditEntry</strong>
+     * <br>
+     * Metodo che permette di controllare la corretta assegnazione della lode durante la modifica di un esame composto <br>
+     * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
+     * @param esame Esame da controllare
+     * @return True se l'assegnazione della lode è legittima, false altrimenti
+     */
+    public boolean checkLodeEditEntry(Esame esame){
+        for(int i=0; i<esame.getEsamiParziali().size(); i++)
+            if(esame.getEsamiParziali().get(i).getVoto() < 30)
                 return false;
         return true;
     }
@@ -522,7 +537,9 @@ public class GestioneEsami{
         if (matcher.find()) {
             /* Se il testo contiene un numero, genera un errore */
             JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri letterali", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-            /* Per eseguire il codice in modo sicuro e thread-safe (per prevenire problemi di concorrenza) */
+            /* Permettte di eseguire un'azione nell'Event Dispatch Thread (EDT) che è il thread principale che gestisce gli eventi dell'interfaccia utente.
+             * In questo modo il codice esegue in modo sicuro e thread-safe (per prevenire problemi di concorrenza).
+             * Prima rimuove l'ultimo carattere dalla stringa (ossia quello che ha generato l'errore) poi imposta il testo nel textField */
             SwingUtilities.invokeLater(() -> {
                 if(!text.isEmpty())
                     jTextField.setText(text.substring(0, text.length() - 1));
@@ -545,7 +562,9 @@ public class GestioneEsami{
             } catch (NumberFormatException ex) {
                 /* Il testo inserito non è un numero, mostra il messaggio di errore */
                 JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri numerici", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                /* Per eseguire il codice in modo sicuro e thread-safe (per prevenire problemi di concorrenza) */
+                /* Permettte di eseguire un'azione nell'Event Dispatch Thread (EDT) che è il thread principale che gestisce gli eventi dell'interfaccia utente.
+                 * In questo modo il codice esegue in modo sicuro e thread-safe (per prevenire problemi di concorrenza).
+                 * Prima rimuove l'ultimo carattere dalla stringa (ossia quello che ha generato l'errore) poi imposta il testo nel textField */
                 SwingUtilities.invokeLater(() -> {
                     jTextField.setText(text.substring(0, text.length() - 1));
                 });
@@ -604,7 +623,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -620,7 +638,6 @@ public class GestioneEsami{
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Non fa nulla quando il focus viene perso
             }
         });
 
@@ -643,7 +660,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -672,7 +688,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -693,7 +708,7 @@ public class GestioneEsami{
         lode_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30){
+                if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30 && tipologia_esame.contains("Semplice")){
                     JOptionPane.showMessageDialog(jFrameInfo, "Errore: non è possibile assegnare la lode con un voto inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
                     lode_cb.setSelected(false);
                 }
@@ -719,7 +734,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -745,12 +759,12 @@ public class GestioneEsami{
     }
 
     /**
-     * <strong>formSimpleExam</strong>
+     * <strong>getFormSimpleExam</strong>
      * <br>
      * Metodo che crea la parte grafica per la registrazione di un esame semplice
      * @param applicazione Permette di gestire gli archivi dati e la tabella
      */
-    public void formSimpleExam(Applicazione applicazione){
+    public void getFormSimpleExam(Applicazione applicazione){
 
         jFrameSemplice = new JFrame("Registrazione Esame Semplice");
         jFrameSemplice.setSize(700, 350);
@@ -774,7 +788,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrameSemplice.dispose();
-                formComposedExam(applicazione);
+                getFormComposedExam(applicazione);
             }
         });
 
@@ -817,7 +831,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -834,7 +847,6 @@ public class GestioneEsami{
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Non fa nulla quando il focus viene perso
             }
         });
 
@@ -856,7 +868,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -969,12 +980,12 @@ public class GestioneEsami{
     }
 
     /**
-     * <strong>formComposedExam</strong>
+     * <strong>getFormComposedExam</strong>
      * <br>
      * Metodo che crea la parte grafica per la registrazione di un esame composto
      * @param applicazione Permette di gestire gli archivi dati e la tabella
      */
-    public void formComposedExam(Applicazione applicazione){
+    public void getFormComposedExam(Applicazione applicazione){
         /* Creazione del frame per la registrazione di un esame composto */
         jFrameComposto = new JFrame("Registrazione Esame Composto");
         jFrameComposto.setSize(700, 350);
@@ -997,7 +1008,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrameComposto.dispose();
-                formSimpleExam(applicazione);
+                getFormSimpleExam(applicazione);
             }
         });
 
@@ -1019,7 +1030,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -1041,7 +1051,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -1057,7 +1066,6 @@ public class GestioneEsami{
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Non fa nulla quando il focus viene perso
             }
         });
 
@@ -1079,7 +1087,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -1111,7 +1118,6 @@ public class GestioneEsami{
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Non necessario per campi di testo non formattati come JTextField
             }
         });
 
@@ -1302,8 +1308,9 @@ public class GestioneEsami{
             /* Recupero il numero di prove parziali */
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
             /* Controlla se l'assegnazione della lode è coerente con i voti delle prove parziali */
-            if (!checkLode(selectedValue)){
-                lode = !lode;
+            if (lode && !checkLodeAddEntry(selectedValue)){
+                JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con dei voti inferiori a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                lode = false;
             }
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
 
@@ -1381,24 +1388,27 @@ public class GestioneEsami{
                 /* Recupera il numero di prove parziali dell'esame (record) selezionato */
                 int n_prove = applicazione.getArchivioEsami().get(row).getEsamiParziali().size();
                 if (checkCampiProveParziali(n_prove) && cfu > 0) {
-                    if (!checkLode(n_prove)){
-                        lode = !lode;
-                        applicazione.getArchivioEsami().get(row).setLode(lode);
-                    }
-                    /* Recupero i dati delle prove parziali */
+                    /* Recupera i dati delle prove parziali */
                     for (int i = 0; i < n_prove; i++) {
                         String tipologia_prova = (String) tipologia_prova_cb[i].getSelectedItem();
                         int peso = Integer.parseInt(peso_prova_tf[i].getText());
                         int voto_prova = Integer.parseInt(voto_prova_tf[i].getText());
 
-                        /* Modifico i dati delle prove parziali */
+                        /* Modifica i dati delle prove parziali */
                         applicazione.getArchivioEsami().get(row).getEsamiParziali().get(i).setNome(tipologia_prova);
                         applicazione.getArchivioEsami().get(row).getEsamiParziali().get(i).setPeso(peso);
                         applicazione.getArchivioEsami().get(row).getEsamiParziali().get(i).setVoto(voto_prova);
                     }
-                    /* Ricalcolo il voto finale dell'esame composto appena modificato */
+                    /* Vereifica, nel caso in cui la lode sia stata assegnata, se è legittima con i voti delle prove parziali */
+                    if (lode && !checkLodeEditEntry(applicazione.getArchivioEsami().get(row))){
+                        JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con dei voti inferiori a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                        lode = false;
+                    }
+                    applicazione.getArchivioEsami().get(row).setLode(lode);
+
+                    /* Ricalcola il voto finale dell'esame composto appena modificato */
                     applicazione.getArchivioEsami().get(row).voto();
-                    /* Salvo in una variabile il voto in modo tale da aggiornare il record della tabella a seconda del tipo
+                    /* Salva in una variabile il voto in modo tale da aggiornare il record della tabella a seconda del tipo
                      *  di esame che è stato modificato */
                     voto = applicazione.getArchivioEsami().get(row).getVoto();
                 } else {
@@ -1434,12 +1444,12 @@ public class GestioneEsami{
     }
 
     /**
-     * <strong>resetEntries</strong>
+     * <strong>resetTextField</strong>
      * <br>
      * Metodo che permette di resettare i campi di testo di un esame
      * @param esame Esame di cui resettare i campi
      */
-    public void resetEntries(Esame esame) {
+    public void resetTextField(Esame esame) {
         String tipologia_esame = String.valueOf(esame.getClass());
         matricola_tf.setText("");
         nome_tf.setText("");

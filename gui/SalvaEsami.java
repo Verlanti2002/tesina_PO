@@ -1,5 +1,7 @@
 package gui;
 
+import classi.Applicazione;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;

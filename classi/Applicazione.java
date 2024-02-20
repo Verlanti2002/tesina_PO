@@ -1,4 +1,4 @@
-package gui;
+package classi;
 
 import classi.*;
 
@@ -122,7 +122,7 @@ public class Applicazione {
      * Metodo che verifica se un esame è gia stato registrato o meno
      * @param esame Esame da controllare
      * @return True se l'esame è gia stato registrato, false altrimenti
-     * */
+     */
     public boolean checkEsistenzaEsame(Esame esame){
         for(int i=0; i< archivioEsami.size(); i++){
             if(esame.getStudente().getMatricola() == archivioEsami.get(i).getStudente().getMatricola()) {
@@ -133,6 +133,11 @@ public class Applicazione {
         return false;
     }
 
+    /**
+     * <strong>caricaTabella</strong>
+     * <br>
+     * Metodo che ricarica la tabella ad ogni sua modifica
+     */
     public void caricaTabella(){
         for(int i=0; i< archivioEsami.size(); i++){
             tabella.getDefaultTableModel().setValueAt(archivioEsami.get(i).getStudente().getMatricola(), i, 0);

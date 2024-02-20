@@ -13,7 +13,7 @@ Il progetto mira all'implementazione di uno strumento per la gestione statistica
 ### Installazione:
 1. Clona il repository dal seguente URL:
    
-   ``` bash https://github.com/Verlanti2002/tesina_PO.git  ```
+   ``` https://github.com/Verlanti2002/tesina_PO.git  ```
 
 2. Compila il progetto utilizzando il tuo IDE preferito:
    

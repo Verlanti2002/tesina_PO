@@ -1,7 +1,5 @@
 package classi;
 
-import gui.Applicazione;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 

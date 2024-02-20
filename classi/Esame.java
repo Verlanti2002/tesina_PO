@@ -128,10 +128,6 @@ public abstract class Esame {
         this.cfu = cfu;
     }
 
-    public void setStudente(Studente studente){
-        this.studente = studente;
-    }
-
     /**
      * <strong>getEsamiParziali</strong>
      * <br>
