@@ -2,35 +2,30 @@
 Il progetto mira all'implementazione di uno strumento per la gestione statistica degli esami universitari. Lo scopo principale è fornire ad un ipotetico docente un modo rapido ed intuitivo per raccogliere e gestire esami universitari di diverso tipo, tenendo sotto controllo le carriere accademiche degli studenti.
 
 ### Funzionalità principali:
-- **Gestione degli esami:** permette ai docenti di inserire rapidamente i risultati degli esami universitari dei loro studenti
+- **Gestione degli esami:** permette ai docenti di inserire rapidamente i risultati degli esami universitari dei loro studenti, che verranno visualizzati in forma tabellare
 
-- **Salvataggio e caricamento degli esami:** è possibile salvare la tabella degli esami su file specificando il nome, e ricaricare il file specificando il nome del file salvato in precedenza
+- **Salvataggio e caricamento degli esami:** permette il salvataggio della tabella su un file specificando il nome desiderato, e successivamente caricare i dati nella tabella utilizzando il nome del file precedentemente salvato
 
 - **Gestione delle carriere accademiche:** fornisce strumenti per l'analisi statistica dei dati raccolti, inclusi grafici e report dettagliati
 
-- **Stampa della tabella degli esami:** opzionalmente, l'utente può stampare la tabella tramite una delle stampanti configurate dal sistema operativo 
+- **Stampa della tabella degli esami:** opzionalmente, i docenti possono stampare la tabella tramite una delle stampanti configurate dal sistema operativo 
 
 ### Installazione:
-1. Clona il repository dal seguente URL:
+1. Clonare il repository dal seguente URL:
    
    ``` https://github.com/Verlanti2002/tesina_PO.git  ```
 
 
-2. Se hai un SO GNU/Linux:
-    - Installa i seguenti pacchetti:
+2. Se si utilizza un SO GNU/Linux:
+    - Installare i seguenti pacchetti:
 
       ``` sudo apt install cups-bsd cups-pdf ```
-    - Esegui questo comando:
+    - Eseguire il seguente comando:
    
       ``` sudo service cups restart ```
 
 
-3. Compila il progetto utilizzando il tuo IDE preferito:
-   
-   ``` javac -Xlint -cp ./lib/*.jar ./classi/*.java ./gui/*.java -d ./build/  ```
-
-
-5. Esegui il file .jar generato:
+3. Eseguire il file .jar:
    
    ``` java -jar out/artifacts/GestioneEsami_jar/GestioneEsami.jar  ```
 
