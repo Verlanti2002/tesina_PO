@@ -448,6 +448,9 @@ public class GestioneEsami{
         if(studente != null){
             nome_tf.setText(studente.getNome());
             cognome_tf.setText(studente.getCognome());
+        } else{
+            nome_tf.setText("");
+            cognome_tf.setText("");
         }
     }
 
@@ -537,13 +540,16 @@ public class GestioneEsami{
      */
     public void checkTextField2(JTextField jTextField){
         String text = jTextField.getText();
-        Pattern pattern = Pattern.compile("\\d");
+        /* Crea un pattern per cercare un singolo numero nel testo */
+        Pattern pattern = Pattern.compile("\\d"); // regex: qualsiasi cifra decimale (0 - 9)
+        /* Crea un matcher per il pattern e il testo */
         Matcher matcher = pattern.matcher(text);
+        /* Controlla se il matcher trova almeno una corrispondenza nel testo */
         if (matcher.find()) {
             /* Se il testo contiene un numero, genera un errore */
             JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri letterali", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-            /* Permettte di eseguire un'azione nell'Event Dispatch Thread (EDT) che è il thread principale che gestisce gli eventi dell'interfaccia utente.
-             * In questo modo il codice esegue in modo sicuro e thread-safe (per prevenire problemi di concorrenza).
+            /* Permettte di eseguire un'azione nell'Event Dispatch Thread (EDT) che è il thread principale che gestisce gli eventi dell'interfaccia utente
+             * In questo modo il codice esegue in modo sicuro e thread-safe (per prevenire problemi di concorrenza)
              * Prima rimuove l'ultimo carattere dalla stringa (ossia quello che ha generato l'errore) poi imposta il testo nel textField */
             SwingUtilities.invokeLater(() -> {
                 if(!text.isEmpty())
@@ -567,8 +573,8 @@ public class GestioneEsami{
             } catch (NumberFormatException ex) {
                 /* Il testo inserito non è un numero, mostra il messaggio di errore */
                 JOptionPane.showMessageDialog(null, "Errore: il campo accetta solo caratteri numerici", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                /* Permettte di eseguire un'azione nell'Event Dispatch Thread (EDT) che è il thread principale che gestisce gli eventi dell'interfaccia utente.
-                 * In questo modo il codice esegue in modo sicuro e thread-safe (per prevenire problemi di concorrenza).
+                /* Permette di eseguire un'azione nell'Event Dispatch Thread (EDT) che è il thread principale che gestisce gli eventi dell'interfaccia utente
+                 * In questo modo il codice esegue in modo sicuro e thread-safe (per prevenire problemi di concorrenza)
                  * Prima rimuove l'ultimo carattere dalla stringa (ossia quello che ha generato l'errore) poi imposta il testo nel textField */
                 SwingUtilities.invokeLater(() -> {
                     jTextField.setText(text.substring(0, text.length() - 1));
@@ -1456,7 +1462,6 @@ public class GestioneEsami{
             applicazione.getArchivioEsami().delete(applicazione.getArchivioEsami().get(selectedRow));
             /* Rimuove il record selezionato dalla tabella */
             applicazione.getTabella().getDefaultTableModel().removeRow(selectedRow);
-
         }
     }
 

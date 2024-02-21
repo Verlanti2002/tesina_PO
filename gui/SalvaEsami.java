@@ -15,6 +15,7 @@ import java.io.*;
  */
 public class SalvaEsami {
 
+    /** Stato di salvataggio del file */
     private boolean isSaved;
 
     /**

@@ -58,9 +58,9 @@ public class Grafico {
 
         /* Creazione del grafico XChart di tipo istogramma */
         CategoryChart chart = new CategoryChartBuilder().width(800).height(600)
-                .title("Istogramma dei voti") /* Titolo del grafico */
-                .xAxisTitle("Voti") /* Etichetta dell'asse X */
-                .yAxisTitle("Frequenza") /* Etichetta dell'asse Y */
+                .title("Istogramma dei voti") // Titolo del grafico
+                .xAxisTitle("Voti") // Etichetta dell'asse X
+                .yAxisTitle("Frequenza") // Etichetta dell'asse Y
                 .build();
 
         /* Personalizzazione dello stile dell'istogramma: imposta la posizione della legenda */
@@ -68,15 +68,14 @@ public class Grafico {
 
         /* Aggiunta dei dati all'istogramma */
         frequencyMap.forEach((voto, frequenza) ->
-                chart.addSeries(String.valueOf(voto), /* Etichetta della serie */
-                        Collections.singletonList(voto), /* Valore dell'asse X (voto) */
-                        Collections.singletonList(frequenza))); /* Valore dell'asse Y (frequenza) */
+                chart.addSeries(String.valueOf(voto), // Etichetta della serie
+                        Collections.singletonList(voto), // Valore dell'asse X (voto)
+                        Collections.singletonList(frequenza))); // Valore dell'asse Y (frequenza)
 
         /* Mostra il grafico in un nuovo thread per evitare blocchi nell'interfaccia utente */
         new Thread(() -> {
             /* Crea il wrapper del grafico Swing */
             SwingWrapper<CategoryChart> swingWrapper = new SwingWrapper<>(chart);
-
             /* Crea il frame per contenere il grafico */
             JFrame frame = swingWrapper.displayChart();
             /* Imposta il comportamento che deve assumere il frame quando viene chiuso dall'utente */
