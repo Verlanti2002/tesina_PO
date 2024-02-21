@@ -49,7 +49,7 @@ public class EsameComposto extends Esame{
     }
 
     /**
-     * <strong>voto</strong>
+     * <strong>calcolaVoto</strong>
      * <br>
      * Implementazione del metodo astratto della classe Esame <br>
      * Metodo in Override che permette di calcolare il voto finale di un esame composto <br>
@@ -58,7 +58,7 @@ public class EsameComposto extends Esame{
      * Infine, va a modificare direttamente il voto finale nella superclasse Esame
      */
     @Override
-    public void voto(){
+    public void calcolaVoto(){
 
         if (esami_parziali != null) {
             int voto_finale = 0;

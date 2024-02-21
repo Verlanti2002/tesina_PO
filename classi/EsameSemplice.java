@@ -39,11 +39,11 @@ public class EsameSemplice extends Esame{
     }
 
     /**
-     * <strong>voto</strong>
-     * Implementazione del metodo astratto della classe Esame
+     * <strong>calcolaVoto</strong>
+     * Implementazione del metodo astratto della classe Esame <br>
      * Metodo in Override con corpo vuoto in quanto il voto finale di un Esame Semplice è determinato
      * da un'unica prova
      */
     @Override
-    public void voto() {}
+    public void calcolaVoto() {}
 }

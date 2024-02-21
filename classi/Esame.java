@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public abstract class Esame {
 
     /** Studente che ha sostenuto l'esame */
-    private Studente studente;
+    private final Studente studente;
     /** Nome dell'esame (o corso) */
     private String nome;
     /** Voto finale dell'esame */
@@ -131,16 +131,16 @@ public abstract class Esame {
     /**
      * <strong>getEsamiParziali</strong>
      * <br>
-     * Metodo astratto per accedere all'array degli esami parziali di un determinato esame
+     * Metodo astratto per accedere all'array degli esami parziali di un determinato esame <br>
      * Le due sottoclassi di Esame implementano questo metodo in quanto astratto
      */
     public abstract ArrayList<EsameParziale> getEsamiParziali();
 
     /**
-     * <strong>voto</strong>
+     * <strong>calcolaVoto</strong>
      * <br>
-     * Metodo astratto per il calcolo del voto finale
+     * Metodo astratto per il calcolo del voto finale <br>
      * Le due sottoclassi di Esame implementano questo metodo in quanto astratto
      */
-    public abstract void voto();
+    public abstract void calcolaVoto();
 }

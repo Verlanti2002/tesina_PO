@@ -1337,7 +1337,7 @@ public class GestioneEsami{
                         esameComposto.getEsamiParziali().add(datiProve[i]);
                     }
                     /* Calcolo il voto finale dell'esame composto da più prove parziali */
-                    esameComposto.voto();
+                    esameComposto.calcolaVoto();
                     /* Aggiunge lo studente nell'archivio studenti */
                     applicazione.getArchivioStudenti().add(studente);
                     /* Aggiunge l'esame composto nell'archivio esami */
@@ -1425,7 +1425,7 @@ public class GestioneEsami{
                     applicazione.getArchivioEsami().get(row).setLode(lode);
 
                     /* Ricalcola il voto finale dell'esame composto appena modificato */
-                    applicazione.getArchivioEsami().get(row).voto();
+                    applicazione.getArchivioEsami().get(row).calcolaVoto();
                 } else {
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                     return false;

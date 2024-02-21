@@ -78,7 +78,7 @@ public class CaricaEsami {
                             }
                         }
                         /* Calcola il voto finale dell'esame composto registrato */
-                        esameComposto.voto();
+                        esameComposto.calcolaVoto();
                         /* Aggiunge l'esame all'archivio esami */
                         applicazione.getArchivioEsami().add(esameComposto);
                     }
