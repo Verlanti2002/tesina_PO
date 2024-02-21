@@ -1319,7 +1319,6 @@ public class GestioneEsami{
                 }
             } else{
                 JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                return false;
             }
         }
         if(composto_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame composto
@@ -1355,7 +1354,6 @@ public class GestioneEsami{
                     jFrameProve.dispose();
                 } else{
                     JOptionPane.showMessageDialog(jFrameComposto, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
-                    return false;
                 }
             }
         }
