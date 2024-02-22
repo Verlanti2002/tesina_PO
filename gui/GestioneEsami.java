@@ -435,6 +435,7 @@ public class GestioneEsami{
             int voto = (esame.getEsamiParziali().get(i).getVoto() * esame.getEsamiParziali().get(i).getPeso()) / 100;
             somma += voto;
         }
+        System.out.println(somma);
         return somma >= 30;
     }
 
@@ -1344,7 +1345,7 @@ public class GestioneEsami{
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
             /* Controlla se l'assegnazione della lode è coerente con i voti delle prove parziali */
             if (lode && !checkLodeAddEntry()){
-                JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con un voto finale inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Attenzione: la lode non verrà assegnata in quanto il voto finale è inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                 lode = false;
             }
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
@@ -1408,7 +1409,7 @@ public class GestioneEsami{
             /* Controlla se il voto e i cfu hanno un valore valido */
             if(checkInserimentiNumerici()){
 
-                if (lode && voto < 30){
+                if (lode && voto < 30 && tipologia_esame.contains("Semplice")){
                     JOptionPane.showMessageDialog(null, "Attenzione: la lode non verrà assegnata in quanto il voto finale è inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                     lode = false;
                 }
@@ -1445,15 +1446,16 @@ public class GestioneEsami{
                         applicazione.getArchivioEsami().get(row).getEsamiParziali().get(i).setPeso(peso);
                         applicazione.getArchivioEsami().get(row).getEsamiParziali().get(i).setVoto(voto_prova);
                     }
-                    /* Vereifica, nel caso in cui la lode sia stata assegnata, se è legittima con i voti delle prove parziali */
-                    if (lode && !checkLodeEditEntry(applicazione.getArchivioEsami().get(row))){
-                        JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con un voto finale inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
+                    /* Ricalcola il voto finale dell'esame composto appena modificato */
+                    applicazione.getArchivioEsami().get(row).calcolaVoto();
+                    System.out.println(applicazione.getArchivioEsami().get(row).getVoto());
+                    System.out.println(lode);
+                    /* Verifica, nel caso in cui la lode sia stata assegnata, se è legittima con i voti delle prove parziali */
+                    if (lode && applicazione.getArchivioEsami().get(row).getVoto() < 30){
+                        JOptionPane.showMessageDialog(null, "Attenzione: la lode non verrà assegnata in quanto il voto finale è inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                         lode = false;
                     }
                     applicazione.getArchivioEsami().get(row).setLode(lode);
-
-                    /* Ricalcola il voto finale dell'esame composto appena modificato */
-                    applicazione.getArchivioEsami().get(row).calcolaVoto();
                 } else {
                     JOptionPane.showMessageDialog(jFrameSemplice, "Errore: i valori inseriti non sono validi", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                     return false;
