@@ -1,0 +1,33 @@
+In queste due classi, un esempio di polimorfismo si può vedere nell'override del metodo getEsamiParziali() nella classe EsameComposto, che eredita dalla classe astratta Esame.
+
+Nella classe astratta Esame, il metodo getEsamiParziali() è dichiarato come astratto, il che significa che tutte le sottoclassi di Esame devono implementare questo metodo. In EsameComposto, questo metodo viene implementato e restituisce l'arraylist degli esami parziali.
+
+Il polimorfismo si manifesta nel fatto che, a seconda del tipo di esame (se è un esame normale o un esame composto), quando si chiama getEsamiParziali() su un oggetto di tipo Esame, verrà eseguito il codice specifico dell'implementazione in quella classe specifica. Se l'oggetto è un'istanza di EsameComposto, verrà utilizzata l'implementazione del metodo in quella classe. Se l'oggetto è un'istanza di un'altra sottoclasse di Esame che ha implementato getEsamiParziali(), verrà utilizzata l'implementazione di quella sottoclasse.
+
+In questo modo, il codice che chiama getEsamiParziali() può essere scritto in modo generico senza dover conoscere il tipo specifico dell'oggetto, e il comportamento specifico sarà determinato dinamicamente a runtime in base al tipo effettivo dell'oggetto. Questa è una delle caratteristiche fondamentali del polimorfismo in Java.
+
+javac -Xlint -cp ./lib/*.jar ./classi/*.java ./gui/*.java -d ./build/
+java -cp "./build:./lib/xchart-3.8.7.jar" classi.Main
+java -jar out/artifacts/GestioneEsami_jar/GestioneEsami.jar
+javadoc -author -version -classpath tesina_po/lib/xchart-3.8.7.jar -d tesina_po/docs -sourcepath tesina_po/ -subpackages classi gui
+
+apt-get update
+sudo apt install cups-bsd
+sudo apt install cups-pdf
+sudo service cups restart 
+lpstat -a 
+
+Il comando "sudo service cups restart" è utilizzato per riavviare il servizio CUPS (Common Unix Printing System) su un sistema Linux. CUPS è un sistema di stampa open-source che gestisce la stampa su sistemi operativi basati su Unix, come Linux e macOS
+
+Nel codice fornito, il polimorfismo è utilizzato tramite l'ereditarietà e l'implementazione di metodi astratti nelle classi.
+
+Ereditarietà delle classi:
+Le classi EsameSemplice e EsameComposto estendono la classe astratta Esame. Questo significa che possono essere trattate come oggetti della superclasse Esame durante l'esecuzione del programma. Ad esempio, si potrebbe avere una lista di esami di tipo Esame, ma che possono contenere oggetti sia di tipo EsameSemplice che EsameComposto.
+
+Metodi astratti:
+La classe Esame definisce due metodi astratti: getEsamiParziali() e calcolaVoto(). Le sottoclassi EsameSemplice e EsameComposto implementano questi metodi in modo diverso, a seconda della loro logica specifica. Questo consente di avere comportamenti polimorfici, dove il metodo invocato dipende dal tipo dell'oggetto reale in esecuzione.
+
+Utilizzo dei metodi polimorfici:
+Durante l'esecuzione del programma, i metodi come getEsamiParziali() e calcolaVoto() vengono chiamati su oggetti di tipo Esame, ma l'effettivo comportamento che viene eseguito dipende dal tipo di oggetto reale, che potrebbe essere un EsameSemplice o un EsameComposto. Questo è un esempio di polimorfismo nell'utilizzo dei metodi.
+
+In sintesi, il polimorfismo è evidenziato dall'uso di ereditarietà, implementazione di metodi astratti e invocazione di metodi polimorfici che si comportano in modo diverso a seconda del tipo effettivo dell'oggetto in esecuzione.
