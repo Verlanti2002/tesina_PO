@@ -256,7 +256,7 @@ public class GestioneEsami{
                         public void actionPerformed(ActionEvent e) {
                             /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
                             if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                                JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 if(editEntry(applicazione, row)) {
@@ -355,7 +355,7 @@ public class GestioneEsami{
 
                             /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
                             if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !checkCampiProveParziali(n_prove)) {
-                                JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 if(editEntry(applicazione, row)){
@@ -723,7 +723,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30 && tipologia_esame.contains("Semplice")){
-                    JOptionPane.showMessageDialog(jFrameInfo, "Errore: non è possibile assegnare la lode con un voto inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameInfo, "Attenzione: non è possibile assegnare la lode con un voto inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                     lode_cb.setSelected(false);
                 }
             }
@@ -922,7 +922,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30){
-                    JOptionPane.showMessageDialog(jFrameSemplice, "Errore: non è possibile assegnare la lode con un voto inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: non è possibile assegnare la lode con un voto inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                     lode_cb.setSelected(false);
                 }
             }
@@ -957,7 +957,7 @@ public class GestioneEsami{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
                 } else {
                     /* Richiama il metodo per l'aggiunta di un nuovo record nella tabella */
                     if(addEntry(applicazione))
@@ -1151,7 +1151,7 @@ public class GestioneEsami{
             public void actionPerformed(ActionEvent e) {
                 /* Verifica che non ci siano campi vuoti */
                 if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
                 } else{
                     /* Creazione del frame per la registrazione delle prove parziali */
                     jFrameProve = new JFrame("Registrazione Prove Parziali");
@@ -1218,7 +1218,7 @@ public class GestioneEsami{
                                     campi_compilati = false;
                             }
                             if (!campi_compilati)
-                                JOptionPane.showMessageDialog(jFrameProve, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione errata", JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(jFrameProve, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
                             else if (somma > 100)
                                 JOptionPane.showMessageDialog(jFrameProve, "Errore: la somma dei pesi inseriti non è valida", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
                             else{
@@ -1329,7 +1329,7 @@ public class GestioneEsami{
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
             /* Controlla se l'assegnazione della lode è coerente con i voti delle prove parziali */
             if (lode && !checkLodeAddEntry()){
-                JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                 lode = false;
             }
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
@@ -1426,7 +1426,7 @@ public class GestioneEsami{
                     }
                     /* Vereifica, nel caso in cui la lode sia stata assegnata, se è legittima con i voti delle prove parziali */
                     if (lode && !checkLodeEditEntry(applicazione.getArchivioEsami().get(row))){
-                        JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                         lode = false;
                     }
                     applicazione.getArchivioEsami().get(row).setLode(lode);
