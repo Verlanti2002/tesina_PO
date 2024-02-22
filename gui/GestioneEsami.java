@@ -409,30 +409,33 @@ public class GestioneEsami{
      * <strong>checkLodeAddEntry</strong>
      * <br>
      * Metodo che permette di controllare la corretta assegnazione della lode durante la creazione di un esame composto <br>
-     * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
-     * @param n_prove Numero di prove parziali
+     * Più precisamente controlla se l'assegnazione della lode è coerente con la media pesata dei voti delle prove parziali
      * @return True se l'assegnazione della lode è legittima, False altrimenti
      */
-    public boolean checkLodeAddEntry(int n_prove){
-        for(int i=0; i<n_prove; i++)
-            if(datiProve[i].getVoto() < 30)
-                return false;
-        return true;
+    public boolean checkLodeAddEntry(){
+        int somma = 0;
+        for(int i=0; i<datiProve.length; i++) {
+            int voto = (datiProve[i].getVoto() * datiProve[i].getPeso()) / 100;
+            somma += voto;
+        }
+        return somma >= 30;
     }
 
     /**
      * <strong>checkLodeEditEntry</strong>
      * <br>
      * Metodo che permette di controllare la corretta assegnazione della lode durante la modifica di un esame composto <br>
-     * Più precisamente controlla se l'assegnazione della lode è coerente con i voti delle prove parziali
+     * Più precisamente controlla se l'assegnazione della lode è coerente con la media pesata dei voti delle prove parziali
      * @param esame Esame da controllare
      * @return True se l'assegnazione della lode è legittima, False altrimenti
      */
     public boolean checkLodeEditEntry(Esame esame){
-        for(int i=0; i<esame.getEsamiParziali().size(); i++)
-            if(esame.getEsamiParziali().get(i).getVoto() < 30)
-                return false;
-        return true;
+        int somma = 0;
+        for(int i=0; i<esame.getEsamiParziali().size(); i++) {
+            int voto = (esame.getEsamiParziali().get(i).getVoto() * esame.getEsamiParziali().get(i).getPeso()) / 100;
+            somma += voto;
+        }
+        return somma >= 30;
     }
 
     /**
@@ -1325,8 +1328,8 @@ public class GestioneEsami{
             /* Recupero il numero di prove parziali */
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
             /* Controlla se l'assegnazione della lode è coerente con i voti delle prove parziali */
-            if (lode && !checkLodeAddEntry(selectedValue)){
-                JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con dei voti inferiori a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+            if (lode && !checkLodeAddEntry()){
+                JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
                 lode = false;
             }
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
@@ -1423,7 +1426,7 @@ public class GestioneEsami{
                     }
                     /* Vereifica, nel caso in cui la lode sia stata assegnata, se è legittima con i voti delle prove parziali */
                     if (lode && !checkLodeEditEntry(applicazione.getArchivioEsami().get(row))){
-                        JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con dei voti inferiori a 30", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Errore: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Errore", JOptionPane.ERROR_MESSAGE);
                         lode = false;
                     }
                     applicazione.getArchivioEsami().get(row).setLode(lode);
