@@ -1244,9 +1244,10 @@ public class GestioneEsami{
                             int somma = 0;
                             /* Verifica se i campi relatvi alle prove parziali sono stati compilati o meno */
                             for(int i=0; i<selectedValue; i++){
-                                somma += Integer.parseInt(peso_prova_tf[i].getText());
                                 if(peso_prova_tf[i].getText().isEmpty() && voto_prova_tf[i].getText().isEmpty())
                                     campi_compilati = false;
+                                else
+                                    somma += Integer.parseInt(peso_prova_tf[i].getText());
                             }
                             if (!campi_compilati)
                                 JOptionPane.showMessageDialog(jFrameProve, "Attenzione: per procedere è necessario compilare tutti i campi", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
