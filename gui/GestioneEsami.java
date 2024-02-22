@@ -268,6 +268,23 @@ public class GestioneEsami{
                         }
                     });
 
+                    /* Ascoltatore degli eventi sul click del bottone che permette di eliminare un esame */
+                    elimina_btn.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
+                            if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || voto_tf.getText().isEmpty() || cfu_tf.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(jFrameInfo, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
+                            } else{
+                                /* Richiama il metodo per l'eliminazione di un esame */
+                                deleteEntry(applicazione);
+                                modificheNonSalvate = true;
+                                /* Chiude il frame */
+                                jFrameInfo.dispose();
+                            }
+                        }
+                    });
+
                     /* Ascoltatore degli eventi sul click del bottone che permette di resettare i dati di un esame selezionato */
                     reset_btn.addActionListener(new ActionListener() {
                         @Override
@@ -352,10 +369,9 @@ public class GestioneEsami{
                     modifica_btn.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
                             /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
                             if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !checkCampiProveParziali(n_prove)) {
-                                JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(jFrameInfo, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
                             } else {
                                 /* Richiama il metodo per la modifica del record della tabella */
                                 if(editEntry(applicazione, row)){
@@ -363,6 +379,23 @@ public class GestioneEsami{
                                     /* Chiude il frame */
                                     jFrameInfo.dispose();
                                 }
+                            }
+                        }
+                    });
+
+                    /* Ascoltatore degli eventi sul click del bottone che permette di eliminare un esame */
+                    elimina_btn.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
+                            if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !checkCampiProveParziali(n_prove)) {
+                                JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
+                            } else{
+                                /* Richiama il metodo per l'eliminazione di un esame */
+                                deleteEntry(applicazione);
+                                modificheNonSalvate = true;
+                                /* Chiude il frame */
+                                jFrameInfo.dispose();
                             }
                         }
                     });
@@ -375,23 +408,6 @@ public class GestioneEsami{
                         }
                     });
                 }
-
-                /* Ascoltatore degli eventi sul click del bottone che permette di eliminare un esame */
-                elimina_btn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        /* Controlla che i campi siano stati effettivamente compilati prima di procedere */
-                        if (matricola_tf.getText().isEmpty() || nome_tf.getText().isEmpty() || cognome_tf.getText().isEmpty() || corso_tf.getText().isEmpty() || cfu_tf.getText().isEmpty() || !checkCampiProveParziali(n_prove)) {
-                            JOptionPane.showMessageDialog(jFrameComposto, "Attenzione: per procedere è necessario compilare tutti i campi o reinserirli correttamente", "Compilazione non terminata", JOptionPane.WARNING_MESSAGE);
-                        } else{
-                            /* Richiama il metodo per l'eliminazione di un esame */
-                            deleteEntry(applicazione);
-                            modificheNonSalvate = true;
-                            /* Chiude il frame */
-                            jFrameInfo.dispose();
-                        }
-                    }
-                });
 
                 jPanelInfo.add(modifica_btn);
                 jPanelInfo.add(elimina_btn);
