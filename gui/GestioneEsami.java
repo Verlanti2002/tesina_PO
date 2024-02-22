@@ -722,10 +722,15 @@ public class GestioneEsami{
         lode_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30 && tipologia_esame.contains("Semplice")){
-                    JOptionPane.showMessageDialog(jFrameInfo, "Attenzione: non è possibile assegnare la lode con un voto inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
-                    lode_cb.setSelected(false);
+                String input = voto_tf.getText(); // Supponendo che textField sia da dove proviene l'input
+                if (!input.isEmpty()) {
+                    int intValue = Integer.parseInt(input);
+                    if(lode_cb.isSelected() && intValue < 30 && tipologia_esame.contains("Semplice")){
+                        JOptionPane.showMessageDialog(jFrameInfo, "Errore: non è possibile assegnare la lode con un voto finale inferiore a 30", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                        lode_cb.setSelected(false);
+                    }
                 }
+
             }
         });
 
@@ -921,9 +926,13 @@ public class GestioneEsami{
         lode_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(lode_cb.isSelected() && Integer.parseInt(voto_tf.getText()) < 30){
-                    JOptionPane.showMessageDialog(jFrameSemplice, "Attenzione: non è possibile assegnare la lode con un voto inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
-                    lode_cb.setSelected(false);
+                String input = voto_tf.getText(); // Supponendo che textField sia da dove proviene l'input
+                if (!input.isEmpty()) {
+                    int intValue = Integer.parseInt(input);
+                    if (lode_cb.isSelected() && intValue < 30) {
+                        JOptionPane.showMessageDialog(jFrameSemplice, "Errore: non è possibile assegnare la lode con un voto finale inferiore a 30", "Compilazione errata", JOptionPane.ERROR_MESSAGE);
+                        lode_cb.setSelected(false);
+                    }
                 }
             }
         });
@@ -1305,6 +1314,12 @@ public class GestioneEsami{
         }
         if (semplice_cb.isSelected()) { // Se viene selezionata la checkbox dell'esame semplice
             int voto = Integer.parseInt(voto_tf.getText());
+
+            /* Controlla se l'assegnazione della lode è coerente con il voto inserito */
+            if (lode && voto < 30){
+                JOptionPane.showMessageDialog(null, "Attenzione: la lode non verrà assegnata in quanto il voto finale è inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
+                lode = false;
+            }
             /* Verifica il corretto inserimento dei campi numerici */
             if(checkInserimentiNumerici()){
                 EsameSemplice esameSemplice = new EsameSemplice(studente, corso, voto, lode, cfu);
@@ -1329,7 +1344,7 @@ public class GestioneEsami{
             Integer selectedValue = (Integer) n_prove_cb.getSelectedItem();
             /* Controlla se l'assegnazione della lode è coerente con i voti delle prove parziali */
             if (lode && !checkLodeAddEntry()){
-                JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con un voto finale inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                 lode = false;
             }
             EsameComposto esameComposto = new EsameComposto(studente, corso, lode, cfu);
@@ -1392,6 +1407,12 @@ public class GestioneEsami{
 
             /* Controlla se il voto e i cfu hanno un valore valido */
             if(checkInserimentiNumerici()){
+
+                if (lode && voto < 30){
+                    JOptionPane.showMessageDialog(null, "Attenzione: la lode non verrà assegnata in quanto il voto finale è inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
+                    lode = false;
+                }
+
                 /* Recupera lo studente dall'archivio attraverso il metodo ricercaStudente */
                 Studente studente_da_modificare = applicazione.ricercaStudente(applicazione.getArchivioEsami().get(row).getStudente().getMatricola());
 
@@ -1426,7 +1447,7 @@ public class GestioneEsami{
                     }
                     /* Vereifica, nel caso in cui la lode sia stata assegnata, se è legittima con i voti delle prove parziali */
                     if (lode && !checkLodeEditEntry(applicazione.getArchivioEsami().get(row))){
-                        JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con una media pesata dei voti inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Attenzione: non è possibile assegnare la lode con un voto finale inferiore a 30", "Incoerenza assegnazione lode", JOptionPane.WARNING_MESSAGE);
                         lode = false;
                     }
                     applicazione.getArchivioEsami().get(row).setLode(lode);
