@@ -1,7 +1,7 @@
 package classi;
 
 /**
-* EsameParziale
+* <strong>EsameParziale</strong>
  * <br>
 * Classe che permette di definire gli esami parziali di un esame composto <br>
 * Esempi: prova scritta, prova orale, prova pratica

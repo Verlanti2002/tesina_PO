@@ -3,7 +3,8 @@ package classi;
 import java.util.ArrayList;
 
 /**
- * EsameSemplice <br>
+ * <strong>EsameSemplice</strong>
+ * <br>
  * Sottoclasse derivata della superclasse Esame <br>
  * Definisce gli esami semplici (ossia composti da una singola prova) 
  * @see Esame

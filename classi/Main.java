@@ -3,6 +3,8 @@ package classi;
 import gui.Menu;
 
 /**
+ * <strong>Main</strong>
+ * <br>
  * La classe Main è la classe di avvio dell'applicazione <br>
  * Questa classe contiene il metodo principale che avvia il programma
  * @author Alessandro Verlanti
